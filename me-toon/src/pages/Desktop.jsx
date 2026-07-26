@@ -80,6 +80,7 @@ export default function Desktop() {
   const handleChooserClose = (choice) => {
     setShowChooser(false)
     if (choice === 'gacha') navigate('/gacha')
+    else if (choice === 'tv') navigate('/tv')
   }
 
   // 中央窗口 4 个入口
@@ -269,7 +270,7 @@ function ChooserWindow({ onClose, navigate }) {
           </button>
           <button
             className="xp-button desktop-chooser-btn"
-            onClick={() => handleChoose(null)}
+            onClick={() => handleChoose('tv')}
           >
             <SvgIcon name="tv" size={20} color="#0054E3" />
             <span>电视台调频</span>

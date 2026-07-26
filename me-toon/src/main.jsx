@@ -4,6 +4,7 @@ import { HashRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
 import Desktop from './pages/Desktop.jsx'
 import Gacha from './pages/Gacha.jsx'
+import Tv from './pages/Tv.jsx'
 import Detail from './pages/Detail.jsx'
 import Collection from './pages/Collection.jsx'
 import Radio from './pages/Radio.jsx'
@@ -15,6 +16,7 @@ createRoot(document.getElementById('root')).render(
       <Routes>
         <Route path="/" element={<Desktop />} />
         <Route path="/gacha" element={<Gacha />} />
+        <Route path="/tv" element={<Tv />} />
         <Route path="/detail" element={<Detail />} />
         <Route path="/collection" element={<Collection />} />
         <Route path="/radio" element={<Radio />} />

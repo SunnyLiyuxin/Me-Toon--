@@ -1,0 +1,530 @@
+/* ============================================================
+   电视台调频 — Win98 风格 + 深夜看电视氛围
+   适配 1280×720 视口（16:9）
+   ============================================================ */
+
+.page-tv {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #0a0a14;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== 显示器外框 ===== */
+.win98-monitor {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #1a1a2a;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 16px 60px rgba(0, 0, 0, 0.7), inset 0 0 30px rgba(255, 255, 255, 0.05);
+}
+
+.win98-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #050510;
+}
+
+/* ============================================================
+   深夜看电视氛围背景
+   ============================================================ */
+.tv-room-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 50% 60%, rgba(60, 80, 120, 0.25) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, rgba(40, 30, 60, 0.3) 0%, transparent 50%),
+    linear-gradient(180deg, #0a0a18 0%, #0e0e22 50%, #08081a 100%);
+  overflow: hidden;
+}
+
+/* 像素颗粒感 */
+.tv-room-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+/* 角落小台灯 */
+.tv-lamp {
+  position: absolute;
+  bottom: 8%;
+  right: 6%;
+  width: 24px;
+  height: 60px;
+  z-index: 1;
+}
+.tv-lamp::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 40px;
+  background: #3a3a2a;
+  border-radius: 2px;
+}
+.tv-lamp::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 20px;
+  background: linear-gradient(180deg, #ffd88a 0%, #d4a040 100%);
+  border-radius: 14px 14px 4px 4px;
+  box-shadow: 0 0 20px rgba(255, 200, 100, 0.6);
+}
+
+.tv-lamp-glow {
+  position: absolute;
+  bottom: 5%;
+  right: 2%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255, 200, 100, 0.25) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ============================================================
+   左上角桌面图标（复用 Gacha 风格）
+   ============================================================ */
+.desktop-icons {
+  position: absolute;
+  top: 24px; left: 24px; z-index: 5;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.desktop-icon {
+  display: flex; flex-direction: column; align-items: center;
+  width: 76px; padding: 8px 4px 4px;
+  background: rgba(0, 0, 40, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: #ffffff;
+  text-align: center;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: 'Courier New', 'PingFang SC', monospace;
+  letter-spacing: 0.5px;
+}
+.desktop-icon:hover {
+  background: rgba(0, 0, 80, 0.5);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.desktop-icon .label {
+  margin-top: 4px;
+  background: rgba(0, 0, 40, 0.6);
+  padding: 1px 6px;
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* 返回桌面按钮 */
+.back-btn {
+  position: absolute;
+  top: 24px; right: 24px; z-index: 8;
+  display: flex; align-items: center; gap: 6px;
+  background: linear-gradient(180deg, #d8d8d8, #b0b0b0);
+  border: 2px solid #ffffff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-family: 'Courier New', 'PingFang SC', monospace;
+  font-size: 12px;
+  font-weight: bold;
+  color: #000080;
+  transition: background 0.15s;
+}
+.back-btn:hover {
+  background: linear-gradient(180deg, #e8e8e8, #c0c0c0);
+}
+
+/* ============================================================
+   顶部电视机状态栏
+   ============================================================ */
+.tv-statusbar {
+  position: absolute;
+  top: 24px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 60%;
+  min-width: 480px;
+  padding: 8px 16px;
+  background: linear-gradient(180deg, #c0c0c8 0%, #9a9aa4 50%, #80808a 100%);
+  border: 2px solid #f0f0f5;
+  border-right-color: #50505a;
+  border-bottom-color: #50505a;
+  border-radius: 4px;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  font-family: 'Courier New', 'PingFang SC', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a1a2a;
+  letter-spacing: 1px;
+}
+
+.tv-statusbar-left {
+  display: flex; align-items: center; gap: 8px;
+}
+.tv-statusbar-text {
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.tv-statusbar-right {
+  display: flex; align-items: center; gap: 6px;
+}
+.signal-dot {
+  width: 8px; height: 8px;
+  background: #00FF00;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #00FF00;
+  animation: signal-blink 1.2s ease-in-out infinite;
+}
+@keyframes signal-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.signal-text {
+  color: #2a2a3a;
+}
+.signal-bars {
+  color: #00AA00;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-shadow: 0 0 6px rgba(0, 255, 0, 0.4);
+}
+
+/* ============================================================
+   中部：频道网格
+   ============================================================ */
+.tv-main {
+  position: absolute;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 86%;
+  max-width: 1080px;
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.channel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+/* 频道卡片 = 像素小 CRT 电视 */
+.channel-card {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.25s ease, filter 0.25s ease;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.5));
+}
+
+.channel-card:hover {
+  transform: translateY(-4px);
+}
+
+.channel-card.active {
+  transform: translateY(-6px) scale(1.02);
+  filter: drop-shadow(0 0 18px rgba(100, 200, 255, 0.5)) drop-shadow(0 8px 16px rgba(0, 0, 0, 0.6));
+}
+
+/* CRT 电视外壳 */
+.channel-screen {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: #1a1a1a;
+  border: 6px solid #2a2a2e;
+  border-radius: 10px;
+  box-shadow:
+    inset 0 0 0 2px #4a4a52,
+    inset 0 0 20px rgba(0, 0, 0, 0.8),
+    0 4px 8px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+/* 预告画面 */
+.channel-preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated;
+  filter: brightness(0.85) contrast(1.1) saturate(1.2);
+  transition: filter 0.3s ease, transform 0.4s ease;
+}
+
+.channel-card:hover .channel-preview,
+.channel-card.active .channel-preview {
+  filter: brightness(1.05) contrast(1.15) saturate(1.3);
+  transform: scale(1.04);
+}
+
+/* 雪花屏覆盖（默认隐藏，悬停/点击时显示） */
+.channel-static {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg,
+      rgba(255, 255, 255, 0.15) 0px, rgba(255, 255, 255, 0.15) 1px,
+      transparent 1px, transparent 3px),
+    repeating-linear-gradient(90deg,
+      rgba(255, 255, 255, 0.12) 0px, rgba(255, 255, 255, 0.12) 2px,
+      transparent 2px, transparent 4px),
+    radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.2) 0%, transparent 30%),
+    radial-gradient(circle at 70% 60%, rgba(200, 220, 255, 0.15) 0%, transparent 40%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 3;
+}
+
+/* 悬停时短暂雪花 → 清晰（调频效果） */
+.channel-card:hover .channel-static {
+  opacity: 0.7;
+  animation: static-noise 0.15s steps(3) infinite;
+}
+
+/* 点击时所有卡片同时雪花 */
+.channel-card.static .channel-static {
+  opacity: 0.95;
+  animation: static-noise 0.08s steps(4) infinite;
+}
+
+.channel-card.static .channel-preview {
+  filter: brightness(0.3) blur(2px);
+}
+
+@keyframes static-noise {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-3px, 2px); }
+  50%  { transform: translate(2px, -2px); }
+  75%  { transform: translate(-2px, -3px); }
+  100% { transform: translate(3px, 2px); }
+}
+
+/* CRT 扫描线 */
+.channel-scanline {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 2px,
+    rgba(0, 0, 0, 0.15) 3px
+  );
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* 台标（右上角） */
+.channel-logo {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6), inset 0 0 6px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  font-family: 'Courier New', monospace;
+  font-weight: 800;
+}
+
+.channel-logo-num {
+  color: #ffffff;
+  font-size: 14px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* 半透明底栏：动画名 + 简介 */
+.channel-info {
+  position: relative;
+  margin-top: -6px;
+  padding: 8px 10px;
+  background: linear-gradient(180deg, rgba(20, 20, 30, 0.92) 0%, rgba(10, 10, 20, 0.96) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+}
+
+.channel-name {
+  font-family: var(--font-cn);
+  font-size: 14px;
+  font-weight: 800;
+  color: #66e0ff;
+  letter-spacing: 1px;
+  text-shadow: 0 0 6px rgba(100, 200, 255, 0.4);
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.channel-desc {
+  font-family: var(--font-cn);
+  font-size: 11px;
+  font-weight: 500;
+  color: #aab0c0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ============================================================
+   底部：调频滑块
+   ============================================================ */
+.tv-tuner {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 70%;
+  max-width: 720px;
+  padding: 12px 20px;
+  background: linear-gradient(180deg, #2a2a3a 0%, #1a1a2a 100%);
+  border: 2px solid #4a4a5a;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.tuner-label {
+  font-family: 'Courier New', 'PingFang SC', monospace;
+  font-size: 13px;
+  font-weight: 800;
+  color: #ffd88a;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  flex-shrink: 0;
+  letter-spacing: 1px;
+}
+
+.tuner-track-wrap {
+  position: relative;
+  flex: 1;
+  height: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.tuner-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(90deg, #1a3a5a 0%, #2a5a3a 50%, #5a3a1a 100%);
+  border-radius: 4px;
+  border: 1px solid #5a5a6a;
+  outline: none;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.tuner-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 22px;
+  background: linear-gradient(180deg, #f0f0f5 0%, #c0c0c8 50%, #80808a 100%);
+  border: 1px solid #50505a;
+  border-radius: 3px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.tuner-slider::-moz-range-thumb {
+  width: 18px;
+  height: 22px;
+  background: linear-gradient(180deg, #f0f0f5 0%, #c0c0c8 50%, #80808a 100%);
+  border: 1px solid #50505a;
+  border-radius: 3px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.tuner-ticks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.tuner-tick {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 2px;
+  height: 12px;
+  background: rgba(255, 216, 138, 0.6);
+  border-radius: 1px;
+}
+
+/* ============================================================
+   叠加层（扫描线 + 柔光）
+   ============================================================ */
+.glow-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 7;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.35) 100%);
+}
+
+.scanline {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 8;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0,
+    transparent 3px,
+    rgba(0, 0, 0, 0.08) 3px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  animation: scanline-move 8s linear infinite;
+}
+
+@keyframes scanline-move {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 100px; }
+}

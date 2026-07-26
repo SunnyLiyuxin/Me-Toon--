@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import Viewport from '../components/Viewport.jsx'
 import XpWindow from '../components/XpWindow.jsx'
 import SvgIcon from '../components/SvgIcon.jsx'
+import CartoonResultModal from '../components/CartoonResultModal.jsx'
 import { resolveAsset } from '../assets/manifest.js'
 import cartoonsData from '../data/cartoons.json'
 import './Gacha.css'
@@ -300,14 +301,16 @@ export default function Gacha() {
         </div>
       </div>
 
-      {/* 结果展示弹窗（保留原逻辑） */}
+      {/* 结果展示弹窗（复用共享组件） */}
       {showResult && (
-        <GachaResult
+        <CartoonResultModal
           cartoon={resultCartoon}
           isEasterEgg={isEasterEgg}
+          theme="gacha"
           onWatch={handleWatch}
           onRetry={handleRetry}
           onClose={handleCloseResult}
+          retryLabel="再抽一次"
         />
       )}
     </Viewport>
@@ -407,125 +410,5 @@ function ParticleExplosion() {
         />
       ))}
     </div>
-  )
-}
-
-/**
- * 扭蛋结果展示弹窗 — 保留原逻辑不变
- */
-function GachaResult({ cartoon, isEasterEgg, onWatch, onRetry, onClose }) {
-  const [phase, setPhase] = useState('cracking') // cracking | revealing | shown
-  const [collected, setCollected] = useState(false)
-
-  useEffect(() => {
-    const t1 = setTimeout(() => setPhase('revealing'), 500)
-    const t2 = setTimeout(() => setPhase('shown'), 1200)
-    return () => { clearTimeout(t1); clearTimeout(t2) }
-  }, [])
-
-  const handleCollect = () => {
-    setCollected(true)
-    const collectedList = JSON.parse(localStorage.getItem('me-toon-collected') || '[]')
-    if (!collectedList.find(c => c.id === cartoon.id)) {
-      collectedList.push({
-        id: cartoon.id,
-        name: cartoon.name,
-        collectedAt: new Date().toISOString(),
-      })
-      localStorage.setItem('me-toon-collected', JSON.stringify(collectedList))
-    }
-  }
-
-  return (
-    <XpWindow
-      title="记忆觉醒！"
-      centered
-      onClose={onClose}
-      style={{ width: 380 }}
-    >
-      <div className="gacha-result">
-        <div className="result-title-row">
-          <SvgIcon name="clapperboard" size={24} color="#0054E3" />
-          <span className="result-title-text">记忆觉醒</span>
-        </div>
-
-        {phase !== 'shown' && (
-          <div className={`result-planet ${phase === 'cracking' ? 'cracking' : 'broken'}`}>
-            <div className="planet-crack crack-1" />
-            <div className="planet-crack crack-2" />
-            <div className="planet-crack crack-3" />
-            {phase === 'revealing' && <div className="planet-glow-burst" />}
-          </div>
-        )}
-
-        {phase === 'shown' && (
-          <>
-            {isEasterEgg ? (
-              <div className="easter-egg-show">
-                <div className="easter-windmill anim-spin">
-                  <SvgIcon name="windmill" size={100} color="#FFCC00" />
-                </div>
-                <p className="easter-lyric">大风车吱呀吱悠悠地转~</p>
-                <p className="easter-tag">
-                  <SvgIcon name="sparkle" size={18} color="#FFCC00" />
-                  隐藏动画已解锁：《大风车》
-                </p>
-              </div>
-            ) : (
-              <>
-                <div className="result-cartoon-name">{cartoon.name}</div>
-                <div className="result-image-frame">
-                  <img src={resolveAsset(cartoon.images.firstFrame)} alt={cartoon.name} />
-                </div>
-                <div className="result-info-list">
-                  <div className="result-info-row">
-                    <span className="info-label">动画名称：</span>
-                    <span className="info-value">《{cartoon.name}》</span>
-                  </div>
-                  <div className="result-info-row">
-                    <span className="info-label">播出年份：</span>
-                    <span className="info-value">{cartoon.year}年</span>
-                  </div>
-                  <div className="result-info-row">
-                    <span className="info-label">集数：</span>
-                    <span className="info-value">共{cartoon.episodes}集</span>
-                  </div>
-                  <div className="result-info-row">
-                    <span className="info-label">简介：</span>
-                    <span className="info-value info-tagline">{cartoon.tagline}</span>
-                  </div>
-                </div>
-              </>
-            )}
-
-            <div className="result-actions">
-              <button className="xp-button-primary" onClick={onWatch}>
-                进入观看
-              </button>
-              <button className="xp-button" onClick={onRetry}>
-                再抽一次
-              </button>
-              <button
-                className={`xp-button ${collected ? 'collected' : ''}`}
-                onClick={handleCollect}
-                disabled={collected}
-              >
-                {collected ? (
-                  <>
-                    <SvgIcon name="check" size={16} color="#FFFFFF" />
-                    <span>已收藏</span>
-                  </>
-                ) : (
-                  <>
-                    <SvgIcon name="star" size={16} color="#003C74" />
-                    <span>收藏起来</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </>
-        )}
-      </div>
-    </XpWindow>
   )
 }
