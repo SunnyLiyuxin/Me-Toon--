@@ -1,19 +1,21 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import Viewport, { BackToDesktopButton } from '../components/Viewport.jsx'
+import Viewport from '../components/Viewport.jsx'
 import XpWindow from '../components/XpWindow.jsx'
 import SvgIcon from '../components/SvgIcon.jsx'
 import cartoonsData from '../data/cartoons.json'
 import './Gacha.css'
 
 /**
- * 扭蛋机页面 — Win98 梦核像素桌面风格
- * - 柔和蓝天 + 低像素云 + 梦幻绿坡 + 发光太阳 + 像素小树
- * - 左上角桌面图标
- * - 中央扭蛋机窗口（蓝色标题栏 + 窗口控制按钮）
- * - 底部任务栏（开始按钮 + 窗口标签 + 时间/音量）
- * - 柔光 + 噪点 + 扫描线叠加层
- * 交互：待机 → 投币 → 扭动旋钮 → 出货
+ * 扭蛋机页面 — Win98 梦核像素桌面 + 老式游戏厅立体扭蛋机
+ *
+ * 视觉：
+ * - 桌面：柔和蓝天 + 云 + 绿坡 + 太阳 + 小树（梦核像素风）
+ * - 框架：Win98 窗口（蓝色标题栏 + 控制按钮）+ 任务栏
+ * - 扭蛋机本体：米黄塑料机身 + 立体透视 + 金属穹顶 + 10 颗鲜艳扭蛋
+ *              + 控制面板（投币口指示灯/装饰灯/旋钮）+ 底座出货口（彩虹闪光）+ 装饰脚
+ *
+ * 交互：待机 → 投币 → 旋钮扭动 → 出货（彩虹闪光+随机扭蛋放大）→ 结果弹窗
  */
 export default function Gacha() {
   const navigate = useNavigate()
@@ -24,6 +26,8 @@ export default function Gacha() {
   const [isEasterEgg, setIsEasterEgg] = useState(false)
   const [spinCount, setSpinCount] = useState(0)
   const [coinAnimation, setCoinAnimation] = useState(false)
+  const [knobAngle, setKnobAngle] = useState(0)
+  const [highlightEgg, setHighlightEgg] = useState(null) // 出货时随机放大的扭蛋
   const [time, setTime] = useState(getTime())
 
   // 实时时间
@@ -47,15 +51,18 @@ export default function Gacha() {
     setTimeout(() => {
       setState('ready')
       setCoinAnimation(false)
-    }, 2000)
+    }, 1500)
   }
 
   // 扭动旋钮
   const handleTurnKnob = () => {
     if (state !== 'ready') return
     setState('turning')
+    setKnobAngle(a => a + 45)
     setTimeout(() => {
       setState('dispensing')
+      // 随机放大一颗扭蛋（模拟掉落）
+      setHighlightEgg(Math.floor(Math.random() * 10))
       setTimeout(() => {
         const newSpinCount = spinCount + 1
         setSpinCount(newSpinCount)
@@ -67,7 +74,8 @@ export default function Gacha() {
         ]
         setResultCartoon(cartoon)
         setShowResult(true)
-      }, 1200)
+        setHighlightEgg(null)
+      }, 1500)
     }, 1500)
   }
 
@@ -97,7 +105,6 @@ export default function Gacha() {
     dispensing: '出货中...',
   }[state]
 
-  // 状态指示图标
   const stateIcon = {
     idle: 'game',
     inserting: 'hourglass',
@@ -112,7 +119,7 @@ export default function Gacha() {
       <div className="win98-monitor">
         <div className="win98-screen">
 
-          {/* ===== 桌面背景：柔和蓝天 + 云 + 绿坡 + 太阳 + 小树 ===== */}
+          {/* ===== 桌面背景：梦核像素风 ===== */}
           <div className="desktop-bg">
             <div className="sun" />
             <div className="cloud cloud-1" />
@@ -165,51 +172,69 @@ export default function Gacha() {
               </div>
             </div>
             <div className="gacha-body">
-              {/* 扭蛋机主体 */}
+              {/* ===== 扭蛋机本体（立体老式游戏厅风格） ===== */}
               <div className={`gacha-machine ${state === 'turning' ? 'shaking' : ''}`}>
+
                 {/* 透明穹顶 + 滚动扭蛋 */}
                 <div className="dome">
                   <div className={`egg-container ${state === 'turning' ? 'fast-roll' : ''}`}>
-                    <div className="egg egg-1" />
-                    <div className="egg egg-2" />
-                    <div className="egg egg-3" />
-                    <div className="egg egg-4" />
-                    <div className="egg egg-5" />
-                    <div className="egg egg-6" />
-                    <div className="egg egg-7" />
-                    <div className="egg egg-8" />
-                    <div className="egg egg-9" />
-                    <div className="egg egg-10" />
+                    {Array.from({ length: 10 }).map((_, i) => (
+                      <div
+                        key={i}
+                        className={`egg egg-${i + 1} ${highlightEgg === i ? 'highlighted' : ''}`}
+                      />
+                    ))}
                   </div>
-                  <div className="dome-shine" />
                 </div>
 
-                {/* 中部控制面板：投币口 + 旋钮 */}
+                {/* 中部控制面板 */}
                 <div className="control-panel">
+                  {/* 投币口 */}
                   <button
                     className={`coin-slot ${state === 'ready' ? 'glowing' : ''}`}
                     onClick={handleInsertCoin}
                     disabled={state !== 'idle'}
                     title="投币口"
                   >
-                    <SvgIcon name="coin" size={20} color="#8a4a60" />
-                    <span className="coin-slot-label">投币</span>
+                    <span className="slot-hole" />
+                    <span className={`slot-light ${state === 'idle' ? 'blink' : ''} ${state === 'ready' ? 'ready-glow' : ''}`} />
+                    <span className="slot-label">投币</span>
                   </button>
 
+                  {/* 装饰灯 */}
+                  <div className="panel-lights">
+                    <span className="light light-1" />
+                    <span className="light light-2" />
+                    <span className="light light-3" />
+                  </div>
+
+                  {/* 旋钮 */}
                   <button
-                    className={`knob ${state === 'ready' ? 'glowing pulsing' : ''} ${state === 'turning' ? 'spinning' : ''}`}
+                    className={`knob ${state === 'ready' ? 'glowing pulsing' : ''}`}
                     onClick={handleTurnKnob}
                     disabled={state !== 'ready'}
                     title="扭动旋钮"
                   >
-                    <span className="knob-inner" />
+                    <span
+                      className="knob-body"
+                      style={{ transform: `rotate(${knobAngle}deg)` }}
+                    />
+                    <span className="knob-label">旋转</span>
                   </button>
                 </div>
 
                 {/* 底座 + 出货口 */}
-                <div className="base">
-                  <div className={`dispensing-slot ${state === 'dispensing' ? 'flashing' : ''}`} />
-                  <span className="base-deco">✦ 扭蛋</span>
+                <div className="base-section">
+                  <div className="dispenser">
+                    <div className={`rainbow-flash ${state === 'dispensing' ? 'active' : ''}`} />
+                    <div className="dispenser-inner" />
+                    <span className="dispenser-label">▼ 出货口</span>
+                  </div>
+                  <div className="feet">
+                    <span className="foot" />
+                    <span className="foot" />
+                    <span className="foot" />
+                  </div>
                 </div>
 
                 {/* 投币动画 */}
@@ -250,7 +275,7 @@ export default function Gacha() {
         </div>
       </div>
 
-      {/* 结果展示弹窗 */}
+      {/* 结果展示弹窗（保留原逻辑） */}
       {showResult && (
         <GachaResult
           cartoon={resultCartoon}
@@ -289,7 +314,7 @@ function DispenseEffect() {
   return (
     <>
       <div className="dispense-flash" />
-      <div className="rainbow-flash" />
+      <div className="rainbow-burst" />
     </>
   )
 }
@@ -300,7 +325,7 @@ function DispenseEffect() {
 function ParticleExplosion() {
   const particles = Array.from({ length: 20 }, (_, i) => ({
     id: i,
-    color: ['#FFB6C9', '#FFCC00', '#FFD0E0', '#FFA5B9', '#FFE2EC'][i % 5],
+    color: ['#ff6b6b', '#ffd93d', '#6bcb77', '#4fc3f7', '#a29bfe'][i % 5],
     angle: (i / 20) * 360,
     distance: 100 + (i % 5) * 20,
     delay: (i % 5) * 0.1,
@@ -324,7 +349,7 @@ function ParticleExplosion() {
 }
 
 /**
- * 扭蛋结果展示弹窗
+ * 扭蛋结果展示弹窗 — 保留原逻辑不变
  */
 function GachaResult({ cartoon, isEasterEgg, onWatch, onRetry, onClose }) {
   const [phase, setPhase] = useState('cracking') // cracking | revealing | shown
