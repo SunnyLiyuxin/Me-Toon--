@@ -1,0 +1,98 @@
+.page-detail {
+  position: relative;
+  display: flex;
+  background: #2a2a2a;
+  overflow: hidden;
+}
+
+/* 左侧导航 */
+.detail-sidebar {
+  width: 200px;
+  height: 100%;
+  background: var(--window-bg);
+  border-right: 2px solid;
+  border-color: var(--pixel-shadow) var(--highlight) var(--highlight) var(--pixel-shadow);
+  display: flex;
+  flex-direction: column;
+  padding-top: 56px;
+  flex-shrink: 0;
+}
+
+.sidebar-header {
+  text-align: center;
+  padding: 16px 12px;
+  border-bottom: 1px dashed var(--pixel-shadow);
+  margin-bottom: 12px;
+}
+
+.sidebar-cartoon-icon {
+  width: 60px;
+  height: 60px;
+  image-rendering: pixelated;
+  border: 2px solid var(--pixel-shadow);
+  background: #FFFFFF;
+}
+
+.sidebar-cartoon-name {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--titlebar-blue);
+  margin-top: 8px;
+  font-family: var(--font-cn);
+}
+
+.sidebar-cartoon-meta {
+  font-size: 11px;
+  color: var(--pixel-shadow);
+  margin-top: 4px;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 4px 8px;
+}
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: var(--font-cn);
+  color: var(--text-main);
+  border-radius: 2px;
+  margin-bottom: 2px;
+}
+
+.sidebar-nav-item:hover {
+  background: rgba(0, 84, 227, 0.1);
+}
+
+.sidebar-nav-item.active {
+  background: var(--titlebar-blue);
+  color: var(--highlight);
+}
+
+.sidebar-nav-icon {
+  font-size: 16px;
+}
+
+.sidebar-footer {
+  padding: 12px 8px;
+  border-top: 1px dashed var(--pixel-shadow);
+}
+
+.sidebar-back-btn {
+  width: 100%;
+  font-size: 11px;
+}
+
+/* 右侧内容 */
+.detail-content {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  padding-top: 56px;
+}

@@ -1,0 +1,315 @@
+.archive-room {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* 泛黄信纸背景 */
+.archive-paper-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/assets/images/detail/letter-paper.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+.archive-paper-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(245, 230, 200, 0.4);
+  pointer-events: none;
+}
+
+/* 内容容器 */
+.archive-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  padding: 40px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: auto 1fr auto;
+  gap: 30px;
+}
+
+/* ============================================================
+   导演肖像
+   ============================================================ */
+.portrait-wrapper {
+  position: relative;
+  grid-column: 1;
+  grid-row: 1;
+  width: 160px;
+  height: 160px;
+  cursor: pointer;
+}
+
+.portrait-frame {
+  position: absolute;
+  inset: 0;
+  width: 160px;
+  height: 160px;
+  z-index: 2;
+  pointer-events: none;
+  filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.3));
+}
+
+.portrait-img {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  width: 112px;
+  height: 112px;
+  z-index: 1;
+  image-rendering: pixelated;
+}
+
+/* 眨眼遮罩（在肖像眼睛位置画一条横线） */
+.portrait-blink-overlay {
+  position: absolute;
+  top: 70px;
+  left: 50px;
+  width: 60px;
+  height: 2px;
+  background: var(--pixel-shadow);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* 眼睛金色发光 */
+.portrait-eye-glow {
+  position: absolute;
+  top: 64px;
+  left: 65px;
+  width: 30px;
+  height: 12px;
+  background: radial-gradient(ellipse, rgba(255, 204, 0, 0.6) 0%, transparent 70%);
+  z-index: 3;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.portrait-wrapper.blinking {
+  animation: portrait-blink-anim 0.15s ease-in-out;
+}
+
+@keyframes portrait-blink-anim {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.99); }
+}
+
+/* ============================================================
+   导演寄语
+   ============================================================ */
+.director-message-area {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+  padding: 16px 20px;
+  background: rgba(255, 254, 245, 0.6);
+  border: 1px dashed var(--pixel-shadow);
+  min-height: 200px;
+}
+
+.director-message-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--titlebar-blue);
+  font-family: var(--font-cn);
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--pixel-shadow);
+}
+
+.director-message-text {
+  font-family: var(--font-cn);
+  font-size: 14px;
+  color: #333333;
+  line-height: 1.8;
+}
+
+.typewriter-text {
+  font-family: var(--font-cn);
+  font-size: 14px;
+  color: #333333;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+.typewriter-cursor {
+  display: inline-block;
+  color: var(--titlebar-blue);
+  animation: typewriter-cursor 0.8s ease-in-out infinite;
+  font-weight: bold;
+  margin-left: 2px;
+}
+
+/* 下一页按钮 */
+.next-page-btn {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  background: var(--btn-gradient);
+  border: 2px solid;
+  border-color: var(--highlight) var(--pixel-shadow) var(--pixel-shadow) var(--highlight);
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--titlebar-blue);
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.next-page-btn:hover {
+  border-color: var(--btn-border);
+}
+
+/* ============================================================
+   信息卡片
+   ============================================================ */
+.info-cards {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-self: start;
+  padding: 12px 0;
+  border-top: 1px dashed var(--pixel-shadow);
+  border-bottom: 1px dashed var(--pixel-shadow);
+}
+
+.info-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px dashed var(--pixel-shadow);
+  padding: 10px 14px;
+  border-radius: 4px;
+  min-width: 140px;
+}
+
+.info-card-icon {
+  font-size: 24px;
+}
+
+.info-card-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-card-label {
+  font-size: 11px;
+  color: var(--pixel-shadow);
+  font-family: var(--font-cn);
+}
+
+.info-card-value {
+  font-size: 13px;
+  color: var(--text-main);
+  font-family: var(--font-cn);
+  font-weight: bold;
+}
+
+/* 主题曲歌词 */
+.theme-lyric {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  text-align: center;
+  font-family: var(--font-cn);
+  font-size: 14px;
+  color: var(--pink-highlight);
+  font-style: italic;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+  align-self: center;
+}
+
+.lyric-quote {
+  font-size: 18px;
+  color: var(--gold-accent);
+  margin: 0 4px;
+}
+
+/* ============================================================
+   像素收音机
+   ============================================================ */
+.radio-player {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  z-index: 5;
+  transition: transform 0.2s ease;
+}
+
+.radio-player:hover {
+  transform: scale(1.1);
+}
+
+.radio-img {
+  width: 60px;
+  height: 40px;
+  image-rendering: pixelated;
+}
+
+.radio-label {
+  font-family: var(--font-cn);
+  font-size: 11px;
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.7);
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+.radio-player.playing .radio-label {
+  color: var(--titlebar-blue);
+  font-weight: bold;
+}
+
+/* 声波动画 */
+.radio-wave {
+  position: absolute;
+  border: 2px solid var(--titlebar-blue);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.radio-player.playing .radio-wave {
+  animation: wave-expand 1s ease-out infinite;
+}
+
+.wave-1 { width: 40px; height: 40px; top: 8px; left: 18px; animation-delay: 0s; }
+.wave-2 { width: 40px; height: 40px; top: 8px; left: 18px; animation-delay: 0.3s; }
+.wave-3 { width: 40px; height: 40px; top: 8px; left: 18px; animation-delay: 0.6s; }
+
+@keyframes wave-expand {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
