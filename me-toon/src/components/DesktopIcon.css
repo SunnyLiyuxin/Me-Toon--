@@ -1,0 +1,195 @@
+.desktop-icon {
+  position: absolute;
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  padding: 4px;
+}
+
+.desktop-icon:hover .desktop-icon-img {
+  filter: brightness(1.1);
+}
+
+.desktop-icon:hover .desktop-icon-label {
+  background: var(--titlebar-blue);
+  color: var(--highlight);
+}
+
+.desktop-icon-img {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  image-rendering: pixelated;
+}
+
+.desktop-icon-label {
+  font-size: 12px;
+  color: var(--highlight);
+  text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+  text-align: center;
+  margin-top: 4px;
+  padding: 1px 4px;
+  font-family: var(--font-cn);
+}
+
+/* ============================================================
+   纯 CSS 像素图标（占位用）
+   ============================================================ */
+.pi {
+  position: relative;
+  width: 48px;
+  height: 48px;
+}
+
+/* 电视机 */
+.pi-tv {
+  background: #C0C0C0;
+  border: 2px solid;
+  border-color: #FFFFFF #808080 #808080 #FFFFFF;
+}
+.pi-tv-screen {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 28px;
+  height: 20px;
+  background: #0054E3;
+  border: 1px solid #000;
+}
+.pi-tv-antenna-l {
+  position: absolute;
+  top: -6px;
+  left: 14px;
+  width: 2px;
+  height: 8px;
+  background: #808080;
+  transform: rotate(-30deg);
+  transform-origin: bottom;
+}
+.pi-tv-antenna-r {
+  position: absolute;
+  top: -6px;
+  right: 14px;
+  width: 2px;
+  height: 8px;
+  background: #808080;
+  transform: rotate(30deg);
+  transform-origin: bottom;
+}
+.pi-tv-stand-l, .pi-tv-stand-r {
+  position: absolute;
+  bottom: -4px;
+  width: 4px;
+  height: 4px;
+  background: #808080;
+}
+.pi-tv-stand-l { left: 12px; }
+.pi-tv-stand-r { right: 12px; }
+
+/* 日记本 */
+.pi-diary {
+  background: #FF6699;
+  border: 2px solid #000;
+}
+.pi-diary-cover {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  background: #FFCC00;
+  border: 1px solid #808080;
+}
+.pi-diary-binding {
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: #808080;
+}
+.pi-diary-lock {
+  position: absolute;
+  right: 10px;
+  top: 18px;
+  width: 8px;
+  height: 8px;
+  background: #FFCC00;
+  border: 1px solid #000;
+}
+
+/* MP3 */
+.pi-mp3 {
+  background: #0054E3;
+  border: 2px solid #000;
+  border-radius: 4px;
+}
+.pi-mp3-screen {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 12px;
+  background: #33FF33;
+  border: 1px solid #000;
+}
+.pi-mp3-btn-1, .pi-mp3-btn-2 {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #FFFFFF;
+  border: 1px solid #000;
+  border-radius: 50%;
+}
+.pi-mp3-btn-1 { bottom: 8px; left: 14px; }
+.pi-mp3-btn-2 { bottom: 8px; right: 14px; }
+
+/* 地球 */
+.pi-globe {
+  background: transparent;
+  border: none;
+}
+.pi-globe-body {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  width: 32px;
+  height: 32px;
+  background: #0054E3;
+  border: 2px solid #000;
+  border-radius: 50%;
+}
+.pi-globe-meridian {
+  position: absolute;
+  top: 6px;
+  left: 22px;
+  width: 4px;
+  height: 32px;
+  background: #33FF33;
+  border-radius: 50%;
+}
+.pi-globe-parallel {
+  position: absolute;
+  top: 20px;
+  left: 8px;
+  width: 32px;
+  height: 4px;
+  background: #33FF33;
+  border-radius: 50%;
+}
+.pi-globe-stand {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 6px;
+  background: #808080;
+  border: 1px solid #000;
+}

@@ -1,0 +1,109 @@
+{
+  "cartoons": [
+    {
+      "id": "tutu",
+      "name": "大耳朵图图",
+      "year": 2004,
+      "episodes": 104,
+      "tagline": "一个机灵淘气、爱胡思乱想的三岁小孩，用他的大耳朵听懂了世间最单纯的快乐与烦恼。",
+      "studio": "上海美术电影制片厂",
+      "airDate": "2004年6月1日",
+      "director": "速达",
+      "themeSong": "tutu-theme.mp3",
+      "themeSongName": "快乐小孩",
+      "themeSongLyric": "圆圆的脑袋，大大耳朵，笨手又笨脚，跑步像陀螺……",
+      "planetColor": "#FFD700",
+      "planetLabel": "温暖黄",
+      "images": {
+        "portrait": "/assets/images/detail/cartoons/tutu/portrait.png",
+        "firstFrame": "/assets/images/detail/cartoons/tutu/first-frame.png",
+        "memoryPlanet": "/assets/images/detail/cartoons/tutu/memory-planet.png",
+        "cover": "/assets/images/detail/cartoons/tutu/cover.png",
+        "postcard": "/assets/images/detail/cartoons/tutu/postcard.png"
+      },
+      "directorMessage": "你好，我是《大耳朵图图》的导演速达。\n\n欢迎来到我们的世界。\n\n这部作品，一共经历了一千多个日夜，\n有104集，\n\n只为在你的童年里，\n停留二十分钟。\n\n图图的原型，其实来自我身边的很多孩子。\n他也许就是你，是你那个总爱问“为什么”的隔壁小孩，\n也是我们每个人心里，那个还没长大的自己。\n\n希望当你重新走进番豆街1号，\n依然能闻到厨房里的饭菜香，\n听到图图妈那句熟悉的——\n“图图，你又在搞什么名堂？”",
+      "livingroom": {
+        "location": "番豆街1号图图家的客厅",
+        "elements": [
+          "绿色布艺沙发",
+          "老式电视机（正放着《武林外传》）",
+          "铺着格子布的餐桌",
+          "窗户（能看到楼下小花园）",
+          "墙上挂着《妈妈生气图》涂鸦"
+        ],
+        "ambientSound": "轻柔的炒菜声、窗外蝉鸣、电视对话声"
+      },
+      "characters": [
+        {
+          "id": "hututu",
+          "name": "胡图图",
+          "role": "小男孩",
+          "position": "沙发上，正试图用耳朵夹住遥控器",
+          "idleAction": "待机时眨巴着大眼睛左顾右盼，偶尔挠挠头",
+          "dialogue": "我是胡图图，番豆街最厉害的小孩！\n\n我的性格嘛……就是有点好动，有点馋，还有点勇敢。\n\n在故事里，我最喜欢吃妈妈做的炸小肉丸，最喜欢看爸爸的高中同学录。\n\n最害怕的事情是……妈妈生气的时候叫我全名——“胡！图！图！”\n\n你知道我最骄傲的事吗？爸爸说，我是他用“爱”和“时间”换来的宝贝。",
+          "tags": ["好动", "馋", "勇敢"],
+          "classicLine": "我是用爱和时间换来的宝贝"
+        },
+        {
+          "id": "zhangxiaoli",
+          "name": "张小丽",
+          "role": "图图妈",
+          "position": "在厨房和客厅之间走动，手里拿着锅铲",
+          "idleAction": "待机时插着腰，一脸又好气又好笑的表情",
+          "dialogue": "我是图图妈，张小丽。我是咱们家的一家之主。\n\n我的脾气是有点急，头发都会着火（我儿子画的）。\n\n但我最骄傲的一件事，就是有我儿子胡图图。虽然他淘气，但他是我这辈子最好的作品。",
+          "tags": ["急性子", "护短", "能干"],
+          "classicLine": "图图，你又在搞什么名堂？"
+        },
+        {
+          "id": "huyingjun",
+          "name": "胡英俊",
+          "role": "图图爸",
+          "position": "坐在餐桌旁，带着眼镜看报纸",
+          "idleAction": "待机时会偶尔推一下眼镜，然后看向图图妈和图图，一脸满足的笑",
+          "dialogue": "我是图图爸，胡英俊。我是家里的“消防员”，专门负责在老婆和儿子之间“灭火”。\n\n我的性格嘛，比较温和，但也有我自己的坚持。\n\n我教给图图最重要的东西，不是知识，而是爱和快乐。",
+          "tags": ["温和", "有耐心", "幽默"],
+          "classicLine": "我教给图图最重要的，是爱和快乐"
+        },
+        {
+          "id": "xiaoguai",
+          "name": "小怪",
+          "role": "图图的猫",
+          "position": "电视柜旁边，正舔着自己的爪子",
+          "idleAction": "待机时眯着眼睛甩尾巴，偶尔“喵”一声",
+          "dialogue": "我是小怪，会说人话的那种猫，但我不轻易开口。\n\n我最喜欢看着图图，因为他总能干出些让我意想不到的事。\n\n在这个家，我最懂他。",
+          "tags": ["高冷", "通透", "忠诚"],
+          "classicLine": "在这个家，我最懂他"
+        }
+      ],
+      "resonance": {
+        "emotionTags": [
+          { "color": "gold", "label": "我的榜样！", "note": "图图教会了我要勇敢表达爱" },
+          { "color": "pink", "label": "好想抱抱TA", "note": "想抱抱那个小小的、善良的图图" },
+          { "color": "blue", "label": "TA教会我很多", "note": "从小丽身上学会了妈妈的伟大" },
+          { "color": "purple", "label": "小时候好佩服", "note": "佩服英俊爸爸总是那么温柔有耐心" }
+        ],
+        "loomPrompts": [
+          { "characterId": "hututu", "prompt": "图图教会我的第一件事是______。", "example": "开心的时候要说出来，难过的时候也要说出来。" },
+          { "characterId": "zhangxiaoli", "prompt": "我从张小丽身上看到的，是妈妈的______。", "example": "超级变变变，一会是厨师，一会是老师，一会是超人。" }
+        ],
+        "mailboxPrompts": {
+          "toCharacter": "给十年后的图图",
+          "toCharacterHint": "你现在还爱吃炸小肉丸吗？有没有长成一个不让妈妈生气的大人？",
+          "toSelf": "给十年前的自己",
+          "toSelfHint": "别怕，那个叫图图的小朋友会告诉你，问“为什么”是这个世界上最酷的事情。"
+        }
+      }
+    }
+  ],
+  "user": {
+    "name": "",
+    "birthday": ""
+  },
+  "unlockedCartoons": ["tutu"],
+  "hiddenEasterEgg": {
+    "id": "dachentou",
+    "name": "大风车",
+    "trigger": "从QQ消息彩蛋进入 或 第5次扭蛋时",
+    "lyric": "大风车吱呀吱悠悠地转~"
+  }
+}

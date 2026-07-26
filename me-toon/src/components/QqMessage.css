@@ -1,0 +1,81 @@
+.qq-message {
+  padding: 8px 4px;
+}
+
+.qq-message-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--pixel-shadow);
+  margin-bottom: 12px;
+}
+
+.qq-message-avatar {
+  width: 40px;
+  height: 40px;
+  background: var(--btn-gradient);
+  border: 2px solid;
+  border-color: var(--highlight) var(--pixel-shadow) var(--pixel-shadow) var(--highlight);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qq-avatar-img {
+  font-size: 22px;
+}
+
+.qq-message-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.qq-message-nickname {
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--titlebar-blue);
+}
+
+.qq-message-status {
+  font-size: 11px;
+  color: var(--neon-green);
+}
+
+.qq-message-bubble {
+  background: #FFFFFF;
+  border: 1px solid var(--pixel-shadow);
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  line-height: 1.6;
+  position: relative;
+}
+
+.qq-message-bubble::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 18px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid var(--pixel-shadow);
+}
+
+.qq-message-bubble p {
+  margin: 2px 0;
+}
+
+.qq-message-sub {
+  font-size: 12px;
+  color: var(--pixel-shadow);
+  margin-top: 6px !important;
+}
+
+.qq-message-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}

@@ -1,0 +1,193 @@
+.taskbar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(180deg, #245EDB 0%, #3B77E3 3%, #245EDB 8%, #0A50C6 100%);
+  border-top: 2px solid #1B6FE0;
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+  z-index: 200;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.3);
+}
+
+.taskbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.start-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(180deg, #3CA33A 0%, #2E8B2E 50%, #1E7B1E 100%);
+  border: 2px solid;
+  border-color: #5BC55B #1E5B1E #1E5B1E #5BC55B;
+  color: #FFFFFF;
+  font-family: var(--font-cn);
+  font-size: 14px;
+  font-weight: bold;
+  padding: 4px 12px;
+  cursor: pointer;
+  height: 32px;
+  border-radius: 2px;
+}
+
+.start-button:hover {
+  background: linear-gradient(180deg, #4CB34B 0%, #3E9B3E 50%, #2E8B2E 100%);
+}
+
+.start-button.active {
+  border-color: #1E5B1E #5BC55B #5BC55B #1E5B1E;
+}
+
+.start-flag {
+  font-size: 16px;
+}
+
+.taskbar-middle {
+  flex: 1;
+}
+
+.taskbar-tray {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(180deg, #128CE3 0%, #1290E3 100%);
+  border: 1px solid;
+  border-color: #0A6FB0 #0A6FB0 #0A6FB0 #0A6FB0;
+  padding: 0 8px;
+  height: 32px;
+}
+
+.tray-icon {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  image-rendering: pixelated;
+}
+
+/* QQ 闪烁动画 */
+.tray-qq.blinking {
+  animation: qq-blink 0.5s ease-in-out infinite;
+}
+
+@keyframes qq-blink {
+  0%, 100% { background: transparent; }
+  50% { background: #FFCC00; }
+}
+
+.tray-time {
+  color: #FFFFFF;
+  font-size: 12px;
+  font-family: var(--font-en);
+  padding: 0 4px;
+}
+
+/* ============================================================
+   托盘像素图标
+   ============================================================ */
+.pi-qq {
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+.pi-qq-body {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  background: #000000;
+  border-radius: 50%;
+}
+.pi-qq-scarf {
+  position: absolute;
+  top: 8px;
+  left: 2px;
+  width: 12px;
+  height: 2px;
+  background: #FF0000;
+}
+.pi-qq-eye-l, .pi-qq-eye-r {
+  position: absolute;
+  top: 5px;
+  width: 2px;
+  height: 2px;
+  background: #FFFFFF;
+}
+.pi-qq-eye-l { left: 5px; }
+.pi-qq-eye-r { right: 5px; }
+.pi-qq-beak {
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  width: 2px;
+  height: 2px;
+  background: #FFCC00;
+}
+
+.pi-speaker {
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+.pi-speaker-body {
+  position: absolute;
+  top: 5px;
+  left: 2px;
+  width: 6px;
+  height: 6px;
+  background: #FFFFFF;
+  clip-path: polygon(0 30%, 40% 30%, 70% 0, 70% 100%, 40% 70%, 0 70%);
+}
+.pi-speaker-wave-1 {
+  position: absolute;
+  top: 4px;
+  left: 9px;
+  width: 3px;
+  height: 8px;
+  border: 1px solid #FFFFFF;
+  border-left: none;
+  border-radius: 0 50% 50% 0;
+}
+.pi-speaker-wave-2 {
+  position: absolute;
+  top: 2px;
+  left: 12px;
+  width: 3px;
+  height: 12px;
+  border: 1px solid #FFFFFF;
+  border-left: none;
+  border-radius: 0 50% 50% 0;
+  opacity: 0.6;
+}
+
+.pi-network {
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+.pi-network-monitor-l, .pi-network-monitor-r {
+  position: absolute;
+  top: 4px;
+  width: 5px;
+  height: 4px;
+  background: #FFFFFF;
+  border: 1px solid #000000;
+}
+.pi-network-monitor-l { left: 1px; }
+.pi-network-monitor-r { right: 1px; }
+.pi-network-link {
+  position: absolute;
+  top: 9px;
+  left: 6px;
+  width: 4px;
+  height: 2px;
+  background: #FFFFFF;
+}

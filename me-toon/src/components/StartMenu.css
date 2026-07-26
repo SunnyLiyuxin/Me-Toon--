@@ -1,0 +1,79 @@
+.start-menu-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 199;
+}
+
+.start-menu {
+  position: absolute;
+  bottom: 38px;
+  left: 4px;
+  width: 220px;
+  background: var(--window-bg);
+  border: 2px solid;
+  border-color: var(--highlight) var(--pixel-shadow) var(--pixel-shadow) var(--highlight);
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+  z-index: 201;
+  font-family: var(--font-cn);
+  transform-origin: bottom left;
+}
+
+.start-menu-header {
+  background: linear-gradient(180deg, #1E5BCC 0%, #0A4BC0 100%);
+  color: #FFFFFF;
+  padding: 14px 12px;
+  border-bottom: 2px solid #FFCC00;
+}
+
+.start-menu-brand {
+  font-family: var(--font-en);
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.start-menu-body {
+  padding: 6px;
+}
+
+.start-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+  border-radius: 2px;
+  font-size: 13px;
+}
+
+.start-menu-item:hover {
+  background: var(--titlebar-blue);
+  color: var(--highlight);
+}
+
+.start-menu-item.disabled {
+  color: var(--pixel-shadow);
+  cursor: not-allowed;
+}
+
+.start-menu-item.disabled:hover {
+  background: transparent;
+  color: var(--pixel-shadow);
+}
+
+.start-menu-item.shutdown:hover {
+  background: #CC0000;
+}
+
+.start-menu-icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+}
+
+.start-menu-divider {
+  height: 1px;
+  background: var(--pixel-shadow);
+  margin: 4px 6px;
+  border-bottom: 1px solid var(--highlight);
+}

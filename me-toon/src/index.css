@@ -1,0 +1,233 @@
+/* ============================================================
+   Me-Toon 全局样式系统
+   - 1280×960 视口锁定
+   - XP 经典色彩系统
+   - 像素字体与渲染
+   - 全局动画关键帧
+   ============================================================ */
+
+:root {
+  /* 色彩系统 */
+  --bg-main: #C0C0C0;
+  --window-bg: #ECE9D8;
+  --titlebar-blue: #0054E3;
+  --pixel-shadow: #808080;
+  --highlight: #FFFFFF;
+  --text-main: #000000;
+  --link-blue: #0000FF;
+  --btn-border: #003C74;
+  --pink-highlight: #FF6699;
+  --gold-accent: #FFCC00;
+  --neon-green: #33FF33;
+
+  /* 按钮渐变 */
+  --btn-gradient: linear-gradient(180deg, #FFFFFF 0%, #D4D0C8 100%);
+
+  /* 字体 */
+  --font-cn: "SimSun", "宋体", serif;
+  --font-en: "MS Sans Serif", "Tahoma", sans-serif;
+  --font-pixel: "Press Start 2P", monospace;
+
+  /* 视口尺寸 */
+  --viewport-w: 1280px;
+  --viewport-h: 960px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: var(--font-cn);
+  color: var(--text-main);
+  /* 禁用文字抗锯齿，保持像素感 */
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+}
+
+/* ============================================================
+   1280×960 视口锁定容器
+   居中显示，超出部分黑色填充
+   ============================================================ */
+.viewport {
+  position: relative;
+  width: var(--viewport-w);
+  height: var(--viewport-h);
+  overflow: hidden;
+  background: var(--bg-main);
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   像素渲染：所有图片保持像素清晰
+   ============================================================ */
+img {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* ============================================================
+   XP 窗口组件
+   ============================================================ */
+.xp-window {
+  background: var(--window-bg);
+  border: 2px solid;
+  border-color: var(--highlight) var(--pixel-shadow) var(--pixel-shadow) var(--highlight);
+  box-shadow: inset 1px 1px 0 var(--highlight), inset -1px -1px 0 var(--pixel-shadow);
+}
+
+.xp-titlebar {
+  background: linear-gradient(180deg, var(--titlebar-blue), #0266FF);
+  color: var(--highlight);
+  font-size: 12px;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-en);
+  user-select: none;
+}
+
+.xp-titlebar-close {
+  width: 18px;
+  height: 16px;
+  background: var(--btn-gradient);
+  border: 1px solid;
+  border-color: var(--highlight) var(--pixel-shadow) var(--pixel-shadow) var(--highlight);
+  color: var(--text-main);
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 14px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.xp-titlebar-close:hover {
+  background: #FF6699;
+  color: var(--highlight);
+}
+
+.xp-button {
+  background: var(--btn-gradient);
+  border: 2px solid;
+  border-color: var(--highlight) var(--pixel-shadow) var(--pixel-shadow) var(--highlight);
+  padding: 4px 12px;
+  font-family: var(--font-cn);
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--text-main);
+}
+
+.xp-button:hover {
+  border-color: var(--btn-border);
+}
+
+.xp-button:active {
+  border-color: var(--pixel-shadow) var(--highlight) var(--highlight) var(--pixel-shadow);
+}
+
+.xp-button-primary {
+  background: var(--btn-gradient);
+  border: 2px solid var(--btn-border);
+  padding: 6px 16px;
+  font-weight: bold;
+  font-family: var(--font-cn);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.xp-button-primary:active {
+  border-color: var(--pixel-shadow) var(--highlight) var(--highlight) var(--pixel-shadow);
+}
+
+/* ============================================================
+   全局动画关键帧
+   ============================================================ */
+@keyframes pixel-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes pixel-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes pixel-glow {
+  0%, 100% { filter: drop-shadow(0 0 3px var(--gold-accent)); }
+  50% { filter: drop-shadow(0 0 8px var(--gold-accent)); }
+}
+
+@keyframes pixel-breath {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 0.95; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes orbit {
+  0% { transform: rotate(0deg) translateX(150px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
+}
+
+@keyframes typewriter-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes star-twinkle {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+/* 弹窗放大弹出 */
+@keyframes popup-pop-in {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* 弹窗缩小消失 */
+@keyframes popup-pop-out {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0); opacity: 0; }
+}
+
+/* 页面进入：像素马赛克从中心扩散 */
+@keyframes page-mosaic-in {
+  0% { clip-path: circle(0% at 50% 50%); }
+  100% { clip-path: circle(100% at 50% 50%); }
+}
+
+/* 页面离开：像素马赛克向中心收缩 */
+@keyframes page-mosaic-out {
+  0% { clip-path: circle(100% at 50% 50%); }
+  100% { clip-path: circle(0% at 50% 50%); }
+}
+
+/* 工具类 */
+.anim-float { animation: pixel-float 2s ease-in-out infinite; }
+.anim-blink { animation: pixel-blink 2s ease-in-out infinite; }
+.anim-breath { animation: pixel-breath 4s ease-in-out infinite; }
+.anim-glow { animation: pixel-glow 3s ease-in-out infinite; }
+.anim-popup-in { animation: popup-pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+.anim-popup-out { animation: popup-pop-out 0.2s ease-in forwards; }

@@ -1,0 +1,39 @@
+.xp-window-box {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  z-index: 50;
+}
+
+.xp-window-centered {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 居中弹窗时动画的 transform 处理 */
+.xp-window-centered.anim-popup-in {
+  animation: popup-pop-in-center 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.xp-window-centered.anim-popup-out {
+  animation: popup-pop-out-center 0.2s ease-in forwards;
+}
+
+@keyframes popup-pop-in-center {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  60% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+@keyframes popup-pop-out-center {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+}
+
+.xp-window-content {
+  padding: 16px;
+  overflow: auto;
+  font-family: var(--font-cn);
+  color: var(--text-main);
+}
