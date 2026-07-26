@@ -37,37 +37,39 @@
 }
 
 /* ============================================================
-   桌面背景 — 蓝天 + 绿坡 + 白云 (纯CSS像素风)
+   桌面背景 — 经典 XP 蓝天绿地
    ============================================================ */
 .desktop-bg {
   position: absolute;
   inset: 0;
   z-index: 0;
   background: linear-gradient(180deg,
-    #00a8e8 0%,
-    #4fc3f7 30%,
-    #81d4fa 55%,
-    #b3e5fc 70%,
-    #e1f5fe 85%,
-    #c8e6c9 92%,
-    #a5d6a7 96%,
-    #81c784 100%);
+    #0a5e8a 0%,
+    #1a7eb8 15%,
+    #3a9ed8 30%,
+    #6ab8e8 45%,
+    #8ac8f0 55%,
+    #a8d8f5 65%,
+    #b0d8c0 78%,
+    #8ac090 85%,
+    #6aa870 92%,
+    #4a9050 100%);
   overflow: hidden;
 }
 
-/* 太阳 */
+/* 太阳 — XP 风格 */
 .sun {
   position: absolute;
   top: 8%;
-  right: 12%;
+  right: 14%;
   width: 60px;
   height: 60px;
-  background: radial-gradient(circle, #fff9c4, #fff176);
+  background: radial-gradient(circle, #fffbe6, #fff5c2 30%, #ffe88a 60%, rgba(255, 232, 138, 0) 100%);
   border-radius: 50%;
-  box-shadow: 0 0 80px rgba(255, 235, 59, 0.4), 0 0 160px rgba(255, 235, 59, 0.2);
+  box-shadow: 0 0 80px rgba(255, 235, 150, 0.4), 0 0 160px rgba(255, 235, 150, 0.15);
 }
 
-/* 云朵 — 像素块风格 (用 box-shadow 堆叠) */
+/* 云朵 — XP 蓬松风格 */
 .cloud {
   position: absolute;
   background: rgba(255, 255, 255, 0.9);
@@ -76,147 +78,114 @@
 }
 
 .cloud-1 {
-  top: 6%;
-  left: 8%;
-  width: 160px;
-  height: 40px;
+  top: 6%; left: 6%; width: 180px; height: 44px;
   box-shadow:
-    20px -20px 0 0 rgba(255, 255, 255, 0.9),
-    40px -20px 0 0 rgba(255, 255, 255, 0.9),
-    60px -20px 0 0 rgba(255, 255, 255, 0.9),
-    80px -20px 0 0 rgba(255, 255, 255, 0.85),
-    100px -20px 0 0 rgba(255, 255, 255, 0.8),
-    0 -10px 0 0 rgba(255, 255, 255, 0.9),
-    20px -30px 0 0 rgba(255, 255, 255, 0.95),
-    40px -30px 0 0 rgba(255, 255, 255, 0.95),
-    60px -30px 0 0 rgba(255, 255, 255, 0.9),
-    80px -30px 0 0 rgba(255, 255, 255, 0.85),
-    100px -20px 0 0 rgba(255, 255, 255, 0.7);
-  animation: cloud-float 20s ease-in-out infinite alternate;
+    24px -24px 0 0 rgba(255,255,255,0.92), 48px -24px 0 0 rgba(255,255,255,0.92),
+    72px -24px 0 0 rgba(255,255,255,0.88), 96px -24px 0 0 rgba(255,255,255,0.82),
+    120px -24px 0 0 rgba(255,255,255,0.72), 0 -12px 0 0 rgba(255,255,255,0.92),
+    24px -36px 0 0 rgba(255,255,255,0.95), 48px -36px 0 0 rgba(255,255,255,0.95),
+    72px -36px 0 0 rgba(255,255,255,0.92), 96px -36px 0 0 rgba(255,255,255,0.88);
+  animation: cloud-float 22s ease-in-out infinite alternate;
+  opacity: 0.95;
 }
-
 .cloud-2 {
-  top: 18%;
-  right: 18%;
-  width: 120px;
-  height: 30px;
+  top: 20%; right: 10%; width: 150px; height: 36px;
   box-shadow:
-    15px -15px 0 0 rgba(255, 255, 255, 0.85),
-    30px -15px 0 0 rgba(255, 255, 255, 0.85),
-    45px -15px 0 0 rgba(255, 255, 255, 0.8),
-    60px -15px 0 0 rgba(255, 255, 255, 0.75),
-    0 -8px 0 0 rgba(255, 255, 255, 0.85),
-    15px -22px 0 0 rgba(255, 255, 255, 0.9),
-    30px -22px 0 0 rgba(255, 255, 255, 0.9),
-    45px -22px 0 0 rgba(255, 255, 255, 0.85);
-  animation: cloud-float 25s ease-in-out infinite alternate-reverse;
+    18px -18px 0 0 rgba(255,255,255,0.88), 36px -18px 0 0 rgba(255,255,255,0.88),
+    54px -18px 0 0 rgba(255,255,255,0.82), 72px -18px 0 0 rgba(255,255,255,0.72),
+    0 -10px 0 0 rgba(255,255,255,0.88), 18px -26px 0 0 rgba(255,255,255,0.92),
+    36px -26px 0 0 rgba(255,255,255,0.92), 54px -26px 0 0 rgba(255,255,255,0.88);
+  animation: cloud-float 28s ease-in-out infinite alternate-reverse;
+  opacity: 0.85;
 }
-
 .cloud-3 {
-  top: 10%;
-  left: 45%;
-  width: 100px;
-  height: 25px;
+  top: 12%; left: 44%; width: 120px; height: 28px;
   box-shadow:
-    12px -12px 0 0 rgba(255, 255, 255, 0.8),
-    24px -12px 0 0 rgba(255, 255, 255, 0.8),
-    36px -12px 0 0 rgba(255, 255, 255, 0.75),
-    0 -6px 0 0 rgba(255, 255, 255, 0.8),
-    12px -18px 0 0 rgba(255, 255, 255, 0.85),
-    24px -18px 0 0 rgba(255, 255, 255, 0.85);
+    14px -14px 0 0 rgba(255,255,255,0.82), 28px -14px 0 0 rgba(255,255,255,0.82),
+    42px -14px 0 0 rgba(255,255,255,0.75), 0 -8px 0 0 rgba(255,255,255,0.82),
+    14px -20px 0 0 rgba(255,255,255,0.88), 28px -20px 0 0 rgba(255,255,255,0.88);
   animation: cloud-float 18s ease-in-out infinite alternate;
+  opacity: 0.8;
+}
+.cloud-4 {
+  top: 32%; left: 22%; width: 90px; height: 22px;
+  box-shadow:
+    10px -10px 0 0 rgba(255,255,255,0.6), 20px -10px 0 0 rgba(255,255,255,0.6),
+    30px -10px 0 0 rgba(255,255,255,0.55), 0 -6px 0 0 rgba(255,255,255,0.6),
+    10px -14px 0 0 rgba(255,255,255,0.65), 20px -14px 0 0 rgba(255,255,255,0.65);
+  animation: cloud-float 15s ease-in-out infinite alternate-reverse;
+  opacity: 0.5;
 }
 
 @keyframes cloud-float {
   0% { transform: translateX(0); }
-  100% { transform: translateX(30px); }
+  100% { transform: translateX(35px); }
 }
 
-/* 山丘 — 像素块风格 (clip-path) */
-.hill {
-  position: absolute;
-  bottom: 12%;
-  image-rendering: pixelated;
-  border-radius: 0;
-}
-
+/* 山丘 — XP 绿坡 */
+.hill { position: absolute; bottom: 8%; image-rendering: pixelated; }
 .hill-1 {
-  left: -5%;
-  width: 35%;
-  height: 120px;
-  background: #66bb6a;
-  box-shadow:
-    inset 0 -20px 0 #4caf50,
-    inset 0 -40px 0 #43a047;
-  clip-path: polygon(0% 100%, 15% 20%, 30% 0%, 50% 10%, 70% 0%, 85% 25%, 100% 100%);
+  left: -8%; width: 40%; height: 140px;
+  background: #6aaf5a;
+  clip-path: polygon(0% 100%, 8% 35%, 22% 10%, 38% 0%, 55% 8%, 70% 0%, 85% 22%, 100% 100%);
+  box-shadow: inset 0 -30px 60px rgba(80, 160, 70, 0.3);
 }
-
 .hill-2 {
-  right: -5%;
-  width: 40%;
-  height: 140px;
-  background: #4caf50;
-  box-shadow:
-    inset 0 -20px 0 #388e3c,
-    inset 0 -40px 0 #2e7d32;
-  clip-path: polygon(0% 100%, 10% 30%, 25% 10%, 45% 0%, 65% 5%, 80% 0%, 95% 20%, 100% 100%);
+  right: -8%; width: 45%; height: 160px;
+  background: #5a9f4a;
+  clip-path: polygon(0% 100%, 6% 40%, 18% 15%, 36% 0%, 52% 6%, 70% 0%, 88% 28%, 100% 100%);
+  box-shadow: inset 0 -30px 60px rgba(70, 140, 60, 0.3);
 }
-
 .hill-3 {
-  bottom: 8%;
-  left: 30%;
-  width: 30%;
-  height: 80px;
-  background: #81c784;
-  clip-path: polygon(0% 100%, 20% 30%, 40% 10%, 60% 0%, 80% 15%, 100% 100%);
-  opacity: 0.6;
+  bottom: 4%; left: 26%; width: 38%; height: 100px;
+  background: #7ac06a;
+  clip-path: polygon(0% 100%, 12% 35%, 32% 12%, 52% 0%, 72% 18%, 100% 100%);
+  opacity: 0.5;
+  box-shadow: inset 0 -20px 40px rgba(100, 180, 90, 0.2);
 }
 
-/* 草地纹理 (像素点) */
+/* 草地纹理 */
 .grass {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 14%;
+  bottom: 0; left: 0; width: 100%; height: 10%;
   background: repeating-linear-gradient(90deg,
-    #66bb6a 0px, #66bb6a 4px,
-    #4caf50 4px, #4caf50 8px,
-    #81c784 8px, #81c784 12px,
-    #43a047 12px, #43a047 16px);
+    #6aaf5a 0px, #6aaf5a 3px, #5a9f4a 3px, #5a9f4a 6px,
+    #7ac06a 6px, #7ac06a 9px, #4a8f3a 9px, #4a8f3a 12px);
   image-rendering: pixelated;
-  opacity: 0.5;
+  opacity: 0.3;
 }
 
 /* ============================================================
-   左上角桌面图标
+   左上角桌面图标 — 老式 Win98/2000 像素风
    ============================================================ */
 .desktop-icons {
   position: absolute;
-  top: 24px;
-  left: 24px;
+  top: 18px;
+  left: 16px;
   z-index: 5;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 8px;
 }
 
 .desktop-icon {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 76px;
-  padding: 8px 4px 4px;
-  background: rgba(0, 0, 80, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  width: 78px;
+  padding: 6px 4px 4px;
+  background: rgba(0, 0, 40, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 4px;
   color: #ffffff;
+  font-size: 11px;
   text-align: center;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.15s, border-color 0.15s;
   font-family: 'Courier New', 'PingFang SC', monospace;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
+  image-rendering: pixelated;
   outline: none;
 }
 
@@ -230,16 +199,155 @@
   border: 1px dashed #ffffff;
 }
 
-.desktop-icon-svg {
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+/* 图标容器 */
+.desktop-icon .icon-wrap {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  image-rendering: pixelated;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== 我的电脑 — 老式 CRT 显示器 ===== */
+.icon-pc {
+  position: relative;
+  width: 40px;
+  height: 32px;
+  background: #1a3a5a;
+  border: 3px solid #4a6a8a;
+  border-radius: 4px 4px 0 0;
+  box-shadow:
+    inset 0 -8px 0 #0a2a4a,
+    inset 0 0 0 2px #2a5a7a,
+    0 4px 8px rgba(0, 0, 0, 0.4);
+}
+.icon-pc::before {
+  content: '';
+  position: absolute;
+  top: 4px; left: 6px;
+  width: 20px; height: 14px;
+  background: #4a8aba;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 2px #2a6a9a, inset 0 -4px 0 #1a4a7a;
+}
+.icon-pc::after {
+  content: '';
+  position: absolute;
+  bottom: -6px; left: 50%;
+  transform: translateX(-50%);
+  width: 14px; height: 6px;
+  background: #4a4a4a;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+.icon-pc .screen-glow {
+  position: absolute;
+  top: 6px; left: 8px;
+  width: 16px; height: 10px;
+  background: radial-gradient(circle, rgba(100, 200, 255, 0.5), transparent);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* ===== 回收站 — 老式纸篓 ===== */
+.icon-trash {
+  position: relative;
+  width: 34px;
+  height: 38px;
+  background: #8a7a6a;
+  border: 2px solid #6a5a4a;
+  border-radius: 0 0 6px 6px;
+  box-shadow: inset 0 -6px 0 #5a4a3a, 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+.icon-trash::before {
+  content: '';
+  position: absolute;
+  top: -8px; left: 50%;
+  transform: translateX(-50%);
+  width: 18px; height: 8px;
+  background: #8a7a6a;
+  border: 2px solid #6a5a4a;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+}
+.icon-trash::after {
+  content: '';
+  position: absolute;
+  top: -4px; left: 50%;
+  transform: translateX(-50%);
+  width: 10px; height: 4px;
+  background: #6a5a4a;
+  border-radius: 2px 2px 0 0;
+}
+.icon-trash .trash-lines {
+  position: absolute;
+  top: 6px; left: 50%;
+  transform: translateX(-50%);
+  width: 20px; height: 20px;
+  background: repeating-linear-gradient(0deg,
+    transparent 0px, transparent 4px,
+    #6a5a4a 4px, #6a5a4a 5px);
+  opacity: 0.4;
+}
+
+/* ===== 网络邻居 — 老式地球仪 ===== */
+.icon-network {
+  position: relative;
+  width: 42px;
+  height: 34px;
+}
+.icon-network .globe {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 28px; height: 28px;
+  background: radial-gradient(circle at 40% 35%, #4a8aba, #1a4a7a);
+  border-radius: 50%;
+  border: 2px solid #3a6a8a;
+  box-shadow: inset 0 -4px 0 #0a2a4a, 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+.icon-network .globe::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px; height: 14px;
+  border: 2px solid rgba(100, 200, 255, 0.3);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(100, 200, 255, 0.1);
+}
+.icon-network .globe::after {
+  content: '';
+  position: absolute;
+  top: 4px; left: 50%;
+  transform: translateX(-50%);
+  width: 20px; height: 20px;
+  background: repeating-linear-gradient(0deg,
+    transparent 0px, transparent 3px,
+    rgba(100, 200, 255, 0.12) 3px, rgba(100, 200, 255, 0.12) 4px);
+  border-radius: 50%;
+}
+.icon-network .net-stand {
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 6px; height: 6px;
+  background: #4a4a4a;
+  border-radius: 0 0 4px 4px;
 }
 
 .desktop-icon .label {
-  margin-top: 4px;
-  background: rgba(0, 0, 40, 0.5);
-  padding: 1px 6px;
+  margin-top: 2px;
+  background: rgba(0, 0, 40, 0.45);
+  padding: 0 6px;
   border-radius: 2px;
-  font-size: 12px;
+  font-size: 11px;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   font-weight: 700;
 }
 

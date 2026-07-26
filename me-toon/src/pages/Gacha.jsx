@@ -61,8 +61,8 @@ export default function Gacha() {
     setKnobAngle(a => a + 45)
     setTimeout(() => {
       setState('dispensing')
-      // 随机放大一颗扭蛋（模拟掉落）
-      setHighlightEgg(Math.floor(Math.random() * 10))
+      // 随机放大一颗扭蛋（模拟掉落）— 共 24 颗
+      setHighlightEgg(Math.floor(Math.random() * 24))
       setTimeout(() => {
         const newSpinCount = spinCount + 1
         setSpinCount(newSpinCount)
@@ -172,69 +172,92 @@ export default function Gacha() {
               </div>
             </div>
             <div className="gacha-body">
-              {/* ===== 扭蛋机本体（立体老式游戏厅风格） ===== */}
+              {/* ===== 扭蛋机本体 — 真实造型：透明玻璃球罩 + 红色底座 ===== */}
               <div className={`gacha-machine ${state === 'turning' ? 'shaking' : ''}`}>
 
-                {/* 透明穹顶 + 滚动扭蛋 */}
-                <div className="dome">
-                  <div className={`egg-container ${state === 'turning' ? 'fast-roll' : ''}`}>
-                    {Array.from({ length: 10 }).map((_, i) => (
+                {/* 透明玻璃球罩 + 错综复杂塞满的彩色扭蛋 */}
+                <div className="glass-dome">
+                  {/* 玻璃罩反光高光 */}
+                  <div className="dome-shine" />
+                  <div className="dome-shine-2" />
+
+                  {/* 扭蛋容器 — 24 颗错综复杂排列 */}
+                  <div className={`egg-cluster ${state === 'turning' ? 'fast-roll' : ''}`}>
+                    {EGG_POSITIONS.map((pos, i) => (
                       <div
                         key={i}
-                        className={`egg egg-${i + 1} ${highlightEgg === i ? 'highlighted' : ''}`}
+                        className={`egg egg-color-${(i % 12) + 1} ${highlightEgg === i ? 'highlighted' : ''}`}
+                        style={{
+                          left: pos.x,
+                          top: pos.y,
+                          width: pos.s,
+                          height: pos.s,
+                          transform: `rotate(${pos.r}deg)`,
+                          '--rot': `${pos.r}deg`,
+                          animationDelay: `${pos.d}s`,
+                          zIndex: pos.z,
+                        }}
                       />
                     ))}
                   </div>
                 </div>
 
-                {/* 中部控制面板 */}
-                <div className="control-panel">
-                  {/* 投币口 */}
-                  <button
-                    className={`coin-slot ${state === 'ready' ? 'glowing' : ''}`}
-                    onClick={handleInsertCoin}
-                    disabled={state !== 'idle'}
-                    title="投币口"
-                  >
-                    <span className="slot-hole" />
-                    <span className={`slot-light ${state === 'idle' ? 'blink' : ''} ${state === 'ready' ? 'ready-glow' : ''}`} />
-                    <span className="slot-label">投币</span>
-                  </button>
+                {/* 红色底座 */}
+                <div className="red-base">
+                  {/* 顶部金属环 */}
+                  <div className="metal-ring" />
 
-                  {/* 装饰灯 */}
-                  <div className="panel-lights">
-                    <span className="light light-1" />
-                    <span className="light light-2" />
-                    <span className="light light-3" />
+                  {/* 控制面板 */}
+                  <div className="control-panel">
+                    {/* 投币口 */}
+                    <button
+                      className={`coin-slot ${state === 'ready' ? 'glowing' : ''}`}
+                      onClick={handleInsertCoin}
+                      disabled={state !== 'idle'}
+                      title="投币口"
+                    >
+                      <span className="slot-hole" />
+                      <span className={`slot-light ${state === 'idle' ? 'blink' : ''} ${state === 'ready' ? 'ready-glow' : ''}`} />
+                      <span className="slot-label">投币</span>
+                    </button>
+
+                    {/* 装饰灯 */}
+                    <div className="panel-lights">
+                      <span className="light light-1" />
+                      <span className="light light-2" />
+                      <span className="light light-3" />
+                    </div>
+
+                    {/* 旋钮 */}
+                    <button
+                      className={`knob ${state === 'ready' ? 'glowing pulsing' : ''}`}
+                      onClick={handleTurnKnob}
+                      disabled={state !== 'ready'}
+                      title="扭动旋钮"
+                    >
+                      <span
+                        className="knob-body"
+                        style={{ transform: `rotate(${knobAngle}deg)` }}
+                      />
+                      <span className="knob-label">旋转</span>
+                    </button>
                   </div>
 
-                  {/* 旋钮 */}
-                  <button
-                    className={`knob ${state === 'ready' ? 'glowing pulsing' : ''}`}
-                    onClick={handleTurnKnob}
-                    disabled={state !== 'ready'}
-                    title="扭动旋钮"
-                  >
-                    <span
-                      className="knob-body"
-                      style={{ transform: `rotate(${knobAngle}deg)` }}
-                    />
-                    <span className="knob-label">旋转</span>
-                  </button>
-                </div>
-
-                {/* 底座 + 出货口 */}
-                <div className="base-section">
+                  {/* 出货口 */}
                   <div className="dispenser">
                     <div className={`rainbow-flash ${state === 'dispensing' ? 'active' : ''}`} />
                     <div className="dispenser-inner" />
                     <span className="dispenser-label">▼ 出货口</span>
                   </div>
+
+                  {/* 底座装饰脚 */}
                   <div className="feet">
                     <span className="foot" />
                     <span className="foot" />
-                    <span className="foot" />
                   </div>
+
+                  {/* 品牌标签 */}
+                  <div className="brand-label">GACHA</div>
                 </div>
 
                 {/* 投币动画 */}
@@ -295,6 +318,43 @@ function getTime() {
   const m = String(d.getMinutes()).padStart(2, '0')
   return `${h}:${m}`
 }
+
+/**
+ * 24 颗扭蛋的错综复杂位置 — 模拟玻璃罩被塞满的感觉
+ * x/y 为百分比定位，s 为尺寸，r 为旋转，d 为动画延迟，z 为层级
+ */
+const EGG_POSITIONS = [
+  // 顶层（z=1）
+  { x: '15%', y: '8%',  s: '28px', r: 12,  d: 0.0, z: 1 },
+  { x: '42%', y: '6%',  s: '26px', r: -8,  d: 0.3, z: 1 },
+  { x: '68%', y: '10%', s: '30px', r: 20,  d: 0.6, z: 1 },
+  // 第二层（z=2）
+  { x: '5%',  y: '28%', s: '32px', r: -15, d: 0.1, z: 2 },
+  { x: '28%', y: '24%', s: '30px', r: 6,   d: 0.4, z: 2 },
+  { x: '55%', y: '26%', s: '28px', r: -22, d: 0.7, z: 2 },
+  { x: '78%', y: '30%', s: '30px', r: 18,  d: 0.2, z: 2 },
+  // 第三层（z=3）
+  { x: '12%', y: '46%', s: '34px', r: -5,  d: 0.5, z: 3 },
+  { x: '38%', y: '44%', s: '32px', r: 25,  d: 0.8, z: 3 },
+  { x: '62%', y: '46%', s: '30px', r: -12, d: 0.0, z: 3 },
+  { x: '85%', y: '48%', s: '28px', r: 14,  d: 0.3, z: 3 },
+  // 第四层（z=4）
+  { x: '0%',  y: '64%', s: '32px', r: -18, d: 0.6, z: 4 },
+  { x: '22%', y: '62%', s: '34px', r: 8,   d: 0.9, z: 4 },
+  { x: '48%', y: '64%', s: '30px', r: -25, d: 0.2, z: 4 },
+  { x: '72%', y: '66%', s: '32px', r: 16,  d: 0.5, z: 4 },
+  // 第五层（z=5）
+  { x: '8%',  y: '80%', s: '28px', r: -10, d: 0.7, z: 5 },
+  { x: '32%', y: '82%', s: '30px', r: 22,  d: 0.1, z: 5 },
+  { x: '58%', y: '80%', s: '32px', r: -15, d: 0.4, z: 5 },
+  { x: '82%', y: '82%', s: '28px', r: 5,   d: 0.8, z: 5 },
+  // 散落点缀（z=2-4 之间）
+  { x: '50%', y: '14%', s: '22px', r: -30, d: 0.9, z: 2 },
+  { x: '88%', y: '20%', s: '20px', r: 35,  d: 0.2, z: 2 },
+  { x: '20%', y: '52%', s: '22px', r: -40, d: 0.6, z: 4 },
+  { x: '92%', y: '60%', s: '20px', r: 28,  d: 0.3, z: 4 },
+  { x: '45%', y: '88%', s: '24px', r: -8,  d: 0.5, z: 5 },
+]
 
 /**
  * 投币动画

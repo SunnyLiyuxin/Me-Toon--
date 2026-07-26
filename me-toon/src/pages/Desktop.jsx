@@ -82,13 +82,6 @@ export default function Desktop() {
     if (choice === 'gacha') navigate('/gacha')
   }
 
-  // 左上角桌面图标
-  const desktopIcons = [
-    { type: 'computer', icon: 'tv',       label: '我的电脑' },
-    { type: 'trash',    icon: 'box',      label: '回收站' },
-    { type: 'network',  icon: 'network',  label: '网络邻居' },
-  ]
-
   // 中央窗口 4 个入口
   const entries = [
     { type: 'theater', icon: 'clapperboard', name: '动画放映厅',   desc: '点击打开' },
@@ -103,32 +96,66 @@ export default function Desktop() {
       <div className="win98-monitor">
         <div className="win98-screen">
 
-          {/* ===== 桌面背景：蓝天 + 绿坡 + 白云 ===== */}
+          {/* ===== 桌面背景：XP 蓝天绿地 ===== */}
           <div className="desktop-bg">
             <div className="sun" />
             <div className="cloud cloud-1" />
             <div className="cloud cloud-2" />
             <div className="cloud cloud-3" />
+            <div className="cloud cloud-4" />
             <div className="hill hill-1" />
             <div className="hill hill-2" />
             <div className="hill hill-3" />
             <div className="grass" />
           </div>
 
-          {/* ===== 左上角桌面图标 ===== */}
+          {/* ===== 左上角桌面图标 — 老式 Win98/2000 像素风 ===== */}
           <div className="desktop-icons">
-            {desktopIcons.map(d => (
-              <div
-                key={d.type}
-                className="desktop-icon"
-                onClick={() => handleDesktopIconClick(d.type)}
-                onDoubleClick={() => handleDesktopIconClick(d.type)}
-                tabIndex={0}
-              >
-                <SvgIcon name={d.icon} size={36} color="#FFFFFF" strokeWidth={1.6} className="desktop-icon-svg" />
-                <span className="label">{d.label}</span>
+            {/* 我的电脑 — CRT 显示器 */}
+            <div
+              className="desktop-icon"
+              onClick={() => handleDesktopIconClick('computer')}
+              onDoubleClick={() => handleDesktopIconClick('computer')}
+              tabIndex={0}
+            >
+              <div className="icon-wrap">
+                <div className="icon-pc">
+                  <div className="screen-glow" />
+                </div>
               </div>
-            ))}
+              <span className="label">我的电脑</span>
+            </div>
+
+            {/* 回收站 — 纸篓 */}
+            <div
+              className="desktop-icon"
+              onClick={() => handleDesktopIconClick('trash')}
+              onDoubleClick={() => handleDesktopIconClick('trash')}
+              tabIndex={0}
+            >
+              <div className="icon-wrap">
+                <div className="icon-trash">
+                  <div className="trash-lines" />
+                </div>
+              </div>
+              <span className="label">回收站</span>
+            </div>
+
+            {/* 网络邻居 — 地球仪 */}
+            <div
+              className="desktop-icon"
+              onClick={() => handleDesktopIconClick('network')}
+              onDoubleClick={() => handleDesktopIconClick('network')}
+              tabIndex={0}
+            >
+              <div className="icon-wrap">
+                <div className="icon-network">
+                  <div className="globe" />
+                  <div className="net-stand" />
+                </div>
+              </div>
+              <span className="label">网络邻居</span>
+            </div>
           </div>
 
           {/* ===== 中央主窗口 ===== */}
