@@ -7,9 +7,13 @@ import cartoonsData from '../data/cartoons.json'
 import './Gacha.css'
 
 /**
- * 扭蛋机页面 — 千禧梦幻形态
- * 4 个交互状态：待机 → 投币 → 扭动旋钮 → 出货
- * 视觉：粉色梦幻背景 + 透明穹顶扭蛋机 + 滚动扭蛋 + 底座
+ * 扭蛋机页面 — Win98 梦核像素桌面风格
+ * - 柔和蓝天 + 低像素云 + 梦幻绿坡 + 发光太阳 + 像素小树
+ * - 左上角桌面图标
+ * - 中央扭蛋机窗口（蓝色标题栏 + 窗口控制按钮）
+ * - 底部任务栏（开始按钮 + 窗口标签 + 时间/音量）
+ * - 柔光 + 噪点 + 扫描线叠加层
+ * 交互：待机 → 投币 → 扭动旋钮 → 出货
  */
 export default function Gacha() {
   const navigate = useNavigate()
@@ -20,6 +24,13 @@ export default function Gacha() {
   const [isEasterEgg, setIsEasterEgg] = useState(false)
   const [spinCount, setSpinCount] = useState(0)
   const [coinAnimation, setCoinAnimation] = useState(false)
+  const [time, setTime] = useState(getTime())
+
+  // 实时时间
+  useEffect(() => {
+    const timer = setInterval(() => setTime(getTime()), 1000)
+    return () => clearInterval(timer)
+  }, [])
 
   // 检测是否从 QQ 彩蛋进入
   useEffect(() => {
@@ -77,114 +88,167 @@ export default function Gacha() {
     setState('idle')
   }
 
+  // 状态文案
+  const stateText = {
+    idle: '点击投币口开始',
+    inserting: '投币中...',
+    ready: '旋钮已就绪，扭动它！',
+    turning: '扭动中...',
+    dispensing: '出货中...',
+  }[state]
+
+  // 状态指示图标
+  const stateIcon = {
+    idle: 'game',
+    inserting: 'hourglass',
+    ready: 'sparkle',
+    turning: 'swirl',
+    dispensing: 'box',
+  }[state]
+
   return (
     <Viewport className="page-gacha">
-      {/* ===== 千禧梦幻背景层 ===== */}
-      <div className="gacha-dream-frame">
-        <div className="gacha-dream-base" />
-        <div className="gacha-dream-glow-1" />
-        <div className="gacha-dream-glow-2" />
-        <div className="gacha-dream-noise" />
-        <div className="gacha-dream-scanline" />
-        <div className="gacha-dream-flicker" />
-      </div>
+      {/* ===== 显示器外框 ===== */}
+      <div className="win98-monitor">
+        <div className="win98-screen">
 
-      <BackToDesktopButton />
-
-      {/* 顶部标题提示 */}
-      <div className="gacha-hint">
-        {state === 'idle' && (
-          <>
-            <SvgIcon name="game" size={18} color="#FFB6C9" />
-            <span>点击投币口开始</span>
-          </>
-        )}
-        {state === 'inserting' && (
-          <>
-            <SvgIcon name="hourglass" size={18} color="#FFB6C9" />
-            <span>投币中...</span>
-          </>
-        )}
-        {state === 'ready' && (
-          <>
-            <SvgIcon name="sparkle" size={18} color="#FFB6C9" />
-            <span>旋钮已就绪，扭动它！</span>
-          </>
-        )}
-        {state === 'turning' && (
-          <>
-            <SvgIcon name="swirl" size={18} color="#FFB6C9" />
-            <span>扭动中...</span>
-          </>
-        )}
-        {state === 'dispensing' && (
-          <>
-            <SvgIcon name="box" size={18} color="#FFB6C9" />
-            <span>出货中...</span>
-          </>
-        )}
-      </div>
-
-      {/* ===== 扭蛋机主体（CSS 绘制） ===== */}
-      <div className={`gacha-machine ${state === 'turning' ? 'shaking' : ''}`}>
-        {/* 透明穹顶 + 滚动扭蛋 */}
-        <div className="dome">
-          <div className={`egg-container ${state === 'turning' ? 'fast-roll' : ''}`}>
-            <div className="egg egg-1" />
-            <div className="egg egg-2" />
-            <div className="egg egg-3" />
-            <div className="egg egg-4" />
-            <div className="egg egg-5" />
-            <div className="egg egg-6" />
-            <div className="egg egg-7" />
-            <div className="egg egg-8" />
-            <div className="egg egg-9" />
-            <div className="egg egg-10" />
+          {/* ===== 桌面背景：柔和蓝天 + 云 + 绿坡 + 太阳 + 小树 ===== */}
+          <div className="desktop-bg">
+            <div className="sun" />
+            <div className="cloud cloud-1" />
+            <div className="cloud cloud-2" />
+            <div className="cloud cloud-3" />
+            <div className="cloud cloud-4" />
+            <div className="hill hill-1" />
+            <div className="hill hill-2" />
+            <div className="hill hill-3" />
+            <div className="grass" />
+            <div className="tree tree-1" />
+            <div className="tree tree-2" />
           </div>
-          {/* 穹顶高光 */}
-          <div className="dome-shine" />
-        </div>
 
-        {/* 中部控制面板：投币口 + 旋钮 */}
-        <div className="control-panel">
-          <button
-            className={`coin-slot ${state === 'ready' ? 'glowing' : ''}`}
-            onClick={handleInsertCoin}
-            disabled={state !== 'idle'}
-            title="投币口"
-          >
-            <SvgIcon name="coin" size={22} color="#8a4a60" />
-            <span className="coin-slot-label">投币</span>
+          {/* ===== 左上角桌面图标 ===== */}
+          <div className="desktop-icons">
+            <div className="desktop-icon" onClick={() => navigate('/')}>
+              <SvgIcon name="tv" size={32} color="#FFFFFF" strokeWidth={1.6} />
+              <span className="label">我的电脑</span>
+            </div>
+            <div className="desktop-icon" onClick={() => navigate('/collection')}>
+              <SvgIcon name="box" size={32} color="#FFFFFF" strokeWidth={1.6} />
+              <span className="label">回收站</span>
+            </div>
+          </div>
+
+          {/* ===== 返回桌面按钮 ===== */}
+          <button className="back-btn" onClick={() => navigate('/')}>
+            <SvgIcon name="back" size={14} color="#000080" />
+            <span>返回桌面</span>
           </button>
 
-          <button
-            className={`knob ${state === 'ready' ? 'glowing pulsing' : ''} ${state === 'turning' ? 'spinning' : ''}`}
-            onClick={handleTurnKnob}
-            disabled={state !== 'ready'}
-            title="扭动旋钮"
-          >
-            <span className="knob-inner" />
-          </button>
-        </div>
+          {/* ===== 顶部状态提示 ===== */}
+          <div className="gacha-hint">
+            <SvgIcon name={stateIcon} size={16} color="#000080" />
+            <span>{stateText}</span>
+          </div>
 
-        {/* 底座 + 出货口 */}
-        <div className="base">
-          <div className={`dispensing-slot ${state === 'dispensing' ? 'flashing' : ''}`} />
-          <span className="base-deco">✦</span>
-        </div>
+          {/* ===== 扭蛋机窗口（Win98 窗口） ===== */}
+          <div className="gacha-window">
+            <div className="window-titlebar">
+              <span className="title">
+                <SvgIcon name="game" size={16} color="#FFFFFF" />
+                <span>扭蛋机 · 运行中</span>
+              </span>
+              <div className="window-controls">
+                <button className="win-ctrl" title="最小化">—</button>
+                <button className="win-ctrl" title="最大化">□</button>
+                <button className="win-ctrl close" title="关闭" onClick={() => navigate('/')}>✕</button>
+              </div>
+            </div>
+            <div className="gacha-body">
+              {/* 扭蛋机主体 */}
+              <div className={`gacha-machine ${state === 'turning' ? 'shaking' : ''}`}>
+                {/* 透明穹顶 + 滚动扭蛋 */}
+                <div className="dome">
+                  <div className={`egg-container ${state === 'turning' ? 'fast-roll' : ''}`}>
+                    <div className="egg egg-1" />
+                    <div className="egg egg-2" />
+                    <div className="egg egg-3" />
+                    <div className="egg egg-4" />
+                    <div className="egg egg-5" />
+                    <div className="egg egg-6" />
+                    <div className="egg egg-7" />
+                    <div className="egg egg-8" />
+                    <div className="egg egg-9" />
+                    <div className="egg egg-10" />
+                  </div>
+                  <div className="dome-shine" />
+                </div>
 
-        {/* 投币动画 */}
-        {coinAnimation && <CoinDrop />}
+                {/* 中部控制面板：投币口 + 旋钮 */}
+                <div className="control-panel">
+                  <button
+                    className={`coin-slot ${state === 'ready' ? 'glowing' : ''}`}
+                    onClick={handleInsertCoin}
+                    disabled={state !== 'idle'}
+                    title="投币口"
+                  >
+                    <SvgIcon name="coin" size={20} color="#8a4a60" />
+                    <span className="coin-slot-label">投币</span>
+                  </button>
+
+                  <button
+                    className={`knob ${state === 'ready' ? 'glowing pulsing' : ''} ${state === 'turning' ? 'spinning' : ''}`}
+                    onClick={handleTurnKnob}
+                    disabled={state !== 'ready'}
+                    title="扭动旋钮"
+                  >
+                    <span className="knob-inner" />
+                  </button>
+                </div>
+
+                {/* 底座 + 出货口 */}
+                <div className="base">
+                  <div className={`dispensing-slot ${state === 'dispensing' ? 'flashing' : ''}`} />
+                  <span className="base-deco">✦ 扭蛋</span>
+                </div>
+
+                {/* 投币动画 */}
+                {coinAnimation && <CoinDrop />}
+              </div>
+
+              {/* 出货特效 */}
+              {state === 'dispensing' && <DispenseEffect />}
+
+              {/* 扭动时的彩色粒子 */}
+              {state === 'turning' && <ParticleExplosion />}
+            </div>
+          </div>
+
+          {/* ===== 底部任务栏 ===== */}
+          <div className="taskbar">
+            <button className="start-btn" onClick={() => navigate('/')}>
+              <SvgIcon name="flag" size={16} color="#000080" />
+              <span>开始</span>
+            </button>
+            <div className="task-items">
+              <div className="task-item active">
+                <SvgIcon name="game" size={14} color="#000080" />
+                <span>扭蛋机 · 运行中</span>
+              </div>
+            </div>
+            <div className="task-right">
+              <SvgIcon name="volume" size={14} color="#000" />
+              <span>{time}</span>
+            </div>
+          </div>
+
+          {/* ===== 叠加层 ===== */}
+          <div className="glow-overlay" />
+          <div className="noise-overlay" />
+          <div className="scanline" />
+
+        </div>
       </div>
-
-      {/* 出货特效 */}
-      {state === 'dispensing' && <DispenseEffect />}
-
-      {/* 扭动时的彩色粒子 */}
-      {state === 'turning' && <ParticleExplosion />}
-
-      {/* 水印 */}
-      <div className="gacha-watermark">✦ 千禧扭蛋 · 像素幻境 ✦</div>
 
       {/* 结果展示弹窗 */}
       {showResult && (
@@ -198,6 +262,13 @@ export default function Gacha() {
       )}
     </Viewport>
   )
+}
+
+function getTime() {
+  const d = new Date()
+  const h = String(d.getHours()).padStart(2, '0')
+  const m = String(d.getMinutes()).padStart(2, '0')
+  return `${h}:${m}`
 }
 
 /**
