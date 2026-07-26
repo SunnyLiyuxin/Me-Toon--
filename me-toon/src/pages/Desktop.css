@@ -1,47 +1,303 @@
+/* ============================================================
+   千禧幻境 · 朦胧光晕 — 主页面
+   完整移植用户设计稿，适配 1280×960 视口
+   ============================================================ */
+
 .page-desktop {
   position: relative;
   overflow: hidden;
+  background: #fce8f0;
 }
 
-/* Bliss 蓝天白云背景（真实壁纸图） */
-.desktop-bg {
+/* ===== 主画框 ===== */
+.dream-frame {
   position: absolute;
   inset: 0;
-  background-image: url('/assets/images/desktop/bliss-bg.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: radial-gradient(circle at 70% 30%, #fff0f5 0%, #ffe9f0 25%, #ffd9e5 55%, #fce4ec 85%);
+  overflow: hidden;
 }
 
-/* 品牌标志卡片（右上角） */
-.brand-card {
+/* 光晕 + 漏光层 (screen 混合) */
+.dream-glow-1 {
   position: absolute;
-  top: 30px;
-  right: 30px;
-  background: rgba(236, 233, 216, 0.85);
-  border: 1px solid #FFFFFF;
-  padding: 12px 18px;
-  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(255, 240, 200, 0.5) 0%, transparent 60%),
+    radial-gradient(ellipse at 90% 20%, rgba(255, 220, 240, 0.6) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 2;
+  mix-blend-mode: screen;
+}
+
+/* 第二层弥散光晕 (soft-light) */
+.dream-glow-2 {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 70%, rgba(255, 200, 180, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 40%, rgba(255, 230, 180, 0.3) 0%, transparent 45%);
+  filter: blur(28px);
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: soft-light;
+}
+
+/* ===== 噪点雪花层 ===== */
+.dream-noise {
+  position: absolute;
+  inset: 0;
   z-index: 10;
+  pointer-events: none;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
 }
 
-.brand-title {
-  font-family: var(--font-en);
-  font-size: 24px;
-  font-weight: 800;
-  color: var(--titlebar-blue);
-  letter-spacing: 1px;
+/* ===== 扫描线 ===== */
+.dream-scanline {
+  position: absolute;
+  inset: 0;
+  z-index: 11;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 255, 0.04) 2px,
+    rgba(255, 255, 255, 0.04) 4px
+  );
+  animation: dream-scan-move 0.12s linear infinite;
+  mix-blend-mode: overlay;
 }
 
-.brand-subtitle {
-  font-family: var(--font-cn);
-  font-size: 16px;
-  color: #333333;
-  margin-top: 4px;
-  font-weight: 700;
+@keyframes dream-scan-move {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
 }
 
-/* 桌面图标点击后的选择窗口 */
+/* ===== 闪烁干扰 ===== */
+.dream-flicker {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  pointer-events: none;
+  background: rgba(255, 200, 220, 0.02);
+  opacity: 0.3;
+  animation: dream-flicker 3.2s infinite;
+  mix-blend-mode: lighten;
+}
+
+@keyframes dream-flicker {
+  0% { opacity: 0.1; }
+  10% { opacity: 0.3; }
+  11% { opacity: 0.05; }
+  12% { opacity: 0.25; }
+  20% { opacity: 0.1; }
+  50% { opacity: 0.15; }
+  60% { opacity: 0.3; }
+  61% { opacity: 0.08; }
+  70% { opacity: 0.2; }
+  100% { opacity: 0.1; }
+}
+
+/* ===== 顶部品牌标 ===== */
+.dream-brand {
+  position: absolute;
+  top: 28px;
+  left: 40px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: none;
+}
+
+.dream-brand-title {
+  font-size: 30px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, #fff8fa 0%, #ffd0e0 80%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 30px rgba(255, 200, 220, 0.6);
+}
+
+.dream-brand-sub {
+  font-size: 15px;
+  font-weight: 350;
+  letter-spacing: 0.15em;
+  color: rgba(255, 220, 235, 0.85);
+  text-shadow: 0 0 20px rgba(255, 200, 220, 0.5);
+}
+
+/* ============================================================
+   2x2 卡片网格
+   ============================================================ */
+.dream-grid {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 24px 32px;
+  padding: 110px 90px 80px;
+  align-items: center;
+  justify-items: center;
+}
+
+/* ============================================================
+   单张毛玻璃卡片
+   ============================================================ */
+.dream-card {
+  width: 100%;
+  height: 100%;
+  max-width: 380px;
+  max-height: 220px;
+  background: rgba(255, 245, 248, 0.25);
+  backdrop-filter: blur(12px) saturate(1.4);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  border-radius: 48px 16px 48px 16px;
+  border: 1px solid rgba(255, 240, 245, 0.55);
+  box-shadow:
+    0 8px 32px rgba(255, 180, 200, 0.25),
+    inset 0 0 40px rgba(255, 255, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 28px;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  overflow: hidden;
+  outline: none;
+}
+
+.dream-card:focus-visible {
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+/* 卡片图标 */
+.dream-card-icon {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(255, 200, 220, 0.4);
+}
+
+.dream-card-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+/* 卡片主标题 — 渐变光晕文字 */
+.dream-card-label {
+  font-size: 26px;
+  font-weight: 350;
+  letter-spacing: 0.04em;
+  background: linear-gradient(135deg, #fff8fa 0%, #ffe2ec 80%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 30px rgba(255, 200, 220, 0.5);
+  line-height: 1.2;
+}
+
+.dream-card-sub {
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  color: rgba(255, 220, 235, 0.7);
+  text-transform: uppercase;
+}
+
+/* 千禧指示灯小点 */
+.dream-card-dot {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  width: 10px;
+  height: 10px;
+  background: #ffe8f0;
+  border-radius: 50%;
+  box-shadow: 0 0 20px #ffb6c9, 0 0 60px #ffa5b9;
+  opacity: 0.7;
+  animation: dream-pulse-dot 2.8s ease-in-out infinite;
+}
+
+@keyframes dream-pulse-dot {
+  0% { opacity: 0.3; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 40px #ffb0c8; }
+  100% { opacity: 0.3; transform: scale(0.9); }
+}
+
+/* 悬停：光晕炸裂 + 浮起 */
+.dream-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  background: rgba(255, 245, 248, 0.45);
+  backdrop-filter: blur(18px) saturate(1.6);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  box-shadow:
+    0 0 60px rgba(255, 200, 220, 0.6),
+    0 0 120px rgba(255, 180, 200, 0.3),
+    inset 0 0 60px rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.dream-card:hover .dream-card-label {
+  text-shadow: 0 0 60px rgba(255, 220, 240, 0.9), 0 0 120px rgba(255, 200, 220, 0.6);
+}
+
+/* 每张卡片微调偏移 — 错落有致 */
+.dream-card-1 { transform: rotate(-1.2deg) translateY(-4px); }
+.dream-card-2 { transform: rotate(1.8deg) translateY(6px); }
+.dream-card-3 { transform: rotate(2.5deg) translateY(-6px); }
+.dream-card-4 { transform: rotate(-0.8deg) translateY(8px); }
+
+.dream-card-1:hover { transform: rotate(-0.8deg) translateY(-12px) scale(1.02); }
+.dream-card-2:hover { transform: rotate(1.2deg) translateY(-10px) scale(1.02); }
+.dream-card-3:hover { transform: rotate(1.8deg) translateY(-12px) scale(1.02); }
+.dream-card-4:hover { transform: rotate(-0.3deg) translateY(-10px) scale(1.02); }
+
+/* ============================================================
+   装饰水印
+   ============================================================ */
+.dream-watermark {
+  position: absolute;
+  bottom: 50px;
+  right: 30px;
+  z-index: 15;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: rgba(255, 220, 235, 0.4);
+  font-weight: 200;
+  text-transform: uppercase;
+  backdrop-filter: blur(2px);
+  padding: 4px 14px;
+  border-radius: 40px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  pointer-events: none;
+}
+
+/* ============================================================
+   选择弹窗（保留 XP 风格，与梦幻背景对比）
+   ============================================================ */
 .desktop-chooser {
   text-align: center;
   padding: 24px 16px;

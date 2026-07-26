@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Viewport from '../components/Viewport.jsx'
-import DesktopIcon from '../components/DesktopIcon.jsx'
 import Taskbar from '../components/Taskbar.jsx'
 import StartMenu from '../components/StartMenu.jsx'
 import WelcomePopup from '../components/WelcomePopup.jsx'
@@ -29,15 +28,13 @@ export default function Desktop() {
     if (choice === 'gacha') {
       navigate('/gacha')
     } else {
-      // 关闭后弹出选择窗口（设计文档要求）
       setShowChooser(true)
     }
   }
 
-  const handleIconClick = (type) => {
+  const handleCardClick = (type) => {
     switch (type) {
       case 'tv':
-        // 点击电视图标：弹出选择窗口
         setShowChooser(true)
         break
       case 'diary':
@@ -52,7 +49,7 @@ export default function Desktop() {
     }
   }
 
-  const handleIconDoubleClick = (type) => {
+  const handleCardDoubleClick = (type) => {
     if (type === 'tv') navigate('/gacha')
   }
 
@@ -61,43 +58,61 @@ export default function Desktop() {
     if (choice === 'gacha') navigate('/gacha')
   }
 
+  // 4 张卡片配置（对应原 4 个桌面图标入口）
+  const cards = [
+    { type: 'tv',    icon: 'tv',    label: '动画放映厅',   sub: 'Animation Theater' },
+    { type: 'mp3',   icon: 'music', label: '时光点歌台',   sub: 'Time Jukebox' },
+    { type: 'diary', icon: 'diary', label: '我的记忆抽屉', sub: 'Memory Drawer' },
+    { type: 'globe', icon: 'globe', label: '数据流漫游',   sub: 'Data Stream' },
+  ]
+
   return (
     <Viewport className="page-desktop">
-      {/* 桌面 Bliss 背景 */}
-      <div className="desktop-bg" />
+      {/* ===== 千禧幻境背景层 ===== */}
+      <div className="dream-frame">
+        {/* 粉色径向渐变基底 */}
+        <div className="dream-base" />
+        {/* 光晕 + 漏光层 */}
+        <div className="dream-glow-1" />
+        <div className="dream-glow-2" />
+        {/* 噪点雪花 */}
+        <div className="dream-noise" />
+        {/* 扫描线 */}
+        <div className="dream-scanline" />
+        {/* 闪烁干扰 */}
+        <div className="dream-flicker" />
 
-      {/* 品牌标志 右上角 */}
-      <div className="brand-card anim-breath">
-        <div className="brand-title">Me-Toon</div>
-        <div className="brand-subtitle">这集，我也看过</div>
+        {/* 顶部品牌标 */}
+        <div className="dream-brand">
+          <span className="dream-brand-title">✦ Me-Toon</span>
+          <span className="dream-brand-sub">这集，我也看过</span>
+        </div>
+
+        {/* ===== 2x2 卡片网格 ===== */}
+        <div className="dream-grid">
+          {cards.map((c, idx) => (
+            <div
+              key={c.type}
+              className={`dream-card dream-card-${idx + 1}`}
+              onClick={() => handleCardClick(c.type)}
+              onDoubleClick={() => handleCardDoubleClick(c.type)}
+              tabIndex={0}
+            >
+              <div className="dream-card-icon">
+                <SvgIcon name={c.icon} size={36} color="#FFFFFF" strokeWidth={1.6} />
+              </div>
+              <div className="dream-card-text">
+                <span className="dream-card-label">✦ {c.label}</span>
+                <span className="dream-card-sub">{c.sub}</span>
+              </div>
+              <span className="dream-card-dot" />
+            </div>
+          ))}
+        </div>
+
+        {/* 极淡装饰水印 */}
+        <div className="dream-watermark">✦ 千禧幻境 · 低像素光晕 ✦</div>
       </div>
-
-      {/* 桌面图标 */}
-      <DesktopIcon
-        type="tv"
-        label="动画放映厅"
-        onClick={() => handleIconClick('tv')}
-        onDoubleClick={() => handleIconDoubleClick('tv')}
-        style={{ top: 100, left: 100 }}
-      />
-      <DesktopIcon
-        type="diary"
-        label="我的记忆抽屉"
-        onClick={() => handleIconClick('diary')}
-        style={{ top: 240, left: 100 }}
-      />
-      <DesktopIcon
-        type="mp3"
-        label="时光点歌台"
-        onClick={() => handleIconClick('mp3')}
-        style={{ top: 380, left: 100 }}
-      />
-      <DesktopIcon
-        type="globe"
-        label="数据流漫游"
-        onClick={() => handleIconClick('globe')}
-        style={{ top: 520, left: 100 }}
-      />
 
       {/* 欢迎弹窗 */}
       {showWelcome && <WelcomePopup onClose={handleWelcomeClose} />}
@@ -113,7 +128,7 @@ export default function Desktop() {
       {/* 开始菜单 */}
       <StartMenu open={startOpen} onClose={() => setStartOpen(false)} />
 
-      {/* 任务栏 */}
+      {/* 任务栏（融入底部） */}
       <Taskbar
         onStartClick={() => setStartOpen(!startOpen)}
         isStartOpen={startOpen}
@@ -123,7 +138,7 @@ export default function Desktop() {
 }
 
 /**
- * 选择寻找方式弹窗（点击电视图标后弹出）
+ * 选择寻找方式弹窗（点击电视卡片后弹出）
  */
 function ChooserPopup({ onClose }) {
   const navigate = useNavigate()

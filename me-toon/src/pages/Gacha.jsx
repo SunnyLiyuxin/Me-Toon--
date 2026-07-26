@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import Viewport, { BackToDesktopButton } from '../components/Viewport.jsx'
 import XpWindow from '../components/XpWindow.jsx'
@@ -7,9 +7,9 @@ import cartoonsData from '../data/cartoons.json'
 import './Gacha.css'
 
 /**
- * 扭蛋机页面
+ * 扭蛋机页面 — 千禧梦幻形态
  * 4 个交互状态：待机 → 投币 → 扭动旋钮 → 出货
- * 包含结果展示弹窗 + 大风车彩蛋
+ * 视觉：粉色梦幻背景 + 透明穹顶扭蛋机 + 滚动扭蛋 + 底座
  */
 export default function Gacha() {
   const navigate = useNavigate()
@@ -33,7 +33,6 @@ export default function Gacha() {
     if (state !== 'idle') return
     setState('inserting')
     setCoinAnimation(true)
-    // 2s 后进入可扭动状态
     setTimeout(() => {
       setState('ready')
       setCoinAnimation(false)
@@ -44,19 +43,14 @@ export default function Gacha() {
   const handleTurnKnob = () => {
     if (state !== 'ready') return
     setState('turning')
-    // 1.5s 旋转后出货
     setTimeout(() => {
       setState('dispensing')
-      // 1.2s 出货动画后展示结果
       setTimeout(() => {
-        // 决定结果
         const newSpinCount = spinCount + 1
         setSpinCount(newSpinCount)
-        // 第5次扭蛋触发大风车彩蛋
         if (isEasterEgg || newSpinCount === 5) {
           setIsEasterEgg(true)
         }
-        // 随机选择一部动画
         const cartoon = cartoonsData.cartoons[
           Math.floor(Math.random() * cartoonsData.cartoons.length)
         ]
@@ -66,20 +60,17 @@ export default function Gacha() {
     }, 1500)
   }
 
-  // 关闭结果弹窗
   const handleCloseResult = () => {
     setShowResult(false)
     setResultCartoon(null)
     setState('idle')
   }
 
-  // 进入观看
   const handleWatch = () => {
     setShowResult(false)
     navigate('/detail')
   }
 
-  // 再抽一次
   const handleRetry = () => {
     setShowResult(false)
     setResultCartoon(null)
@@ -88,76 +79,99 @@ export default function Gacha() {
 
   return (
     <Viewport className="page-gacha">
-      {/* 星空背景 */}
-      <div className="gacha-bg" />
-      {/* 地板 */}
-      <div className="gacha-floor" />
-      {/* 小卖部霓虹招牌 */}
-      <div className="neon-sign anim-breath">星际小卖部</div>
+      {/* ===== 千禧梦幻背景层 ===== */}
+      <div className="gacha-dream-frame">
+        <div className="gacha-dream-base" />
+        <div className="gacha-dream-glow-1" />
+        <div className="gacha-dream-glow-2" />
+        <div className="gacha-dream-noise" />
+        <div className="gacha-dream-scanline" />
+        <div className="gacha-dream-flicker" />
+      </div>
 
       <BackToDesktopButton />
 
-      {/* 标题提示 */}
+      {/* 顶部标题提示 */}
       <div className="gacha-hint">
         {state === 'idle' && (
           <>
-            <SvgIcon name="game" size={18} color="#FFCC00" />
+            <SvgIcon name="game" size={18} color="#FFB6C9" />
             <span>点击投币口开始</span>
           </>
         )}
         {state === 'inserting' && (
           <>
-            <SvgIcon name="hourglass" size={18} color="#FFCC00" />
+            <SvgIcon name="hourglass" size={18} color="#FFB6C9" />
             <span>投币中...</span>
           </>
         )}
         {state === 'ready' && (
           <>
-            <SvgIcon name="sparkle" size={18} color="#FFCC00" />
+            <SvgIcon name="sparkle" size={18} color="#FFB6C9" />
             <span>旋钮已就绪，扭动它！</span>
           </>
         )}
         {state === 'turning' && (
           <>
-            <SvgIcon name="swirl" size={18} color="#FFCC00" />
+            <SvgIcon name="swirl" size={18} color="#FFB6C9" />
             <span>扭动中...</span>
           </>
         )}
         {state === 'dispensing' && (
           <>
-            <SvgIcon name="box" size={18} color="#FFCC00" />
+            <SvgIcon name="box" size={18} color="#FFB6C9" />
             <span>出货中...</span>
           </>
         )}
       </div>
 
-      {/* 扭蛋机主体 */}
-      <div className={`gacha-machine anim-float ${state === 'turning' ? 'shaking' : ''}`}>
-        <img src="./assets/images/gacha/gacha-machine.png" alt="扭蛋机" />
-
-        {/* 投币口（点击区域） */}
-        <button
-          className={`click-zone coin-slot ${state === 'ready' ? 'glowing' : ''}`}
-          onClick={handleInsertCoin}
-          disabled={state !== 'idle'}
-          title="投币口"
-        />
-
-        {/* 旋钮（点击区域） */}
-        <button
-          className={`click-zone knob ${state === 'ready' ? 'glowing pulsing' : ''} ${state === 'turning' ? 'spinning' : ''}`}
-          onClick={handleTurnKnob}
-          disabled={state !== 'ready'}
-          title="扭动旋钮"
-        />
-
-        {/* 球仓内星球（漂浮动画） */}
-        <div className={`planet-container ${state === 'turning' ? 'fast-spin' : ''}`}>
-          <FloatingPlanets />
+      {/* ===== 扭蛋机主体（CSS 绘制） ===== */}
+      <div className={`gacha-machine ${state === 'turning' ? 'shaking' : ''}`}>
+        {/* 透明穹顶 + 滚动扭蛋 */}
+        <div className="dome">
+          <div className={`egg-container ${state === 'turning' ? 'fast-roll' : ''}`}>
+            <div className="egg egg-1" />
+            <div className="egg egg-2" />
+            <div className="egg egg-3" />
+            <div className="egg egg-4" />
+            <div className="egg egg-5" />
+            <div className="egg egg-6" />
+            <div className="egg egg-7" />
+            <div className="egg egg-8" />
+            <div className="egg egg-9" />
+            <div className="egg egg-10" />
+          </div>
+          {/* 穹顶高光 */}
+          <div className="dome-shine" />
         </div>
 
-        {/* 出货口（出货时高亮） */}
-        <div className={`click-zone dispensing-slot ${state === 'dispensing' ? 'flashing' : ''}`} />
+        {/* 中部控制面板：投币口 + 旋钮 */}
+        <div className="control-panel">
+          <button
+            className={`coin-slot ${state === 'ready' ? 'glowing' : ''}`}
+            onClick={handleInsertCoin}
+            disabled={state !== 'idle'}
+            title="投币口"
+          >
+            <SvgIcon name="coin" size={22} color="#8a4a60" />
+            <span className="coin-slot-label">投币</span>
+          </button>
+
+          <button
+            className={`knob ${state === 'ready' ? 'glowing pulsing' : ''} ${state === 'turning' ? 'spinning' : ''}`}
+            onClick={handleTurnKnob}
+            disabled={state !== 'ready'}
+            title="扭动旋钮"
+          >
+            <span className="knob-inner" />
+          </button>
+        </div>
+
+        {/* 底座 + 出货口 */}
+        <div className="base">
+          <div className={`dispensing-slot ${state === 'dispensing' ? 'flashing' : ''}`} />
+          <span className="base-deco">✦</span>
+        </div>
 
         {/* 投币动画 */}
         {coinAnimation && <CoinDrop />}
@@ -168,6 +182,9 @@ export default function Gacha() {
 
       {/* 扭动时的彩色粒子 */}
       {state === 'turning' && <ParticleExplosion />}
+
+      {/* 水印 */}
+      <div className="gacha-watermark">✦ 千禧扭蛋 · 像素幻境 ✦</div>
 
       {/* 结果展示弹窗 */}
       {showResult && (
@@ -184,45 +201,12 @@ export default function Gacha() {
 }
 
 /**
- * 漂浮的记忆星球（球仓内）
- */
-function FloatingPlanets() {
-  const planets = [
-    { color: '#FF6699', top: '10%', left: '20%', delay: '0s' },
-    { color: '#0054E3', top: '20%', left: '60%', delay: '0.5s' },
-    { color: '#FFCC00', top: '40%', left: '30%', delay: '1s' },
-    { color: '#33FF33', top: '35%', left: '70%', delay: '1.5s' },
-    { color: '#CC66FF', top: '55%', left: '50%', delay: '0.3s' },
-    { color: '#FF6699', top: '60%', left: '20%', delay: '0.8s' },
-    { color: '#FFCC00', top: '15%', left: '45%', delay: '1.3s' },
-  ]
-  return (
-    <>
-      {planets.map((p, i) => (
-        <div
-          key={i}
-          className="floating-planet"
-          style={{
-            background: p.color,
-            top: p.top,
-            left: p.left,
-            animationDelay: p.delay,
-          }}
-        />
-      ))}
-    </>
-  )
-}
-
-/**
- * 投币动画 - 像素硬币从上方掉落
+ * 投币动画
  */
 function CoinDrop() {
   return (
     <div className="coin-drop">
-      <div className="coin-svg">
-        <SvgIcon name="coin" size={28} color="#FFCC00" />
-      </div>
+      <SvgIcon name="coin" size={28} color="#FFCC00" />
     </div>
   )
 }
@@ -245,7 +229,7 @@ function DispenseEffect() {
 function ParticleExplosion() {
   const particles = Array.from({ length: 20 }, (_, i) => ({
     id: i,
-    color: ['#FF6699', '#FFCC00', '#0054E3', '#33FF33'][i % 4],
+    color: ['#FFB6C9', '#FFCC00', '#FFD0E0', '#FFA5B9', '#FFE2EC'][i % 5],
     angle: (i / 20) * 360,
     distance: 100 + (i % 5) * 20,
     delay: (i % 5) * 0.1,
@@ -283,7 +267,6 @@ function GachaResult({ cartoon, isEasterEgg, onWatch, onRetry, onClose }) {
 
   const handleCollect = () => {
     setCollected(true)
-    // 记录到 localStorage
     const collectedList = JSON.parse(localStorage.getItem('me-toon-collected') || '[]')
     if (!collectedList.find(c => c.id === cartoon.id)) {
       collectedList.push({
@@ -303,13 +286,11 @@ function GachaResult({ cartoon, isEasterEgg, onWatch, onRetry, onClose }) {
       style={{ width: 380 }}
     >
       <div className="gacha-result">
-        {/* 标题图标 */}
         <div className="result-title-row">
           <SvgIcon name="clapperboard" size={24} color="#0054E3" />
           <span className="result-title-text">记忆觉醒</span>
         </div>
 
-        {/* 星球裂开动画 */}
         {phase !== 'shown' && (
           <div className={`result-planet ${phase === 'cracking' ? 'cracking' : 'broken'}`}>
             <div className="planet-crack crack-1" />
@@ -319,7 +300,6 @@ function GachaResult({ cartoon, isEasterEgg, onWatch, onRetry, onClose }) {
           </div>
         )}
 
-        {/* 展示区域 */}
         {phase === 'shown' && (
           <>
             {isEasterEgg ? (
