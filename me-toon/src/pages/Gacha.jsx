@@ -87,8 +87,9 @@ export default function Gacha() {
   }
 
   const handleWatch = () => {
+    const id = resultCartoon?.id
     setShowResult(false)
-    navigate('/detail')
+    navigate(id ? `/detail?id=${id}` : '/detail')
   }
 
   const handleRetry = () => {
