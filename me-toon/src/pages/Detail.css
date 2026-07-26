@@ -34,17 +34,18 @@
 }
 
 .sidebar-cartoon-name {
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 18px;
+  font-weight: 800;
   color: var(--titlebar-blue);
   margin-top: 8px;
   font-family: var(--font-cn);
 }
 
 .sidebar-cartoon-meta {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--pixel-shadow);
   margin-top: 4px;
+  font-weight: 600;
 }
 
 .sidebar-nav {
@@ -55,10 +56,11 @@
 .sidebar-nav-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
+  gap: 10px;
+  padding: 10px 12px;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 16px;
+  font-weight: 700;
   font-family: var(--font-cn);
   color: var(--text-main);
   border-radius: 2px;
@@ -75,7 +77,8 @@
 }
 
 .sidebar-nav-icon {
-  font-size: 16px;
+  display: flex;
+  align-items: center;
 }
 
 .sidebar-footer {
@@ -85,7 +88,8 @@
 
 .sidebar-back-btn {
   width: 100%;
-  font-size: 11px;
+  font-size: 14px;
+  font-weight: 700;
 }
 
 /* 右侧内容 */

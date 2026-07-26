@@ -40,3 +40,34 @@
   margin-top: 4px;
   font-weight: 700;
 }
+
+/* 桌面图标点击后的选择窗口 */
+.desktop-chooser {
+  text-align: center;
+  padding: 24px 16px;
+}
+
+.desktop-chooser-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--titlebar-blue);
+  margin-bottom: 24px;
+}
+
+.desktop-chooser-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.desktop-chooser-btn {
+  width: 240px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}

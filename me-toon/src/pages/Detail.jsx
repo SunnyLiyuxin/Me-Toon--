@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import Viewport, { BackToDesktopButton } from '../components/Viewport.jsx'
+import SvgIcon from '../components/SvgIcon.jsx'
 import cartoonsData from '../data/cartoons.json'
 import ArchiveRoom from './detail/ArchiveRoom.jsx'
 import LivingRoom from './detail/LivingRoom.jsx'
@@ -29,7 +30,7 @@ export default function Detail() {
       <aside className="detail-sidebar">
         <div className="sidebar-header">
           <img
-            src={cartoon.images.portrait}
+            src={`./assets/images/detail/cartoons/${cartoon.id}/portrait.png`}
             alt={cartoon.name}
             className="sidebar-cartoon-icon"
           />
@@ -42,21 +43,27 @@ export default function Detail() {
             className={`sidebar-nav-item ${activeTab === 'archive' ? 'active' : ''}`}
             onClick={() => setActiveTab('archive')}
           >
-            <span className="sidebar-nav-icon">📁</span>
+            <span className="sidebar-nav-icon">
+              <SvgIcon name="folder" size={20} color={activeTab === 'archive' ? '#FFFFFF' : '#0054E3'} />
+            </span>
             <span className="sidebar-nav-text">档案室</span>
           </div>
           <div
             className={`sidebar-nav-item ${activeTab === 'livingroom' ? 'active' : ''}`}
             onClick={() => setActiveTab('livingroom')}
           >
-            <span className="sidebar-nav-icon">🏠</span>
+            <span className="sidebar-nav-icon">
+              <SvgIcon name="house" size={20} color={activeTab === 'livingroom' ? '#FFFFFF' : '#0054E3'} />
+            </span>
             <span className="sidebar-nav-text">人物客厅</span>
           </div>
           <div
             className={`sidebar-nav-item ${activeTab === 'resonance' ? 'active' : ''}`}
             onClick={() => setActiveTab('resonance')}
           >
-            <span className="sidebar-nav-icon">💝</span>
+            <span className="sidebar-nav-icon">
+              <SvgIcon name="heart" size={20} color={activeTab === 'resonance' ? '#FFFFFF' : '#FF6699'} />
+            </span>
             <span className="sidebar-nav-text">记忆共振</span>
           </div>
         </nav>

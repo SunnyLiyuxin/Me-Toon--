@@ -1,0 +1,200 @@
+.resonance-room {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #1a1a3e 0%, #2a1a5e 60%, #3e1a5e 100%);
+  overflow: hidden;
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================
+   星空背景
+   ============================================================ */
+.resonance-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.resonance-star {
+  position: absolute;
+  background: #FFF;
+  border-radius: 50%;
+  animation: star-twinkle 3s ease-in-out infinite;
+}
+
+/* ============================================================
+   顶部标题
+   ============================================================ */
+.resonance-header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.resonance-title {
+  font-family: var(--font-cn);
+  font-size: 30px;
+  font-weight: 800;
+  color: #FFCCFF;
+  text-shadow: 2px 2px 0 #4a1a6e, 0 0 12px rgba(255, 204, 255, 0.6);
+  letter-spacing: 4px;
+}
+
+.resonance-subtitle {
+  font-family: var(--font-cn);
+  font-size: 16px;
+  font-weight: 600;
+  color: #E0D0FF;
+  opacity: 0.85;
+}
+
+/* ============================================================
+   泡泡容器
+   ============================================================ */
+.resonance-bubbles {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 28px 36px;
+  padding: 20px;
+}
+
+/* ============================================================
+   单个泡泡
+   ============================================================ */
+.resonance-bubble {
+  position: relative;
+  width: 200px;
+  min-height: 220px;
+  padding: 22px 18px 18px;
+  border: 3px solid;
+  border-radius: 50% 48% 52% 50% / 48% 50% 50% 52%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  opacity: 0;
+  transform: scale(0.2) translateY(40px);
+  transition:
+    opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+    transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease;
+  cursor: pointer;
+  box-shadow:
+    inset 4px 4px 0 rgba(255, 255, 255, 0.5),
+    inset -4px -4px 0 rgba(0, 0, 0, 0.08),
+    0 0 0 transparent;
+  user-select: none;
+}
+
+.resonance-bubble.is-visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  animation: bubble-float 4s ease-in-out infinite;
+}
+
+.resonance-bubble.is-hovered {
+  transform: scale(1.08) translateY(-8px);
+  box-shadow:
+    inset 4px 4px 0 rgba(255, 255, 255, 0.6),
+    inset -4px -4px 0 rgba(0, 0, 0, 0.1),
+    0 0 24px var(--bubble-glow),
+    0 0 48px var(--bubble-glow);
+}
+
+.resonance-bubble.is-hovered.is-visible {
+  animation: none;
+}
+
+/* 泡泡图标 */
+.resonance-bubble-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  border: 2px dashed currentColor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* 泡泡正文 */
+.resonance-bubble-body {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.resonance-bubble-label {
+  font-family: var(--font-cn);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.resonance-bubble-note {
+  font-family: var(--font-cn);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+/* 反光高光 */
+.resonance-bubble-shine {
+  position: absolute;
+  top: 16px;
+  left: 24px;
+  width: 28px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  transform: rotate(-25deg);
+  pointer-events: none;
+  filter: blur(1px);
+}
+
+/* ============================================================
+   底部提示
+   ============================================================ */
+.resonance-footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 14px;
+  color: #E0D0FF;
+  font-family: var(--font-cn);
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  opacity: 0.8;
+}
+
+.resonance-footer .svg-icon {
+  animation: pixel-glow 2s ease-in-out infinite;
+}
+
+/* ============================================================
+   动画
+   ============================================================ */
+@keyframes bubble-float {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-8px) rotate(1deg); }
+}

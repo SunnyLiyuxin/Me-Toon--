@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useTypewriter, useMusic, useSound } from '../../hooks/useMedia.js'
+import SvgIcon from '../../components/SvgIcon.jsx'
 import './ArchiveRoom.css'
 
 /**
@@ -17,7 +18,7 @@ export default function ArchiveRoom({ cartoon }) {
   const [blinking, setBlinking] = useState(false)
 
   const [displayed, typingDone] = useTypewriter(cartoon.directorMessage, 80, typingStarted)
-  const [musicPlaying, toggleMusic] = useMusic(`/assets/audio/songs/${cartoon.themeSong}`)
+  const [musicPlaying, toggleMusic] = useMusic(`./assets/audio/songs/${cartoon.themeSong}`)
   const playSfx = useSound()
 
   // 进入页面后短暂延迟开始打字
@@ -71,12 +72,12 @@ export default function ArchiveRoom({ cartoon }) {
           onMouseEnter={handlePortraitHover}
         >
           <img
-            src="/assets/images/detail/wooden-frame.png"
+            src="./assets/images/detail/wooden-frame.png"
             alt=""
             className="portrait-frame"
           />
           <img
-            src={cartoon.images.portrait}
+            src={`./assets/images/detail/cartoons/tutu/portrait.png`}
             alt={`${cartoon.director}与${cartoon.name}`}
             className="portrait-img"
           />
@@ -114,28 +115,36 @@ export default function ArchiveRoom({ cartoon }) {
         {showInfoCards && (
           <div className="info-cards anim-popup-in">
             <div className="info-card">
-              <div className="info-card-icon">📅</div>
+              <div className="info-card-icon">
+                <SvgIcon name="calendar" size={22} color="#0054E3" />
+              </div>
               <div className="info-card-content">
                 <div className="info-card-label">播出时间</div>
                 <div className="info-card-value">{cartoon.airDate}</div>
               </div>
             </div>
             <div className="info-card">
-              <div className="info-card-icon">🏢</div>
+              <div className="info-card-icon">
+                <SvgIcon name="building" size={22} color="#0054E3" />
+              </div>
               <div className="info-card-content">
                 <div className="info-card-label">制作公司</div>
                 <div className="info-card-value">{cartoon.studio}</div>
               </div>
             </div>
             <div className="info-card">
-              <div className="info-card-icon">🎬</div>
+              <div className="info-card-icon">
+                <SvgIcon name="clapperboard" size={22} color="#0054E3" />
+              </div>
               <div className="info-card-content">
                 <div className="info-card-label">导演</div>
                 <div className="info-card-value">{cartoon.director}</div>
               </div>
             </div>
             <div className="info-card">
-              <div className="info-card-icon">🎵</div>
+              <div className="info-card-icon">
+                <SvgIcon name="music" size={22} color="#0054E3" />
+              </div>
               <div className="info-card-content">
                 <div className="info-card-label">主题曲</div>
                 <div className="info-card-value">{cartoon.themeSongName}</div>
@@ -160,12 +169,17 @@ export default function ArchiveRoom({ cartoon }) {
           title={musicPlaying ? '暂停主题曲' : '点击播放主题曲'}
         >
           <img
-            src="/assets/images/detail/radio-icon.png"
+            src="./assets/images/detail/radio-icon.png"
             alt="收音机"
             className="radio-img"
           />
           <div className="radio-label">
-            {musicPlaying ? '♪ 播放中' : '听主题曲'}
+            {musicPlaying ? (
+              <>
+                <SvgIcon name="music" size={14} color="#0054E3" />
+                <span>播放中</span>
+              </>
+            ) : '听主题曲'}
           </div>
           {musicPlaying && (
             <>

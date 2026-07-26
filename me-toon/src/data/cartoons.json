@@ -15,11 +15,11 @@
       "planetColor": "#FFD700",
       "planetLabel": "温暖黄",
       "images": {
-        "portrait": "/assets/images/detail/cartoons/tutu/portrait.png",
-        "firstFrame": "/assets/images/detail/cartoons/tutu/first-frame.png",
-        "memoryPlanet": "/assets/images/detail/cartoons/tutu/memory-planet.png",
-        "cover": "/assets/images/detail/cartoons/tutu/cover.png",
-        "postcard": "/assets/images/detail/cartoons/tutu/postcard.png"
+        "portrait": "./assets/images/detail/cartoons/tutu/portrait.png",
+        "firstFrame": "./assets/images/detail/cartoons/tutu/first-frame.png",
+        "memoryPlanet": "./assets/images/detail/cartoons/tutu/memory-planet.png",
+        "cover": "./assets/images/detail/cartoons/tutu/cover.png",
+        "postcard": "./assets/images/detail/cartoons/tutu/postcard.png"
       },
       "directorMessage": "你好，我是《大耳朵图图》的导演速达。\n\n欢迎来到我们的世界。\n\n这部作品，一共经历了一千多个日夜，\n有104集，\n\n只为在你的童年里，\n停留二十分钟。\n\n图图的原型，其实来自我身边的很多孩子。\n他也许就是你，是你那个总爱问“为什么”的隔壁小孩，\n也是我们每个人心里，那个还没长大的自己。\n\n希望当你重新走进番豆街1号，\n依然能闻到厨房里的饭菜香，\n听到图图妈那句熟悉的——\n“图图，你又在搞什么名堂？”",
       "livingroom": {

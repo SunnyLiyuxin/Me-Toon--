@@ -9,7 +9,7 @@ const audioCache = {}
 export function useSound() {
   const play = useCallback((name) => {
     try {
-      const path = `/assets/audio/sfx/${name}.wav`
+      const path = `./assets/audio/sfx/${name}.wav`
       if (!audioCache[name]) {
         audioCache[name] = new Audio(path)
         audioCache[name].volume = 0.4

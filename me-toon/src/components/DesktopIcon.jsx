@@ -1,10 +1,10 @@
 import './DesktopIcon.css'
 
 const ICON_MAP = {
-  tv: '/assets/images/desktop/icon-tv.png',
-  diary: '/assets/images/desktop/icon-diary.png',
-  mp3: '/assets/images/desktop/icon-mp3.png',
-  globe: '/assets/images/desktop/icon-globe.png',
+  tv: './assets/images/desktop/icon-tv.png',
+  diary: './assets/images/desktop/icon-diary.png',
+  mp3: './assets/images/desktop/icon-mp3.png',
+  globe: './assets/images/desktop/icon-globe.png',
 }
 
 /**

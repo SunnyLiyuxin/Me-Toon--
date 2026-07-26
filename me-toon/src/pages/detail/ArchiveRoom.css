@@ -115,8 +115,8 @@
 }
 
 .director-message-title {
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 18px;
+  font-weight: 800;
   color: var(--titlebar-blue);
   font-family: var(--font-cn);
   margin-bottom: 12px;
@@ -126,14 +126,15 @@
 
 .director-message-text {
   font-family: var(--font-cn);
-  font-size: 14px;
+  font-size: 17px;
   color: #333333;
   line-height: 1.8;
+  font-weight: 600;
 }
 
 .typewriter-text {
   font-family: var(--font-cn);
-  font-size: 14px;
+  font-size: 17px;
   color: #333333;
   line-height: 1.8;
   white-space: pre-wrap;
@@ -141,6 +142,7 @@
   padding: 0;
   background: transparent;
   border: none;
+  font-weight: 600;
 }
 
 .typewriter-cursor {
@@ -201,7 +203,8 @@
 }
 
 .info-card-icon {
-  font-size: 24px;
+  display: flex;
+  align-items: center;
 }
 
 .info-card-content {
@@ -210,16 +213,17 @@
 }
 
 .info-card-label {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--pixel-shadow);
   font-family: var(--font-cn);
+  font-weight: 600;
 }
 
 .info-card-value {
-  font-size: 13px;
+  font-size: 16px;
   color: var(--text-main);
   font-family: var(--font-cn);
-  font-weight: bold;
+  font-weight: 800;
 }
 
 /* 主题曲歌词 */
@@ -228,19 +232,21 @@
   grid-row: 3;
   text-align: center;
   font-family: var(--font-cn);
-  font-size: 14px;
+  font-size: 18px;
+  font-weight: 700;
   color: var(--pink-highlight);
   font-style: italic;
-  padding: 8px 16px;
+  padding: 10px 16px;
   background: rgba(255, 255, 255, 0.4);
   border-radius: 4px;
   align-self: center;
 }
 
 .lyric-quote {
-  font-size: 18px;
+  font-size: 22px;
   color: var(--gold-accent);
   margin: 0 4px;
+  font-weight: 800;
 }
 
 /* ============================================================
@@ -274,11 +280,15 @@
 
 .radio-label {
   font-family: var(--font-cn);
-  font-size: 11px;
+  font-size: 14px;
+  font-weight: 700;
   color: var(--text-main);
   background: rgba(255, 255, 255, 0.7);
-  padding: 2px 8px;
+  padding: 4px 10px;
   border-radius: 2px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .radio-player.playing .radio-label {

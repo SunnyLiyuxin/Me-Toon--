@@ -43,8 +43,8 @@
   border-color: #1E5B1E #5BC55B #5BC55B #1E5B1E;
 }
 
-.start-flag {
-  font-size: 16px;
+.start-flag-svg {
+  flex-shrink: 0;
 }
 
 .taskbar-middle {
@@ -84,9 +84,10 @@
 
 .tray-time {
   color: #FFFFFF;
-  font-size: 12px;
+  font-size: 15px;
+  font-weight: 700;
   font-family: var(--font-en);
-  padding: 0 4px;
+  padding: 0 6px;
 }
 
 /* ============================================================

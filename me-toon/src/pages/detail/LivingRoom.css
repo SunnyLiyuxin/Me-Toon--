@@ -1,0 +1,385 @@
+.living-room {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* 客厅暖色背景 */
+.living-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #3a2a1a 0%, #2a1a0a 100%);
+}
+
+.living-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at top, rgba(255, 200, 100, 0.18), transparent 60%),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 2px,
+      rgba(255, 200, 100, 0.02) 2px,
+      rgba(255, 200, 100, 0.02) 4px
+    );
+}
+
+.living-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ============================================================
+   顶部标题
+   ============================================================ */
+.living-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(255, 230, 176, 0.08);
+  border: 1px dashed rgba(255, 230, 176, 0.4);
+  border-radius: 4px;
+}
+
+.living-title {
+  font-family: var(--font-cn);
+  font-size: 24px;
+  font-weight: 800;
+  color: #FFE6B0;
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 0 #5a2a0a;
+}
+
+.living-location {
+  font-family: var(--font-cn);
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFCC88;
+  margin-top: 2px;
+}
+
+/* ============================================================
+   主体：左侧列表 + 右侧档案
+   ============================================================ */
+.living-main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 20px;
+  min-height: 0;
+}
+
+/* ============================================================
+   左侧：角色头像列表
+   ============================================================ */
+.char-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 8px;
+  background: rgba(255, 230, 176, 0.05);
+  border: 1px dashed rgba(255, 230, 176, 0.3);
+  border-radius: 4px;
+  overflow-y: auto;
+}
+
+.char-thumb {
+  background: rgba(255, 255, 255, 0.85);
+  border: 2px solid;
+  border-color: var(--highlight) var(--pixel-shadow) var(--pixel-shadow) var(--highlight);
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: transform 0.15s ease;
+}
+
+.char-thumb:hover {
+  transform: translateX(2px);
+  background: #FFFFFF;
+}
+
+.char-thumb.active {
+  border-color: var(--titlebar-blue);
+  background: #FFF8E0;
+  box-shadow: 0 0 0 2px var(--gold-accent) inset;
+}
+
+.char-thumb-img {
+  width: 70px;
+  height: 88px;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.char-thumb-name {
+  font-family: var(--font-cn);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+/* ============================================================
+   右侧：档案框
+   ============================================================ */
+.char-archive {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.char-archive-top {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 20px;
+  min-height: 0;
+}
+
+/* 人物立绘 */
+.char-portrait {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  background: linear-gradient(180deg, rgba(255, 230, 176, 0.1) 0%, rgba(120, 80, 40, 0.3) 100%);
+  border: 2px solid;
+  border-color: var(--highlight) var(--pixel-shadow) var(--pixel-shadow) var(--highlight);
+  padding: 16px 8px 0;
+  overflow: hidden;
+}
+
+.char-portrait-img {
+  width: 160px;
+  height: 200px;
+  image-rendering: pixelated;
+  object-fit: contain;
+  filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.4));
+  animation: pixel-breath 4s ease-in-out infinite;
+}
+
+.char-portrait-stand {
+  width: 90%;
+  height: 8px;
+  background: linear-gradient(180deg, #5a3a1a, #2a1a0a);
+  border-top: 2px solid #8a5a2a;
+  margin-top: 4px;
+}
+
+/* 档案框 */
+.char-dossier {
+  display: flex;
+  flex-direction: column;
+  background: var(--window-bg);
+  border: 2px solid;
+  border-color: var(--highlight) var(--pixel-shadow) var(--pixel-shadow) var(--highlight);
+  box-shadow: inset 1px 1px 0 var(--highlight), inset -1px -1px 0 var(--pixel-shadow);
+  overflow: hidden;
+}
+
+.char-dossier-titlebar {
+  background: linear-gradient(180deg, var(--titlebar-blue), #0266FF);
+  color: var(--highlight);
+  font-family: var(--font-cn);
+  font-size: 15px;
+  font-weight: 800;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--btn-border);
+}
+
+.char-dossier-body {
+  flex: 1;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.dossier-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--pixel-shadow);
+}
+
+.dossier-label {
+  flex: 0 0 56px;
+  font-family: var(--font-cn);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--titlebar-blue);
+  background: rgba(0, 84, 227, 0.1);
+  padding: 2px 6px;
+  border-radius: 2px;
+  text-align: center;
+}
+
+.dossier-value {
+  flex: 1;
+  font-family: var(--font-cn);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.5;
+}
+
+.dossier-tags-row {
+  align-items: center;
+}
+
+.dossier-tags {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.dossier-tag {
+  font-family: var(--font-cn);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--pink-highlight);
+  background: rgba(255, 102, 153, 0.12);
+  border: 1px solid rgba(255, 102, 153, 0.4);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.dossier-classic {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: linear-gradient(180deg, #FFF8E0, #FFE8B0);
+  border: 1px dashed var(--gold-accent);
+  border-radius: 4px;
+  font-family: var(--font-cn);
+  font-size: 15px;
+  font-weight: 700;
+  color: #8a4a00;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.dossier-classic .svg-icon {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   底部：对话区
+   ============================================================ */
+.char-talk {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.talk-btn {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.char-dialogue {
+  background: var(--window-bg);
+  border: 2px solid;
+  border-color: var(--highlight) var(--pixel-shadow) var(--pixel-shadow) var(--highlight);
+  padding: 14px 18px;
+  max-height: 180px;
+  overflow-y: auto;
+  position: relative;
+}
+
+.char-dialogue::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 30px;
+  width: 16px;
+  height: 16px;
+  background: var(--window-bg);
+  border-left: 2px solid var(--pixel-shadow);
+  border-top: 2px solid var(--pixel-shadow);
+  transform: rotate(45deg);
+}
+
+.char-dialogue-text {
+  font-family: var(--font-cn);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.8;
+  white-space: pre-wrap;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+/* ============================================================
+   底部：场景元素
+   ============================================================ */
+.living-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(255, 230, 176, 0.05);
+  border: 1px dashed rgba(255, 230, 176, 0.3);
+  border-radius: 4px;
+  font-family: var(--font-cn);
+  font-size: 13px;
+  font-weight: 600;
+  color: #FFCC88;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.living-footer .svg-icon {
+  flex-shrink: 0;
+}
+
+/* 滚动条样式 */
+.char-list::-webkit-scrollbar,
+.char-dossier-body::-webkit-scrollbar,
+.char-dialogue::-webkit-scrollbar {
+  width: 8px;
+}
+
+.char-list::-webkit-scrollbar-track,
+.char-dossier-body::-webkit-scrollbar-track,
+.char-dialogue::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.char-list::-webkit-scrollbar-thumb,
+.char-dossier-body::-webkit-scrollbar-thumb,
+.char-dialogue::-webkit-scrollbar-thumb {
+  background: var(--pixel-shadow);
+  border-radius: 4px;
+}

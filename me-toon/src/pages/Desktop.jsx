@@ -6,6 +6,8 @@ import Taskbar from '../components/Taskbar.jsx'
 import StartMenu from '../components/StartMenu.jsx'
 import WelcomePopup from '../components/WelcomePopup.jsx'
 import QqMessage from '../components/QqMessage.jsx'
+import XpWindow from '../components/XpWindow.jsx'
+import SvgIcon from '../components/SvgIcon.jsx'
 import './Desktop.css'
 
 export default function Desktop() {
@@ -130,8 +132,6 @@ function ChooserPopup({ onClose }) {
   )
 }
 
-import XpWindow from '../components/XpWindow.jsx'
-
 function ChooserWindow({ onClose, navigate }) {
   const handleChoose = (choice) => {
     onClose(choice)
@@ -141,26 +141,24 @@ function ChooserWindow({ onClose, navigate }) {
       title="选择你的寻找方式"
       centered
       onClose={() => handleChoose(null)}
-      style={{ width: 320 }}
+      style={{ width: 360 }}
     >
-      <div style={{ textAlign: 'center', padding: '20px 16px' }}>
-        <p style={{ fontSize: 14, fontWeight: 'bold', color: 'var(--titlebar-blue)', marginBottom: 24 }}>
-          选择你的寻找方式
-        </p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center' }}>
+      <div className="desktop-chooser">
+        <p className="desktop-chooser-title">选择你的寻找方式</p>
+        <div className="desktop-chooser-options">
           <button
-            className="xp-button-primary"
-            style={{ width: 200, padding: '10px 16px', fontSize: 13 }}
+            className="xp-button-primary desktop-chooser-btn"
             onClick={() => handleChoose('gacha')}
           >
-            🎮 星际扭蛋机
+            <SvgIcon name="game" size={20} color="#003C74" />
+            <span>星际扭蛋机</span>
           </button>
           <button
-            className="xp-button"
-            style={{ width: 200, padding: '10px 16px', fontSize: 13 }}
+            className="xp-button desktop-chooser-btn"
             onClick={() => handleChoose(null)}
           >
-            📺 电视台调频
+            <SvgIcon name="tv" size={20} color="#0054E3" />
+            <span>电视台调频</span>
           </button>
         </div>
       </div>

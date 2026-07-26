@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import XpWindow from './XpWindow.jsx'
+import SvgIcon from './SvgIcon.jsx'
 import './WelcomePopup.css'
 
 /**
@@ -24,7 +25,7 @@ export default function WelcomePopup({ onClose }) {
         title="选择你的寻找方式"
         centered
         onClose={() => handleChoose(null)}
-        style={{ width: 320 }}
+        style={{ width: 360 }}
       >
         <div className="welcome-chooser">
           <p className="welcome-chooser-title">选择你的寻找方式</p>
@@ -33,13 +34,15 @@ export default function WelcomePopup({ onClose }) {
               className="xp-button-primary welcome-chooser-btn"
               onClick={() => handleChoose('gacha')}
             >
-              🎮 星际扭蛋机
+              <SvgIcon name="game" size={20} color="#003C74" />
+              <span>星际扭蛋机</span>
             </button>
             <button
               className="xp-button welcome-chooser-btn"
               onClick={() => handleChoose(null)}
             >
-              📺 电视台调频
+              <SvgIcon name="tv" size={20} color="#0054E3" />
+              <span>电视台调频</span>
             </button>
           </div>
         </div>
@@ -52,10 +55,13 @@ export default function WelcomePopup({ onClose }) {
       title="Me-Toon · 这集，我也看过"
       centered
       onClose={() => handleChoose(null)}
-      style={{ width: 400, maxHeight: 560 }}
+      style={{ width: 460, maxHeight: 620 }}
     >
       <div className="welcome-content">
-        <p className="welcome-line welcome-line-1">👾 欢迎回来，</p>
+        <p className="welcome-line welcome-line-1">
+          <SvgIcon name="alien" size={20} color="#333333" />
+          欢迎回来，
+        </p>
         <p className="welcome-line welcome-line-2">2005年的小朋友。</p>
 
         <div className="welcome-paragraph">

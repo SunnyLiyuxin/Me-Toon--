@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import XpWindow from './XpWindow.jsx'
+import SvgIcon from './SvgIcon.jsx'
 import './QqMessage.css'
 
 /**
@@ -59,12 +60,12 @@ export default function QqMessage() {
       title="QQ消息"
       centered
       onClose={handleThink}
-      style={{ width: 320 }}
+      style={{ width: 380 }}
     >
       <div className="qq-message">
         <div className="qq-message-header">
           <div className="qq-message-avatar">
-            <img src="/assets/images/desktop/dachentou-avatar.png" alt="大风车" width={36} height={36} />
+            <img src="./assets/images/desktop/dachentou-avatar.png" alt="大风车" width={40} height={40} />
           </div>
           <div className="qq-message-info">
             <div className="qq-message-nickname">大风车</div>
@@ -72,7 +73,10 @@ export default function QqMessage() {
           </div>
         </div>
         <div className="qq-message-bubble">
-          <p>在吗？这部你一定也看过 👾</p>
+          <p className="qq-message-main">
+            在吗？这部你一定也看过
+            <SvgIcon name="alien" size={18} color="#0054E3" />
+          </p>
           <p className="qq-message-sub">点击看看，是不是那一集？</p>
         </div>
         <div className="qq-message-actions">

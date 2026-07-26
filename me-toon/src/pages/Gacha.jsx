@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import Viewport, { BackToDesktopButton } from '../components/Viewport.jsx'
 import XpWindow from '../components/XpWindow.jsx'
+import SvgIcon from '../components/SvgIcon.jsx'
 import cartoonsData from '../data/cartoons.json'
 import './Gacha.css'
 
@@ -98,16 +99,41 @@ export default function Gacha() {
 
       {/* 标题提示 */}
       <div className="gacha-hint">
-        {state === 'idle' && '🎮 点击投币口开始'}
-        {state === 'inserting' && '⏳ 投币中...'}
-        {state === 'ready' && '✨ 旋钮已就绪，扭动它！'}
-        {state === 'turning' && '🌀 扭动中...'}
-        {state === 'dispensing' && '📦 出货中...'}
+        {state === 'idle' && (
+          <>
+            <SvgIcon name="game" size={18} color="#FFCC00" />
+            <span>点击投币口开始</span>
+          </>
+        )}
+        {state === 'inserting' && (
+          <>
+            <SvgIcon name="hourglass" size={18} color="#FFCC00" />
+            <span>投币中...</span>
+          </>
+        )}
+        {state === 'ready' && (
+          <>
+            <SvgIcon name="sparkle" size={18} color="#FFCC00" />
+            <span>旋钮已就绪，扭动它！</span>
+          </>
+        )}
+        {state === 'turning' && (
+          <>
+            <SvgIcon name="swirl" size={18} color="#FFCC00" />
+            <span>扭动中...</span>
+          </>
+        )}
+        {state === 'dispensing' && (
+          <>
+            <SvgIcon name="box" size={18} color="#FFCC00" />
+            <span>出货中...</span>
+          </>
+        )}
       </div>
 
       {/* 扭蛋机主体 */}
       <div className={`gacha-machine anim-float ${state === 'turning' ? 'shaking' : ''}`}>
-        <img src="/assets/images/gacha/gacha-machine.png" alt="扭蛋机" />
+        <img src="./assets/images/gacha/gacha-machine.png" alt="扭蛋机" />
 
         {/* 投币口（点击区域） */}
         <button
@@ -194,7 +220,9 @@ function FloatingPlanets() {
 function CoinDrop() {
   return (
     <div className="coin-drop">
-      <div className="coin">¥</div>
+      <div className="coin-svg">
+        <SvgIcon name="coin" size={28} color="#FFCC00" />
+      </div>
     </div>
   )
 }
@@ -269,12 +297,18 @@ function GachaResult({ cartoon, isEasterEgg, onWatch, onRetry, onClose }) {
 
   return (
     <XpWindow
-      title="🎬 记忆觉醒！"
+      title="记忆觉醒！"
       centered
       onClose={onClose}
-      style={{ width: 350 }}
+      style={{ width: 380 }}
     >
       <div className="gacha-result">
+        {/* 标题图标 */}
+        <div className="result-title-row">
+          <SvgIcon name="clapperboard" size={24} color="#0054E3" />
+          <span className="result-title-text">记忆觉醒</span>
+        </div>
+
         {/* 星球裂开动画 */}
         {phase !== 'shown' && (
           <div className={`result-planet ${phase === 'cracking' ? 'cracking' : 'broken'}`}>
@@ -290,15 +324,20 @@ function GachaResult({ cartoon, isEasterEgg, onWatch, onRetry, onClose }) {
           <>
             {isEasterEgg ? (
               <div className="easter-egg-show">
-                <div className="easter-windmill anim-spin">🎡</div>
+                <div className="easter-windmill anim-spin">
+                  <SvgIcon name="windmill" size={100} color="#FFCC00" />
+                </div>
                 <p className="easter-lyric">大风车吱呀吱悠悠地转~</p>
-                <p className="easter-tag">🌟 隐藏动画已解锁：《大风车》</p>
+                <p className="easter-tag">
+                  <SvgIcon name="sparkle" size={18} color="#FFCC00" />
+                  隐藏动画已解锁：《大风车》
+                </p>
               </div>
             ) : (
               <>
                 <div className="result-cartoon-name">{cartoon.name}</div>
                 <div className="result-image-frame">
-                  <img src={cartoon.images.firstFrame} alt={cartoon.name} />
+                  <img src={`.${cartoon.images.firstFrame}`} alt={cartoon.name} />
                 </div>
                 <div className="result-info-list">
                   <div className="result-info-row">
@@ -333,7 +372,17 @@ function GachaResult({ cartoon, isEasterEgg, onWatch, onRetry, onClose }) {
                 onClick={handleCollect}
                 disabled={collected}
               >
-                {collected ? '已收藏 ✅' : '⭐ 收藏起来'}
+                {collected ? (
+                  <>
+                    <SvgIcon name="check" size={16} color="#FFFFFF" />
+                    <span>已收藏</span>
+                  </>
+                ) : (
+                  <>
+                    <SvgIcon name="star" size={16} color="#003C74" />
+                    <span>收藏起来</span>
+                  </>
+                )}
               </button>
             </div>
           </>
