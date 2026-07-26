@@ -30,7 +30,7 @@ export default function Taskbar({ onStartClick, isStartOpen }) {
 
       <div className="taskbar-tray">
         <div className="tray-icon tray-qq" title="QQ" id="tray-qq">
-          <QQIcon />
+          <img src="/assets/images/desktop/qq-penguin.png" alt="QQ" width={16} height={16} />
         </div>
         <div className="tray-icon tray-speaker" title="音量">
           <SpeakerIcon />

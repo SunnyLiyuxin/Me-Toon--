@@ -64,7 +64,7 @@ export default function QqMessage() {
       <div className="qq-message">
         <div className="qq-message-header">
           <div className="qq-message-avatar">
-            <div className="qq-avatar-img">🎡</div>
+            <img src="/assets/images/desktop/dachentou-avatar.png" alt="大风车" width={36} height={36} />
           </div>
           <div className="qq-message-info">
             <div className="qq-message-nickname">大风车</div>

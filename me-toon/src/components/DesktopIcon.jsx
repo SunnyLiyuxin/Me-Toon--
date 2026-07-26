@@ -1,5 +1,12 @@
 import './DesktopIcon.css'
 
+const ICON_MAP = {
+  tv: '/assets/images/desktop/icon-tv.png',
+  diary: '/assets/images/desktop/icon-diary.png',
+  mp3: '/assets/images/desktop/icon-mp3.png',
+  globe: '/assets/images/desktop/icon-globe.png',
+}
+
 /**
  * 桌面图标
  * @param {string} type - 图标类型：tv | diary | mp3 | globe
@@ -9,6 +16,7 @@ import './DesktopIcon.css'
  * @param {object} style - 自定义定位
  */
 export default function DesktopIcon({ type, label, onClick, onDoubleClick, style }) {
+  const iconSrc = ICON_MAP[type]
   return (
     <div
       className="desktop-icon"
@@ -17,72 +25,14 @@ export default function DesktopIcon({ type, label, onClick, onDoubleClick, style
       onDoubleClick={onDoubleClick}
       tabIndex={0}
     >
-      <div className={`desktop-icon-img desktop-icon-${type}`}>
-        <PixelIcon type={type} />
+      <div className="desktop-icon-img">
+        {iconSrc ? (
+          <img src={iconSrc} alt={label} width={48} height={48} />
+        ) : (
+          <div className="desktop-icon-fallback">{label}</div>
+        )}
       </div>
       <div className="desktop-icon-label">{label}</div>
-    </div>
-  )
-}
-
-/**
- * 纯 CSS 绘制的像素图标（占位用，有图片后可替换为 <img>）
- */
-function PixelIcon({ type }) {
-  switch (type) {
-    case 'tv':
-      return <TvIcon />
-    case 'diary':
-      return <DiaryIcon />
-    case 'mp3':
-      return <Mp3Icon />
-    case 'globe':
-      return <GlobeIcon />
-    default:
-      return null
-  }
-}
-
-function TvIcon() {
-  return (
-    <div className="pi pi-tv">
-      <div className="pi-tv-screen" />
-      <div className="pi-tv-antenna-l" />
-      <div className="pi-tv-antenna-r" />
-      <div className="pi-tv-stand-l" />
-      <div className="pi-tv-stand-r" />
-    </div>
-  )
-}
-
-function DiaryIcon() {
-  return (
-    <div className="pi pi-diary">
-      <div className="pi-diary-cover" />
-      <div className="pi-diary-binding" />
-      <div className="pi-diary-lock" />
-    </div>
-  )
-}
-
-function Mp3Icon() {
-  return (
-    <div className="pi pi-mp3">
-      <div className="pi-mp3-body" />
-      <div className="pi-mp3-screen" />
-      <div className="pi-mp3-btn-1" />
-      <div className="pi-mp3-btn-2" />
-    </div>
-  )
-}
-
-function GlobeIcon() {
-  return (
-    <div className="pi pi-globe">
-      <div className="pi-globe-body" />
-      <div className="pi-globe-meridian" />
-      <div className="pi-globe-parallel" />
-      <div className="pi-globe-stand" />
     </div>
   )
 }
