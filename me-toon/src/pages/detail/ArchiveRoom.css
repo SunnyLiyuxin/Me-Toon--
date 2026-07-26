@@ -8,7 +8,7 @@
 .archive-paper-bg {
   position: absolute;
   inset: 0;
-  background-image: url('/assets/images/detail/letter-paper.jpg');
+  background-image: url('../../assets/images/detail/letter-paper.jpg');
   background-size: cover;
   background-position: center;
   z-index: 0;
@@ -28,11 +28,11 @@
   z-index: 1;
   width: 100%;
   height: 100%;
-  padding: 40px;
+  padding: 24px 32px;
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 160px 1fr;
   grid-template-rows: auto 1fr auto;
-  gap: 30px;
+  gap: 18px;
 }
 
 /* ============================================================
@@ -42,16 +42,16 @@
   position: relative;
   grid-column: 1;
   grid-row: 1;
-  width: 160px;
-  height: 160px;
+  width: 120px;
+  height: 120px;
   cursor: pointer;
 }
 
 .portrait-frame {
   position: absolute;
   inset: 0;
-  width: 160px;
-  height: 160px;
+  width: 120px;
+  height: 120px;
   z-index: 2;
   pointer-events: none;
   filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.3));
@@ -59,10 +59,10 @@
 
 .portrait-img {
   position: absolute;
-  top: 24px;
-  left: 24px;
-  width: 112px;
-  height: 112px;
+  top: 18px;
+  left: 18px;
+  width: 84px;
+  height: 84px;
   z-index: 1;
   image-rendering: pixelated;
 }
@@ -70,9 +70,9 @@
 /* 眨眼遮罩（在肖像眼睛位置画一条横线） */
 .portrait-blink-overlay {
   position: absolute;
-  top: 70px;
-  left: 50px;
-  width: 60px;
+  top: 52px;
+  left: 36px;
+  width: 48px;
   height: 2px;
   background: var(--pixel-shadow);
   z-index: 3;
@@ -82,10 +82,10 @@
 /* 眼睛金色发光 */
 .portrait-eye-glow {
   position: absolute;
-  top: 64px;
-  left: 65px;
-  width: 30px;
-  height: 12px;
+  top: 48px;
+  left: 48px;
+  width: 24px;
+  height: 10px;
   background: radial-gradient(ellipse, rgba(255, 204, 0, 0.6) 0%, transparent 70%);
   z-index: 3;
   pointer-events: none;
@@ -108,35 +108,37 @@
   grid-column: 2;
   grid-row: 1;
   position: relative;
-  padding: 16px 20px;
+  padding: 12px 16px;
   background: rgba(255, 254, 245, 0.6);
   border: 1px dashed var(--pixel-shadow);
-  min-height: 200px;
+  min-height: 140px;
+  max-height: 320px;
+  overflow-y: auto;
 }
 
 .director-message-title {
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 800;
   color: var(--titlebar-blue);
   font-family: var(--font-cn);
-  margin-bottom: 12px;
-  padding-bottom: 6px;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
   border-bottom: 1px solid var(--pixel-shadow);
 }
 
 .director-message-text {
   font-family: var(--font-cn);
-  font-size: 17px;
+  font-size: 13px;
   color: #333333;
-  line-height: 1.8;
+  line-height: 1.6;
   font-weight: 600;
 }
 
 .typewriter-text {
   font-family: var(--font-cn);
-  font-size: 17px;
+  font-size: 13px;
   color: #333333;
-  line-height: 1.8;
+  line-height: 1.6;
   white-space: pre-wrap;
   margin: 0;
   padding: 0;
@@ -183,10 +185,10 @@
   grid-column: 1 / -1;
   grid-row: 2;
   display: flex;
-  gap: 16px;
+  gap: 10px;
   flex-wrap: wrap;
   align-self: start;
-  padding: 12px 0;
+  padding: 8px 0;
   border-top: 1px dashed var(--pixel-shadow);
   border-bottom: 1px dashed var(--pixel-shadow);
 }
@@ -194,12 +196,12 @@
 .info-card {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background: rgba(255, 255, 255, 0.5);
   border: 1px dashed var(--pixel-shadow);
-  padding: 10px 14px;
+  padding: 6px 10px;
   border-radius: 4px;
-  min-width: 140px;
+  min-width: 120px;
 }
 
 .info-card-icon {
@@ -213,14 +215,14 @@
 }
 
 .info-card-label {
-  font-size: 13px;
+  font-size: 11px;
   color: var(--pixel-shadow);
   font-family: var(--font-cn);
   font-weight: 600;
 }
 
 .info-card-value {
-  font-size: 16px;
+  font-size: 13px;
   color: var(--text-main);
   font-family: var(--font-cn);
   font-weight: 800;
@@ -232,18 +234,18 @@
   grid-row: 3;
   text-align: center;
   font-family: var(--font-cn);
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--pink-highlight);
   font-style: italic;
-  padding: 10px 16px;
+  padding: 6px 12px;
   background: rgba(255, 255, 255, 0.4);
   border-radius: 4px;
   align-self: center;
 }
 
 .lyric-quote {
-  font-size: 22px;
+  font-size: 18px;
   color: var(--gold-accent);
   margin: 0 4px;
   font-weight: 800;
@@ -254,16 +256,16 @@
    ============================================================ */
 .radio-player {
   position: absolute;
-  bottom: 30px;
-  left: 30px;
+  bottom: 16px;
+  left: 16px;
   background: transparent;
   border: none;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  padding: 8px;
+  gap: 3px;
+  padding: 6px;
   z-index: 5;
   transition: transform 0.2s ease;
 }
@@ -273,18 +275,18 @@
 }
 
 .radio-img {
-  width: 60px;
-  height: 40px;
+  width: 48px;
+  height: 32px;
   image-rendering: pixelated;
 }
 
 .radio-label {
   font-family: var(--font-cn);
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--text-main);
   background: rgba(255, 255, 255, 0.7);
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: 2px;
   display: flex;
   align-items: center;

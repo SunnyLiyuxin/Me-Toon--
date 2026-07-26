@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import Viewport, { BackToDesktopButton } from '../components/Viewport.jsx'
 import SvgIcon from '../components/SvgIcon.jsx'
+import { resolveAsset } from '../assets/manifest.js'
 import cartoonsData from '../data/cartoons.json'
 import ArchiveRoom from './detail/ArchiveRoom.jsx'
 import LivingRoom from './detail/LivingRoom.jsx'
@@ -30,7 +31,7 @@ export default function Detail() {
       <aside className="detail-sidebar">
         <div className="sidebar-header">
           <img
-            src={`./assets/images/detail/cartoons/${cartoon.id}/portrait.png`}
+            src={resolveAsset(`./assets/images/detail/cartoons/${cartoon.id}/portrait.png`)}
             alt={cartoon.name}
             className="sidebar-cartoon-icon"
           />

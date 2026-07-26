@@ -96,16 +96,13 @@ export default function Desktop() {
       <div className="win98-monitor">
         <div className="win98-screen">
 
-          {/* ===== 桌面背景：XP 蓝天绿地 ===== */}
+          {/* ===== 桌面背景：真实魔幻风壁纸 ===== */}
           <div className="desktop-bg">
-            <div className="sun" />
+            {/* 壁纸已包含太阳/云/星星/楼房/彩虹/气泡，这里只保留轻量动态点缀 */}
             <div className="cloud cloud-1" />
             <div className="cloud cloud-2" />
             <div className="cloud cloud-3" />
             <div className="cloud cloud-4" />
-            <div className="hill hill-1" />
-            <div className="hill hill-2" />
-            <div className="hill hill-3" />
             <div className="grass" />
           </div>
 

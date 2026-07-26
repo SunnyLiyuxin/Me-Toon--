@@ -3,7 +3,7 @@
   inset: 0;
   background: linear-gradient(180deg, #1a1a3e 0%, #2a1a5e 60%, #3e1a5e 100%);
   overflow: hidden;
-  padding: 30px 40px;
+  padding: 16px 32px;
   display: flex;
   flex-direction: column;
 }
@@ -32,25 +32,25 @@
   position: relative;
   z-index: 1;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
 }
 
 .resonance-title {
   font-family: var(--font-cn);
-  font-size: 30px;
+  font-size: 22px;
   font-weight: 800;
   color: #FFCCFF;
   text-shadow: 2px 2px 0 #4a1a6e, 0 0 12px rgba(255, 204, 255, 0.6);
-  letter-spacing: 4px;
+  letter-spacing: 3px;
 }
 
 .resonance-subtitle {
   font-family: var(--font-cn);
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 600;
   color: #E0D0FF;
   opacity: 0.85;
@@ -66,13 +66,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 360px;
+  min-height: 240px;
 }
 
 .resonance-orbit {
   position: relative;
-  width: 360px;
-  height: 360px;
+  width: 280px;
+  height: 280px;
 }
 
 /* 中央共振台 */
@@ -81,8 +81,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 120px;
-  height: 120px;
+  width: 96px;
+  height: 96px;
   display: flex;
   align-items: center;
   justify-content: center;

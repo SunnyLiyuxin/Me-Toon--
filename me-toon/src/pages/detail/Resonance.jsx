@@ -112,7 +112,7 @@ export default function Resonance({ cartoon }) {
           {/* 卫星按钮 */}
           {satellites.map((sat) => {
             const rad = (sat.angle * Math.PI) / 180
-            const R = 150 // 轨道半径
+            const R = 110 // 轨道半径（适配 16:9）
             const x = Math.cos(rad) * R
             const y = Math.sin(rad) * R
             return (

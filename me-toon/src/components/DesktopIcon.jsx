@@ -1,3 +1,4 @@
+import { resolveAsset } from '../assets/manifest.js'
 import './DesktopIcon.css'
 
 const ICON_MAP = {
@@ -16,7 +17,7 @@ const ICON_MAP = {
  * @param {object} style - 自定义定位
  */
 export default function DesktopIcon({ type, label, onClick, onDoubleClick, style }) {
-  const iconSrc = ICON_MAP[type]
+  const iconSrc = resolveAsset(ICON_MAP[type])
   return (
     <div
       className="desktop-icon"

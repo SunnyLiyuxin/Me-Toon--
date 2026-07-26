@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
+import { resolveAsset } from '../assets/manifest.js'
 
 /**
  * 音效播放 Hook
@@ -9,7 +10,7 @@ const audioCache = {}
 export function useSound() {
   const play = useCallback((name) => {
     try {
-      const path = `./assets/audio/sfx/${name}.wav`
+      const path = resolveAsset(`./assets/audio/sfx/${name}.wav`)
       if (!audioCache[name]) {
         audioCache[name] = new Audio(path)
         audioCache[name].volume = 0.4
@@ -87,7 +88,7 @@ export function useMusic(src) {
 
   useEffect(() => {
     if (!src) return
-    audioRef.current = new Audio(src)
+    audioRef.current = new Audio(resolveAsset(src))
     audioRef.current.loop = true
     audioRef.current.volume = 0.5
     return () => {

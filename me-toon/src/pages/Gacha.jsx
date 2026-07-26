@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import Viewport from '../components/Viewport.jsx'
 import XpWindow from '../components/XpWindow.jsx'
 import SvgIcon from '../components/SvgIcon.jsx'
+import { resolveAsset } from '../assets/manifest.js'
 import cartoonsData from '../data/cartoons.json'
 import './Gacha.css'
 
@@ -473,7 +474,7 @@ function GachaResult({ cartoon, isEasterEgg, onWatch, onRetry, onClose }) {
               <>
                 <div className="result-cartoon-name">{cartoon.name}</div>
                 <div className="result-image-frame">
-                  <img src={`.${cartoon.images.firstFrame}`} alt={cartoon.name} />
+                  <img src={resolveAsset(cartoon.images.firstFrame)} alt={cartoon.name} />
                 </div>
                 <div className="result-info-list">
                   <div className="result-info-row">

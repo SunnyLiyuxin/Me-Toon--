@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import SvgIcon from '../../components/SvgIcon.jsx'
 import { useSound } from '../../hooks/useMedia.js'
+import { resolveAsset } from '../../assets/manifest.js'
 import './LivingRoom.css'
 
 /**
@@ -56,7 +57,7 @@ export default function LivingRoom({ cartoon }) {
                 title={c.name}
               >
                 <img
-                  src={`./assets/images/detail/cartoons/${cartoon.id}/characters/${c.id}.png`}
+                  src={resolveAsset(`./assets/images/detail/cartoons/${cartoon.id}/characters/${c.id}.png`)}
                   alt={c.name}
                   className="char-thumb-img"
                 />
@@ -72,7 +73,7 @@ export default function LivingRoom({ cartoon }) {
               {/* 人物立绘 */}
               <div className="char-portrait">
                 <img
-                  src={`./assets/images/detail/cartoons/${cartoon.id}/characters/${active.id}.png`}
+                  src={resolveAsset(`./assets/images/detail/cartoons/${cartoon.id}/characters/${active.id}.png`)}
                   alt={active.name}
                   className="char-portrait-img"
                 />

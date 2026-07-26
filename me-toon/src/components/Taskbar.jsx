@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import SvgIcon from './SvgIcon.jsx'
+import { resolveAsset } from '../assets/manifest.js'
 import './Taskbar.css'
 
 /**
@@ -31,7 +32,7 @@ export default function Taskbar({ onStartClick, isStartOpen }) {
 
       <div className="taskbar-tray">
         <div className="tray-icon tray-qq" title="QQ" id="tray-qq">
-          <img src="./assets/images/desktop/qq-penguin.png" alt="QQ" width={16} height={16} />
+          <img src={resolveAsset('./assets/images/desktop/qq-penguin.png')} alt="QQ" width={16} height={16} />
         </div>
         <div className="tray-icon tray-speaker" title="音量">
           <SvgIcon name="volume" size={16} color="#FFFFFF" />

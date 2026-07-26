@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import XpWindow from './XpWindow.jsx'
 import SvgIcon from './SvgIcon.jsx'
+import { resolveAsset } from '../assets/manifest.js'
 import './QqMessage.css'
 
 /**
@@ -65,7 +66,7 @@ export default function QqMessage() {
       <div className="qq-message">
         <div className="qq-message-header">
           <div className="qq-message-avatar">
-            <img src="./assets/images/desktop/dachentou-avatar.png" alt="大风车" width={40} height={40} />
+            <img src={resolveAsset('./assets/images/desktop/dachentou-avatar.png')} alt="大风车" width={40} height={40} />
           </div>
           <div className="qq-message-info">
             <div className="qq-message-nickname">大风车</div>

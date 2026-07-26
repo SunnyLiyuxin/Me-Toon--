@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useTypewriter, useMusic, useSound } from '../../hooks/useMedia.js'
 import SvgIcon from '../../components/SvgIcon.jsx'
+import { resolveAsset } from '../../assets/manifest.js'
 import './ArchiveRoom.css'
 
 /**
@@ -72,12 +73,12 @@ export default function ArchiveRoom({ cartoon }) {
           onMouseEnter={handlePortraitHover}
         >
           <img
-            src="./assets/images/detail/wooden-frame.png"
+            src={resolveAsset('./assets/images/detail/wooden-frame.png')}
             alt=""
             className="portrait-frame"
           />
           <img
-            src={`./assets/images/detail/cartoons/${cartoon.id}/portrait.png`}
+            src={resolveAsset(`./assets/images/detail/cartoons/${cartoon.id}/portrait.png`)}
             alt={`${cartoon.director}与${cartoon.name}`}
             className="portrait-img"
           />
@@ -169,7 +170,7 @@ export default function ArchiveRoom({ cartoon }) {
           title={musicPlaying ? '暂停主题曲' : '点击播放主题曲'}
         >
           <img
-            src="./assets/images/detail/radio-icon.png"
+            src={resolveAsset('./assets/images/detail/radio-icon.png')}
             alt="收音机"
             className="radio-img"
           />
