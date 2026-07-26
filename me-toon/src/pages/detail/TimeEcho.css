@@ -1,22 +1,38 @@
 /* ============================================================
-   时光回响模块 — 时间漩涡 + 像素手机 + 羊设卡片 + 认证卡
+   时光回响 · 大手机弹窗（TimeEchoPhone）
+   500×700 像素风全面屏手机，全屏居中
    ============================================================ */
-.time-echo-panel {
+
+/* ===== 全屏遮罩 ===== */
+.time-echo-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.75);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 16px;
-  min-height: 480px;
+  justify-content: center;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  animation: overlay-fade-in 0.3s ease-out;
+}
+@keyframes overlay-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-/* ===== 阶段 1：时间漩涡 ===== */
-.time-vortex {
+/* ===== 时间漩涡（手机出现前） ===== */
+.time-vortex-center {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 24px;
-  padding: 30px 0;
+  animation: vortex-appear 0.3s ease-out;
+}
+@keyframes vortex-appear {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 .vortex-ring {
@@ -31,8 +47,7 @@
   border-right-color: #FF9DC2;
   border-bottom-color: #7FB3FF;
   border-left-color: #C29BFF;
-  animation: vortex-spin-cw 3s linear infinite;
-  box-shadow: 0 0 30px rgba(255, 216, 107, 0.5), inset 0 0 20px rgba(194, 155, 255, 0.3);
+  animation: vortex-spin-outer 2s linear infinite;
 }
 .vortex-ring-inner {
   width: 140px;
@@ -41,448 +56,629 @@
   border-right-color: #C29BFF;
   border-bottom-color: #FFD86B;
   border-left-color: #FF9DC2;
-  animation: vortex-spin-ccw 2s linear infinite;
-  box-shadow: 0 0 20px rgba(127, 179, 255, 0.5), inset 0 0 15px rgba(255, 216, 107, 0.3);
+  animation: vortex-spin-inner 1.5s linear infinite reverse;
+}
+@keyframes vortex-spin-outer {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes vortex-spin-inner {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .vortex-core {
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 4px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent 70%);
-  border-radius: 50%;
-  animation: vortex-pulse 1.5s ease-in-out infinite;
-}
-.vortex-year {
-  font-family: var(--font-pixel), 'Courier New', monospace;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  color: #FFFFFF;
-  text-shadow: 0 0 8px currentColor;
-}
-.vortex-year-2005 { color: #FFD86B; }
-.vortex-year-2025 { color: #7FB3FF; }
-.vortex-sand {
-  width: 2px;
-  height: 14px;
-  background: linear-gradient(180deg, #FFD86B, #7FB3FF);
-  animation: vortex-sand-flow 1s ease-in-out infinite;
-}
-
-.vortex-hint {
-  font-family: var(--font-cn);
-  font-size: 13px;
-  color: #C29BFF;
-  letter-spacing: 2px;
-  opacity: 0.85;
-  animation: vortex-hint-blink 1.5s ease-in-out infinite;
-}
-
-@keyframes vortex-spin-cw {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-@keyframes vortex-spin-ccw {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(-360deg); }
+  animation: vortex-pulse 1.2s ease-in-out infinite;
 }
 @keyframes vortex-pulse {
-  0%, 100% { transform: scale(1); opacity: 0.9; }
-  50% { transform: scale(1.1); opacity: 1; }
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.08); filter: brightness(1.3); }
 }
-@keyframes vortex-sand-flow {
-  0%, 100% { transform: scaleY(1); }
-  50% { transform: scaleY(1.4); }
+.vortex-year {
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 2px;
 }
-@keyframes vortex-hint-blink {
-  0%, 100% { opacity: 0.5; }
+.vortex-year-2005 { color: #FFD86B; text-shadow: 0 0 8px #FFD86B; }
+.vortex-year-2025 { color: #7FB3FF; text-shadow: 0 0 8px #7FB3FF; }
+.vortex-sand {
+  width: 30px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #FFF, transparent);
+  animation: sand-flow 1.5s linear infinite;
+}
+@keyframes sand-flow {
+  0% { transform: translateX(-20px); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateX(20px); opacity: 0; }
+}
+.vortex-hint {
+  margin-top: 240px;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 14px;
+  color: #C29BFF;
+  letter-spacing: 4px;
+  text-shadow: 0 0 6px rgba(194, 155, 255, 0.6);
+  animation: hint-pulse 1.5s ease-in-out infinite;
+}
+@keyframes hint-pulse {
+  0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
 }
 
-/* ===== 阶段 2：像素手机对话框 ===== */
-.echo-phone {
-  width: 320px;
-  background: #2a2a3a;
-  border: 3px solid #FFFFFF;
-  border-radius: 18px;
-  padding: 6px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 24px rgba(194, 155, 255, 0.3);
-  animation: phone-rise 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+/* ============================================================
+   大手机弹窗（500×700）
+   ============================================================ */
+.time-echo-phone {
+  position: relative;
+  width: 500px;
+  height: 700px;
+  background: #333333;
+  border-radius: 28px;
+  padding: 18px 12px 18px 12px;
+  box-shadow:
+    0 0 0 4px #1a1a1a,
+    0 0 0 6px #4a4a4a,
+    0 30px 80px rgba(0, 0, 0, 0.8),
+    0 0 60px rgba(100, 150, 255, 0.2),
+    inset 0 0 4px rgba(255, 255, 255, 0.1);
+  image-rendering: pixelated;
 }
 
-@keyframes phone-rise {
-  from { opacity: 0; transform: translateY(20px) scale(0.9); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+.phone-pop-in {
+  animation: phone-pop-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+@keyframes phone-pop-in {
+  0% {
+    transform: scale(0) rotate(-10deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.08) rotate(2deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
 }
 
-.phone-screen {
-  background: linear-gradient(180deg, #1a1a2e, #2a1a4e);
-  border-radius: 12px;
-  padding: 0;
+.phone-pop-out {
+  animation: phone-pop-out 0.4s ease-in forwards;
+}
+@keyframes phone-pop-out {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.3) translateY(40px); opacity: 0; }
+}
+
+/* 关闭按钮 */
+.phone-close-btn {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  width: 28px;
+  height: 28px;
+  background: #c00000;
+  color: #fff;
+  border: 2px solid #ff8080;
+  border-right-color: #800000;
+  border-bottom-color: #800000;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 800;
+  font-family: 'Courier New', monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  transition: transform 0.15s;
+}
+.phone-close-btn:hover {
+  transform: scale(1.1);
+  background: #e00000;
+}
+
+/* 像素侧边键 */
+.phone-side-keys {
+  position: absolute;
+  right: -6px;
+  top: 130px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.phone-key {
+  display: block;
+  background: #2a2a2a;
+  border-radius: 0 3px 3px 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+.phone-key-vol-up { width: 4px; height: 30px; }
+.phone-key-vol-down { width: 4px; height: 30px; }
+.phone-key-power {
+  position: absolute;
+  right: 0;
+  top: 80px;
+  width: 4px;
+  height: 50px;
+  background: #2a2a2a;
+  border-radius: 0 3px 3px 0;
+}
+
+/* 顶部听筒 */
+.phone-earpiece {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: #1a1a1a;
+  border-radius: 2px;
+  z-index: 2;
+}
+
+/* ============================================================
+   屏幕（460×640 白色背景）
+   ============================================================ */
+.phone-screen-large {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #FFFFFF;
+  border-radius: 16px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-.phone-statusbar {
+/* 状态栏 */
+.phone-statusbar-large {
+  height: 30px;
+  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 6px 12px;
-  background: #000;
-  color: #FFFFFF;
-  font-family: var(--font-pixel), 'Courier New', monospace;
-  font-size: 11px;
-  font-weight: 700;
+  background: #FFFFFF;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 12px;
+  color: #333333;
+  font-weight: 600;
+  flex-shrink: 0;
 }
-.phone-signal, .phone-battery { font-size: 12px; }
-
-.phone-content {
-  padding: 16px 14px;
-  color: #E0D0FF;
-  font-family: var(--font-cn);
-  font-size: 13px;
-  line-height: 1.7;
+.phone-status-time {
+  letter-spacing: 0.5px;
 }
-.echo-title {
-  font-size: 15px;
-  font-weight: 800;
-  color: #FFD86B;
-  margin-bottom: 8px;
+.phone-status-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
-.echo-quote {
-  font-size: 16px;
-  font-weight: 800;
-  color: #FF9DC2;
-  text-align: center;
-  padding: 10px;
-  background: rgba(255, 157, 194, 0.1);
-  border-radius: 6px;
-  margin: 8px 0;
-  letter-spacing: 1px;
+.phone-signal-bars {
+  color: #333;
+  font-size: 10px;
+  letter-spacing: -1px;
 }
-.echo-source {
-  color: #7FB3FF;
-  margin: 8px 0;
+.phone-wifi, .phone-battery {
   font-size: 12px;
 }
-.echo-story {
-  color: #C8B8E8;
-  font-size: 12px;
-  line-height: 1.6;
-  background: rgba(255, 255, 255, 0.04);
-  padding: 8px 10px;
-  border-radius: 4px;
-  border-left: 2px solid #C29BFF;
+
+.phone-statusbar-divider {
+  height: 1px;
+  background: #E5E5E5;
+  flex-shrink: 0;
 }
 
-.echo-view-btn {
-  display: block;
-  width: 100%;
-  margin-top: 14px;
-  padding: 10px;
-  background: linear-gradient(180deg, #C29BFF, #9A6BBF);
-  border: 2px solid #FFFFFF;
-  color: #FFFFFF;
-  font-family: var(--font-cn);
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.15s;
-}
-.echo-view-btn:hover {
-  background: linear-gradient(180deg, #D2ABFF, #AA7BCF);
-  transform: translateY(-1px);
-}
-
-/* ===== 阶段 3：羊设认领卡片 ===== */
-.sheep-cards-stage {
+/* 内容区 */
+.phone-content-large {
+  flex: 1;
+  padding: 12px 20px 8px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  width: 100%;
-}
-
-.sheep-cards-track {
-  width: 280px;
-  height: 360px;
-  position: relative;
+  gap: 8px;
   overflow: hidden;
-  perspective: 1000px;
 }
 
-.sheep-card {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, #FFF8E8, #FFE8D8);
-  border: 3px solid #C29BFF;
-  border-radius: 12px;
-  padding: 18px 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
+/* 标题区 */
+.phone-title-area {
   text-align: center;
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 20px rgba(194, 155, 255, 0.2);
+  padding: 4px 0 6px;
+  flex-shrink: 0;
 }
-
-.sheep-card.is-current {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 30px rgba(194, 155, 255, 0.5);
-}
-
-.sheep-card-emoji {
-  font-size: 48px;
-  line-height: 1;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
-}
-.sheep-card-motto {
-  font-family: var(--font-cn);
-  font-size: 17px;
-  font-weight: 800;
-  color: #5A2A8A;
-  letter-spacing: 1px;
-}
-.sheep-card-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  font-size: 11px;
-  color: #888;
-  font-family: var(--font-cn);
-}
-.sheep-card-meaning {
-  font-family: var(--font-cn);
-  font-size: 13px;
-  line-height: 1.6;
-  color: #4A3A5A;
-  background: rgba(255, 255, 255, 0.6);
-  padding: 8px 10px;
-  border-radius: 6px;
-  border-left: 3px solid #C29BFF;
-}
-.sheep-card-usage {
-  font-family: var(--font-cn);
-  font-size: 12px;
-  color: #9A6BBF;
-  font-style: italic;
-}
-.sheep-card-choose {
-  margin-top: auto;
-  padding: 10px 16px;
-  background: linear-gradient(180deg, #FF9DC2, #E06090);
-  border: 2px solid #FFFFFF;
-  color: #FFFFFF;
-  font-family: var(--font-cn);
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.15s;
-}
-.sheep-card-choose:hover {
-  background: linear-gradient(180deg, #FFB0D2, #F070A0);
-  transform: scale(1.05);
-}
-
-.sheep-cards-nav {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-family: var(--font-cn);
-  font-size: 12px;
-  color: #C8B8E8;
-}
-.sheep-cards-nav button {
-  padding: 4px 12px;
-  background: rgba(194, 155, 255, 0.2);
-  border: 1px solid #C29BFF;
-  color: #FFFFFF;
-  font-family: var(--font-cn);
-  font-size: 12px;
-  cursor: pointer;
-  border-radius: 3px;
-  transition: all 0.15s;
-}
-.sheep-cards-nav button:hover:not(:disabled) {
-  background: rgba(194, 155, 255, 0.4);
-}
-.sheep-cards-nav button:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-.sheep-cards-counter {
+.phone-title-main {
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 16px;
   font-weight: 700;
-  color: #FFD86B;
+  color: #333333;
+  letter-spacing: 0.5px;
+}
+.phone-title-sub {
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 12px;
+  color: #999999;
+  margin-top: 3px;
 }
 
-/* ===== 阶段 4：羊设认证卡 ===== */
-.cert-stage {
+/* 起源帖子卡片 */
+.phone-post-card {
+  background: #F8F8F8;
+  border: 1px solid #E5E5E5;
+  border-radius: 8px;
+  padding: 10px 12px;
+  flex-shrink: 0;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+.post-header {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  animation: cert-appear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-@keyframes cert-appear {
-  from { opacity: 0; transform: rotateY(90deg) scale(0.8); }
-  to { opacity: 1; transform: rotateY(0deg) scale(1); }
-}
-
-.cert-card {
-  width: 280px;
-  background: linear-gradient(135deg, #FFF8E8 0%, #FFE8F8 50%, #E8F0FF 100%);
-  border: 3px solid #C29BFF;
-  border-radius: 10px;
-  padding: 20px 18px;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   gap: 8px;
+  margin-bottom: 6px;
+}
+.post-avatar {
+  font-size: 20px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #E0E0E0;
+  border-radius: 50%;
+}
+.post-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.post-author {
+  font-size: 12px;
+  font-weight: 700;
+  color: #333;
+}
+.post-info {
+  font-size: 10px;
+  color: #999;
+}
+.post-body {
+  font-size: 12px;
+  color: #333;
+  line-height: 1.55;
+  margin: 4px 0 6px;
+  white-space: pre-line;
+}
+.post-stats {
+  display: flex;
+  gap: 12px;
+  padding-top: 6px;
+  border-top: 1px solid #EEEEEE;
+  font-size: 11px;
+  color: #888;
+}
+
+/* 过渡文案 */
+.phone-transition {
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 12px;
+  color: #666666;
   text-align: center;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 30px rgba(194, 155, 255, 0.4);
+  line-height: 1.5;
+  padding: 4px 0;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   羊设卡片网格（2×3）
+   ============================================================ */
+.sheep-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  flex: 1;
+  min-height: 0;
+}
+
+.sheep-grid-card {
+  background: #FFFFFF;
+  border: 1px solid #E0E0E0;
+  border-radius: 6px;
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  text-align: center;
+}
+.sheep-grid-card:hover {
+  border-color: #0054E3;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 84, 227, 0.15);
+}
+.sheep-grid-card.is-selected {
+  border-color: #FFCC00;
+  transform: scale(1.05);
+  box-shadow: 0 0 16px rgba(255, 204, 0, 0.5);
+}
+.sheep-grid-card.is-dimmed {
+  opacity: 0.4;
+}
+
+.sheep-grid-emoji {
+  font-size: 22px;
+  margin-bottom: 2px;
+}
+.sheep-grid-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 3px;
+}
+.sheep-grid-desc {
+  font-size: 10px;
+  color: #888;
+  line-height: 1.35;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sheep-grid-btn {
+  font-size: 10px;
+  color: #0054E3;
+  font-weight: 600;
+  margin-top: 4px;
+  padding: 2px 4px;
+  border: 1px solid #0054E3;
+  border-radius: 3px;
+  background: rgba(0, 84, 227, 0.05);
+}
+
+/* 底部提示 */
+.phone-bottom-hint {
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 11px;
+  color: #999999;
+  text-align: center;
+  padding: 4px 0 2px;
+  animation: hint-blink 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes hint-blink {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* ============================================================
+   羊设认证卡（翻转）
+   ============================================================ */
+.cert-flip-stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+  min-height: 0;
+}
+
+.cert-card-large {
   position: relative;
+  width: 100%;
+  max-width: 360px;
+  height: 100%;
+  max-height: 380px;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
 }
-.cert-card.has-callback {
-  border-color: #FFD700;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 40px rgba(255, 215, 0, 0.6);
-}
-
-.cert-card-emoji {
-  font-size: 40px;
-  animation: cert-bounce 1.5s ease-in-out infinite;
-}
-@keyframes cert-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+.cert-card-large.is-flipped {
+  transform: rotateY(180deg);
 }
 
-.cert-card-title {
-  font-family: var(--font-cn);
+.cert-card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px;
+  border-radius: 8px;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+/* 正面（卡片选择确认） */
+.cert-card-front {
+  background: linear-gradient(135deg, #FFF8E0 0%, #FFE8B0 100%);
+  border: 2px solid #FFCC00;
+  color: #7A4A00;
+}
+.cert-card-front .cert-card-emoji {
+  font-size: 60px;
+}
+.cert-card-front .cert-card-title {
   font-size: 18px;
   font-weight: 800;
-  color: #5A2A8A;
-  letter-spacing: 2px;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
+/* 背面（认证卡内容） */
+.cert-card-back {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F0F8FF 100%);
+  border: 2px solid #0054E3;
+  transform: rotateY(180deg);
+  color: #333;
+  text-align: center;
+  gap: 4px;
+  padding: 14px 16px;
+}
+.cert-card-emoji-small {
+  font-size: 28px;
+}
+.cert-card-title-small {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0054E3;
+  margin-bottom: 4px;
+}
 .cert-card-row {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  font-family: var(--font-cn);
   font-size: 12px;
-  color: #6A5A7A;
-  padding: 0 8px;
+  padding: 2px 8px;
+}
+.cert-card-row > span:first-child {
+  color: #888;
 }
 .cert-card-name {
-  color: #9A6BBF;
   font-weight: 700;
+  color: #333;
 }
 .cert-card-motto-row {
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  margin: 8px 0;
+  gap: 2px;
+  background: rgba(0, 84, 227, 0.05);
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin: 2px 0;
 }
 .cert-card-motto-text {
-  font-size: 15px;
-  font-weight: 800;
-  color: #5A2A8A;
-  letter-spacing: 1px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0054E3;
+  font-style: italic;
 }
 .cert-card-from {
-  font-family: var(--font-cn);
-  font-size: 13px;
-  color: #4A3A5A;
-  line-height: 1.7;
-  margin: 6px 0;
+  font-size: 11px;
+  color: #555;
+  line-height: 1.5;
+  margin: 2px 0;
 }
 .cert-card-source {
-  font-family: var(--font-cn);
   font-size: 10px;
-  color: #888;
-  font-style: italic;
-  margin-bottom: 6px;
+  color: #999;
+  line-height: 1.4;
+  margin: 2px 0 4px;
 }
 .cert-card-save {
-  padding: 10px 20px;
-  background: linear-gradient(180deg, #FFD86B, #E0A030);
-  border: 2px solid #FFFFFF;
-  color: #5A2A00;
-  font-family: var(--font-cn);
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  cursor: pointer;
+  padding: 6px 16px;
+  background: linear-gradient(180deg, #0054E3, #003C9A);
+  color: #FFFFFF;
+  border: 1px solid #002A6A;
   border-radius: 4px;
-  transition: all 0.15s;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  transition: transform 0.15s;
+  margin-top: 4px;
 }
 .cert-card-save:hover:not(:disabled) {
-  background: linear-gradient(180deg, #FFE58B, #F0B040);
-  transform: scale(1.05);
+  transform: translateY(-1px);
 }
 .cert-card-save:disabled {
-  background: linear-gradient(180deg, #B0C8A0, #90A880);
-  color: #FFFFFF;
+  background: #4a8a4a;
+  border-color: #2a6a2a;
   cursor: default;
 }
 
-/* ===== call back 彩蛋 ===== */
-.callback-egg {
-  width: 280px;
-  background: linear-gradient(135deg, #FFFBE6, #FFE8A0);
-  border: 3px solid #FFD700;
-  border-radius: 10px;
-  padding: 16px;
-  text-align: center;
-  font-family: var(--font-cn);
-  font-size: 13px;
-  color: #5A3A00;
-  line-height: 1.7;
-  box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
-  animation: callback-glow 2s ease-in-out infinite;
+/* Toast 提示 */
+.phone-toast {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: #FFFFFF;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  animation: toast-pop 0.3s ease-out;
+  z-index: 5;
 }
-.callback-egg p { margin: 2px 0; }
-.callback-welcome {
-  margin-top: 8px !important;
-  font-weight: 800;
-  font-size: 15px;
-  color: #9A5A00;
-  letter-spacing: 1px;
-}
-@keyframes callback-glow {
-  0%, 100% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); }
-  50% { box-shadow: 0 0 50px rgba(255, 215, 0, 0.8); }
+@keyframes toast-pop {
+  0% { transform: translateX(-50%) translateY(20px); opacity: 0; }
+  100% { transform: translateX(-50%) translateY(0); opacity: 1; }
 }
 
-/* ===== 结尾文案 ===== */
-.echo-ending {
-  margin-top: 16px;
+/* ============================================================
+   跨 20 年 Call Back 彩蛋
+   ============================================================ */
+.callback-egg-large {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 380px;
+  z-index: 20;
+  animation: callback-appear 0.4s ease-out;
+}
+@keyframes callback-appear {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.callback-egg-inner {
+  background: linear-gradient(135deg, #FFFAE0 0%, #FFE8B0 100%);
+  border: 3px solid #FFCC00;
+  border-radius: 10px;
+  padding: 18px 20px;
   text-align: center;
-  font-family: var(--font-cn);
-  font-size: 12px;
-  color: #C8B8E8;
-  line-height: 1.8;
-  opacity: 0.9;
-  animation: echo-fade-in 1s ease-out;
+  box-shadow: 0 0 40px rgba(255, 204, 0, 0.6), 0 8px 24px rgba(0, 0, 0, 0.4);
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
-.echo-ending-sign {
-  margin-top: 8px;
-  font-size: 11px;
-  color: #9A6BBF;
-  font-style: italic;
+.callback-egg-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #8a4a00;
+  margin-bottom: 10px;
 }
-@keyframes echo-fade-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 0.9; transform: translateY(0); }
+.callback-egg-inner p {
+  font-size: 13px;
+  color: #5a3a00;
+  line-height: 1.6;
+  margin: 3px 0;
+}
+.callback-welcome-large {
+  font-size: 15px !important;
+  font-weight: 800;
+  color: #8a4a00 !important;
+  margin-top: 8px !important;
+}
+.callback-egg-btn {
+  margin-top: 12px;
+  padding: 6px 18px;
+  background: linear-gradient(180deg, #FFCC00, #E0A030);
+  color: #5a2a00;
+  border: 2px solid #B88020;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  transition: transform 0.15s;
+}
+.callback-egg-btn:hover {
+  transform: translateY(-1px);
 }

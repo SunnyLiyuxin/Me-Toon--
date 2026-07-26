@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Viewport from '../components/Viewport.jsx'
 import StartMenu from '../components/StartMenu.jsx'
+import ShutdownSequence from '../components/ShutdownSequence.jsx'
 import WelcomePopup from '../components/WelcomePopup.jsx'
 import QqMessage from '../components/QqMessage.jsx'
 import XpWindow from '../components/XpWindow.jsx'
@@ -21,6 +22,7 @@ export default function Desktop() {
   const [startOpen, setStartOpen] = useState(false)
   const [showWelcome, setShowWelcome] = useState(false)
   const [showChooser, setShowChooser] = useState(false)
+  const [shuttingDown, setShuttingDown] = useState(false)
   const [time, setTime] = useState(getTime())
 
   // 实时时间
@@ -46,34 +48,41 @@ export default function Desktop() {
     }
   }
 
+  // ===== 统一入口函数（桌面图标双击 + 开始菜单单击共享） =====
+  // 动画放映厅：唯一入口，必须弹出"选择你的寻找方式"弹窗
+  const openAnimationHall = () => setShowChooser(true)
+  const openMemoryDrawer = () => navigate('/collection')
+  const openRadioStation = () => navigate('/radio')
+  const openLobby = () => navigate('/lobby')
+  const shutdownSequence = () => setShuttingDown(true)
+
+  // 桌面中央 4 个入口卡片
   const handleEntryClick = (type) => {
     switch (type) {
-      case 'theater':
-        setShowChooser(true)
-        break
-      case 'jukebox':
-        navigate('/radio')
-        break
-      case 'drawer':
-        navigate('/collection')
-        break
-      case 'stream':
-        navigate('/lobby')
-        break
+      case 'theater': openAnimationHall(); break
+      case 'jukebox': openRadioStation(); break
+      case 'drawer':  openMemoryDrawer(); break
+      case 'stream':  openLobby(); break
     }
   }
 
+  // 左上角桌面图标
   const handleDesktopIconClick = (type) => {
     switch (type) {
-      case 'computer':
-        setShowChooser(true)
-        break
-      case 'trash':
-        navigate('/collection')
-        break
-      case 'network':
-        navigate('/lobby')
-        break
+      case 'computer': openAnimationHall(); break
+      case 'trash':    openMemoryDrawer(); break
+      case 'network':  openLobby(); break
+    }
+  }
+
+  // 开始菜单动作分发（与桌面入口共享同一组函数）
+  const handleStartAction = (action) => {
+    switch (action) {
+      case 'theater':  openAnimationHall(); break
+      case 'drawer':   openMemoryDrawer(); break
+      case 'radio':    openRadioStation(); break
+      case 'lobby':    openLobby(); break
+      case 'shutdown': shutdownSequence(); break
     }
   }
 
@@ -224,8 +233,17 @@ export default function Desktop() {
       {/* QQ 消息彩蛋 */}
       <QqMessage />
 
-      {/* 开始菜单 */}
-      <StartMenu open={startOpen} onClose={() => setStartOpen(false)} />
+      {/* 开始菜单（与桌面入口共享同一组处理函数） */}
+      <StartMenu
+        open={startOpen}
+        onClose={() => setStartOpen(false)}
+        onAction={handleStartAction}
+      />
+
+      {/* 关机序列 */}
+      {shuttingDown && (
+        <ShutdownSequence onDone={() => setShuttingDown(false)} />
+      )}
     </Viewport>
   )
 }
