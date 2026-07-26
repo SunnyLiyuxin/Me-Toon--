@@ -57,18 +57,347 @@
 }
 
 /* ============================================================
-   泡泡容器
+   共振台 + 卫星按钮
    ============================================================ */
-.resonance-bubbles {
+.resonance-stage {
   position: relative;
   z-index: 1;
   flex: 1;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 360px;
+}
+
+.resonance-orbit {
+  position: relative;
+  width: 360px;
+  height: 360px;
+}
+
+/* 中央共振台 */
+.resonance-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+.resonance-core-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 204, 255, 0.4), rgba(194, 155, 255, 0.2) 60%, transparent 100%);
+  border: 2px solid rgba(255, 204, 255, 0.5);
+  box-shadow: 0 0 30px rgba(255, 204, 255, 0.6), inset 0 0 20px rgba(194, 155, 255, 0.3);
+  justify-content: center;
+}
+.resonance-core-label {
+  font-family: var(--font-cn);
+  font-size: 10px;
+  font-weight: 700;
+  color: #FFCCFF;
+  letter-spacing: 1px;
+  opacity: 0.8;
+}
+.resonance-core-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px dashed rgba(255, 204, 255, 0.3);
+  animation: core-ring-spin 12s linear infinite;
+}
+.resonance-core-ring-2 {
+  inset: -12px;
+  border-color: rgba(194, 155, 255, 0.2);
+  animation-duration: 18s;
+  animation-direction: reverse;
+}
+.resonance-core.is-burst .resonance-core-inner {
+  animation: core-burst 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes core-ring-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes core-burst {
+  0% { transform: scale(1); box-shadow: 0 0 30px rgba(255, 204, 255, 0.6); }
+  50% { transform: scale(1.4); box-shadow: 0 0 60px rgba(255, 204, 255, 1); }
+  100% { transform: scale(1); box-shadow: 0 0 30px rgba(255, 204, 255, 0.6); }
+}
+
+/* 卫星按钮 */
+.resonance-satellite {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  background: var(--sat-color, #C29BFF);
+  border: 3px solid #FFFFFF;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 0;
+  transform: translate(var(--sat-x, 0), var(--sat-y, 0)) scale(0);
+  opacity: 0;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s, filter 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 16px var(--sat-color, #C29BFF);
+  z-index: 4;
+}
+.resonance-orbit.is-orbiting .resonance-satellite {
+  transform: translate(var(--sat-x, 0), var(--sat-y, 0)) scale(1);
+  opacity: 1;
+  animation: satellite-float 4s ease-in-out infinite;
+}
+.resonance-satellite:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 28px var(--sat-color, #C29BFF);
+}
+.resonance-satellite.is-active {
+  filter: brightness(1.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 32px var(--sat-color, #C29BFF), inset 0 0 0 3px #FFFFFF;
+}
+.resonance-satellite-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.resonance-satellite-label {
+  font-family: var(--font-cn);
+  font-size: 8px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  line-height: 1;
+}
+@keyframes satellite-float {
+  0%, 100% { transform: translate(var(--sat-x, 0), var(--sat-y, 0)) scale(1); }
+  50% { transform: translate(var(--sat-x, 0), calc(var(--sat-y, 0) - 4px)) scale(1.03); }
+}
+
+/* ============================================================
+   功能面板（点击卫星后展开）
+   ============================================================ */
+.resonance-panel {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  width: 90%;
+  max-width: 560px;
+  max-height: 70vh;
+  overflow-y: auto;
+  background: rgba(26, 26, 62, 0.95);
+  border: 2px solid #C29BFF;
+  border-radius: 8px;
+  padding: 16px 18px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 24px rgba(194, 155, 255, 0.3);
+  animation: panel-rise 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes panel-rise {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.resonance-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(194, 155, 255, 0.3);
+}
+.resonance-panel-header h3 {
+  flex: 1;
+  font-family: var(--font-cn);
+  font-size: 16px;
+  font-weight: 800;
+  color: #FFCCFF;
+  letter-spacing: 1px;
+  margin: 0;
+}
+.resonance-panel-close {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #C29BFF;
+  background: rgba(194, 155, 255, 0.2);
+  color: #FFCCFF;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.resonance-panel-close:hover {
+  background: rgba(194, 155, 255, 0.4);
+}
+
+/* 情绪标签面板的泡泡容器 */
+.resonance-panel-emotion .resonance-bubbles {
+  position: relative;
+  z-index: 1;
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: stretch;
+  gap: 16px;
+  padding: 8px;
+  max-height: none;
+  flex: none;
+}
+
+/* ============================================================
+   记忆织布机
+   ============================================================ */
+.loom-prompts {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.loom-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.loom-prompt {
+  display: flex;
   align-items: center;
-  gap: 28px 36px;
-  padding: 20px;
+  gap: 8px;
+  font-family: var(--font-cn);
+  font-size: 13px;
+  color: #E0D0FF;
+}
+.loom-char {
+  background: rgba(255, 157, 194, 0.2);
+  color: #FF9DC2;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid rgba(255, 157, 194, 0.4);
+}
+.loom-text { flex: 1; }
+.loom-input {
+  width: 100%;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(194, 155, 255, 0.4);
+  border-radius: 4px;
+  color: #FFFFFF;
+  font-family: var(--font-cn);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.loom-input::placeholder { color: rgba(200, 184, 232, 0.5); }
+.loom-input:focus {
+  border-color: #C29BFF;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ============================================================
+   未来邮筒
+   ============================================================ */
+.mailbox-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.mailbox-tab {
+  flex: 1;
+  padding: 8px;
+  background: rgba(127, 179, 255, 0.1);
+  border: 1px solid rgba(127, 179, 255, 0.3);
+  color: #C8B8E8;
+  font-family: var(--font-cn);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.15s;
+}
+.mailbox-tab.is-active {
+  background: rgba(127, 179, 255, 0.3);
+  color: #FFFFFF;
+  border-color: #7FB3FF;
+}
+.mailbox-hint {
+  font-family: var(--font-cn);
+  font-size: 12px;
+  color: #9AB8E8;
+  font-style: italic;
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  background: rgba(127, 179, 255, 0.08);
+  border-left: 2px solid #7FB3FF;
+  border-radius: 0 4px 4px 0;
+}
+.mailbox-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(194, 155, 255, 0.4);
+  border-radius: 4px;
+  color: #FFFFFF;
+  font-family: var(--font-cn);
+  font-size: 13px;
+  line-height: 1.6;
+  resize: vertical;
+  outline: none;
+  min-height: 100px;
+}
+.mailbox-textarea::placeholder { color: rgba(200, 184, 232, 0.5); }
+.mailbox-textarea:focus {
+  border-color: #7FB3FF;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* 保存/寄出按钮（共用） */
+.resonance-panel-save {
+  display: block;
+  margin: 14px auto 4px;
+  padding: 10px 28px;
+  background: linear-gradient(180deg, #C29BFF, #9A6BBF);
+  border: 2px solid #FFFFFF;
+  color: #FFFFFF;
+  font-family: var(--font-cn);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.15s;
+}
+.resonance-panel-save:hover:not(:disabled) {
+  background: linear-gradient(180deg, #D2ABFF, #AA7BCF);
+  transform: translateY(-1px);
+}
+.resonance-panel-save:disabled {
+  background: linear-gradient(180deg, #8A8AAA, #6A6A8A);
+  cursor: default;
+  opacity: 0.8;
 }
 
 /* ============================================================

@@ -181,6 +181,115 @@ def gen_tutu_theme():
         print(f"  ✓ 已保存为: {path}")
 
 # ============================================================
+# 生成《喜羊羊与灰太狼》主题曲《别看我只是一只羊》8-bit 版本（约 30 秒）
+# ============================================================
+def gen_xiyangyang_theme():
+    print("\n生成《喜羊羊与灰太狼》主题曲 8-bit 占位")
+    path = os.path.join(AUDIO_DIR, 'xiyangyang-theme.mp3')
+    wav_path = os.path.join(AUDIO_DIR, 'xiyangyang-theme.wav')
+
+    # 简化的旋律（C 大调，轻快跳跃的风格）
+    # 主旋律 - 模仿"别看我只是一只羊，绿草因为我变得更香"的节奏
+    melody = [
+        # 第一乐句 "别看我只是一只羊"
+        ('C5', 0.3), ('E5', 0.3), ('G5', 0.3), ('C5', 0.3),
+        ('E5', 0.3), ('D5', 0.3), ('D5', 0.45),
+        # 第二乐句 "绿草因为我变得更香"
+        ('E5', 0.3), ('G5', 0.3), ('C5', 0.3), ('A4', 0.3),
+        ('C5', 0.3), ('D5', 0.3), ('D5', 0.45),
+        # 第三乐句 "天空因为我变得更蓝"
+        ('C5', 0.3), ('E5', 0.3), ('G5', 0.3), ('E5', 0.3),
+        ('D5', 0.3), ('C5', 0.45),
+        # 第四乐句 "白云因为我变得柔软"
+        ('D5', 0.3), ('E5', 0.3), ('G5', 0.3), ('A4', 0.3),
+        ('G5', 0.6),
+        # 副歌 "虽然我只是羊"
+        ('C5', 0.3), ('E5', 0.3), ('G5', 0.3), ('C5', 0.6),
+    ]
+
+    # 低音线（每小节根音）
+    bass = [
+        ('C3', 0.9), ('G3', 0.9), ('C3', 0.9),
+        ('F3', 0.9), ('G3', 0.9), ('C3', 0.9),
+        ('C3', 0.9), ('G3', 0.9),
+        ('G3', 0.9), ('C3', 0.9),
+        ('C3', 0.9), ('G3', 0.9),
+    ]
+
+    # 拼接主旋律
+    melody_data = []
+    for note, dur in melody:
+        if note == 'rest':
+            melody_data.append(np.zeros(int(SAMPLE_RATE * dur)))
+        else:
+            melody_data.append(square_wave(note_freq(note), dur, volume=0.25, duty=0.5))
+    melody_data = np.concatenate(melody_data)
+
+    # 拼接低音
+    bass_data = []
+    for note, dur in bass:
+        bass_data.append(triangle_wave(note_freq(note), dur, volume=0.2))
+    bass_data = np.concatenate(bass_data)
+
+    # 拼接鼓点
+    drum_data = []
+    total_duration = len(melody_data) / SAMPLE_RATE
+    beat = 0
+    while beat < total_duration:
+        # 底鼓
+        if int(beat * 2) % 2 == 0:
+            drum_data.append(noise_hit(0.1, volume=0.15))
+        else:
+            drum_data.append(np.zeros(int(SAMPLE_RATE * 0.1)))
+        # 军鼓
+        if int(beat * 2) % 2 == 1:
+            drum_data.append(noise_hit(0.08, volume=0.1))
+        else:
+            drum_data.append(np.zeros(int(SAMPLE_RATE * 0.08)))
+        # 留白
+        rest = 0.5 - 0.1 - 0.08
+        if rest > 0:
+            drum_data.append(np.zeros(int(SAMPLE_RATE * rest)))
+        beat += 0.5
+    drum_data = np.concatenate(drum_data)
+
+    # 对齐长度
+    max_len = max(len(melody_data), len(bass_data), len(drum_data))
+    melody_data = np.pad(melody_data, (0, max_len - len(melody_data)))
+    bass_data = np.pad(bass_data, (0, max_len - len(bass_data)))
+    drum_data = np.pad(drum_data, (0, max_len - len(drum_data)))
+
+    # 混音
+    mixed = melody_data + bass_data + drum_data
+    # 加一点点淡入淡出
+    fade_samples = int(0.3 * SAMPLE_RATE)
+    fade_in = np.linspace(0, 1, fade_samples)
+    fade_out = np.linspace(1, 0, fade_samples)
+    mixed[:fade_samples] *= fade_in
+    mixed[-fade_samples:] *= fade_out
+
+    # 循环 2 次凑够 1 分钟左右
+    mixed = np.concatenate([mixed, mixed])
+
+    save_wav(mixed, wav_path)
+
+    # 尝试转 mp3（如果 ffmpeg 可用）
+    import subprocess
+    try:
+        subprocess.run(
+            ['ffmpeg', '-y', '-i', wav_path, '-codec:a', 'libmp3lame', '-b:a', '128k', path],
+            check=True, capture_output=True
+        )
+        print(f"  ✓ 转换 MP3: {path}")
+        os.remove(wav_path)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        print(f"  ⚠ ffmpeg 不可用，保留 WAV 格式")
+        # 重命名为 .wav 让前端能播放
+        # 但 JSON 引用的是 .mp3，所以创建一个 mp3 后缀的拷贝
+        os.rename(wav_path, path)
+        print(f"  ✓ 已保存为: {path}")
+
+# ============================================================
 # 生成 8-bit 音效
 # ============================================================
 def gen_sfx(name, generator):
@@ -235,6 +344,7 @@ def main():
     print("Me-Toon 8-bit 音频生成")
     print("=" * 60)
     gen_tutu_theme()
+    gen_xiyangyang_theme()
     print("\n生成 8-bit 音效...")
     gen_sfx('coin', sfx_coin)
     gen_sfx('click', sfx_click)

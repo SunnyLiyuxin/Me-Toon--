@@ -1,0 +1,282 @@
+/* ============================================================
+   我的记忆抽屉（收藏册）
+   ============================================================ */
+.page-collection {
+  background: linear-gradient(180deg, #1a1a3e 0%, #2a1a5e 60%, #3e1a5e 100%);
+  min-height: 100vh;
+  position: relative;
+  overflow: auto;
+}
+
+.collection-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px 24px 60px;
+  color: #E0D0FF;
+}
+
+/* ===== 顶部标题 ===== */
+.collection-header {
+  text-align: center;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.collection-title {
+  font-family: var(--font-cn);
+  font-size: 36px;
+  font-weight: 800;
+  color: #FFCCFF;
+  text-shadow: 2px 2px 0 #4a1a6e, 0 0 12px rgba(255, 204, 255, 0.6);
+  letter-spacing: 4px;
+  margin: 0;
+}
+.collection-subtitle {
+  font-family: var(--font-cn);
+  font-size: 14px;
+  color: #C8B8E8;
+  opacity: 0.85;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+/* ===== Tabs ===== */
+.collection-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.collection-tab {
+  padding: 10px 18px;
+  background: rgba(194, 155, 255, 0.1);
+  border: 2px solid rgba(194, 155, 255, 0.3);
+  color: #C8B8E8;
+  font-family: var(--font-cn);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.15s;
+  letter-spacing: 0.5px;
+}
+.collection-tab:hover {
+  background: rgba(194, 155, 255, 0.2);
+  border-color: rgba(194, 155, 255, 0.5);
+}
+.collection-tab.is-active {
+  background: linear-gradient(180deg, #C29BFF, #9A6BBF);
+  color: #FFFFFF;
+  border-color: #FFFFFF;
+  box-shadow: 0 0 16px rgba(194, 155, 255, 0.5);
+}
+
+/* ===== 内容区 ===== */
+.collection-content {
+  min-height: 400px;
+}
+.collection-empty {
+  text-align: center;
+  padding: 80px 20px;
+  color: #9A8ABF;
+  font-family: var(--font-cn);
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.8;
+}
+
+/* ===== 贴纸网格 ===== */
+.sticker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  padding: 8px;
+}
+.sticker-slot {
+  perspective: 1000px;
+}
+
+/* ===== 通用贴纸样式 ===== */
+.sticker {
+  position: relative;
+  width: 100%;
+  min-height: 200px;
+  padding: 16px 14px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+  cursor: default;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.sticker:hover {
+  transform: translateY(-4px) rotate(-1deg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+.sticker-shine {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  width: 24px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transform: rotate(-25deg);
+  pointer-events: none;
+  filter: blur(1px);
+}
+.sticker-image {
+  margin: 6px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sticker-name {
+  font-family: var(--font-cn);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+.sticker-date {
+  font-family: var(--font-cn);
+  font-size: 10px;
+  opacity: 0.7;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+/* ===== 动画贴纸 ===== */
+.sticker-cartoon {
+  background: linear-gradient(135deg, #FFF8E8, #FFE8C8);
+  border: 2px solid #FFD86B;
+  color: #5A3A00;
+}
+.sticker-cartoon .sticker-name { color: #5A3A00; }
+
+/* ===== 时光回响贴纸 ===== */
+.sticker-timeecho {
+  background: linear-gradient(135deg, #FFE8A0 0%, #FFB8E0 50%, #B0D8FF 100%);
+  border: 2px solid #C29BFF;
+  color: #4A2A6A;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 20px rgba(194, 155, 255, 0.4);
+}
+.sticker-timeecho:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 32px rgba(194, 155, 255, 0.6);
+}
+.timeecho-years {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  justify-content: center;
+  font-family: var(--font-pixel), 'Courier New', monospace;
+  font-size: 10px;
+  font-weight: 800;
+}
+.timeecho-year-2005 { color: #B8860B; }
+.timeecho-year-2025 { color: #4169E1; text-decoration: underline; }
+.timeecho-line {
+  flex: 0 0 30px;
+  height: 2px;
+  background: linear-gradient(90deg, #B8860B, #4169E1);
+  box-shadow: 0 0 6px rgba(194, 155, 255, 0.8);
+  animation: timeecho-line-flow 2s ease-in-out infinite;
+}
+@keyframes timeecho-line-flow {
+  0%, 100% { opacity: 0.6; box-shadow: 0 0 4px rgba(194, 155, 255, 0.6); }
+  50% { opacity: 1; box-shadow: 0 0 10px rgba(194, 155, 255, 1); }
+}
+.timeecho-emoji {
+  font-size: 36px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+.timeecho-motto {
+  font-family: var(--font-cn);
+  font-size: 11px;
+  color: #5A2A8A;
+  font-style: italic;
+  line-height: 1.4;
+  opacity: 0.85;
+}
+
+/* ===== 记忆锦缎贴纸 ===== */
+.sticker-loom {
+  background: linear-gradient(135deg, #FFE0EC, #FFD0E0);
+  border: 2px solid #FF9DC2;
+  color: #5A2050;
+}
+.loom-sticker-char {
+  background: rgba(255, 157, 194, 0.3);
+  color: #9A2050;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-family: var(--font-cn);
+  font-size: 11px;
+  font-weight: 800;
+}
+.loom-sticker-prompt {
+  font-family: var(--font-cn);
+  font-size: 11px;
+  color: #7A3050;
+  line-height: 1.4;
+}
+.loom-sticker-answer {
+  font-family: var(--font-cn);
+  font-size: 12px;
+  color: #5A2050;
+  font-weight: 700;
+  line-height: 1.5;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+  border-left: 2px solid #FF9DC2;
+  width: 100%;
+}
+
+/* ===== 信件贴纸 ===== */
+.sticker-letter {
+  background: linear-gradient(135deg, #D6E8FF, #C0D8F8);
+  border: 2px solid #7FB3FF;
+  color: #143570;
+}
+.letter-sticker-title {
+  font-family: var(--font-cn);
+  font-size: 13px;
+  font-weight: 800;
+  color: #143570;
+  letter-spacing: 1px;
+}
+.letter-sticker-content {
+  font-family: var(--font-cn);
+  font-size: 11px;
+  color: #2A5590;
+  line-height: 1.5;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+  border-left: 2px solid #7FB3FF;
+  width: 100%;
+  max-height: 80px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 720px) {
+  .collection-container { padding: 40px 14px; }
+  .collection-title { font-size: 26px; letter-spacing: 2px; }
+  .collection-subtitle { font-size: 12px; }
+  .collection-tab { padding: 8px 12px; font-size: 12px; }
+  .sticker-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+  .sticker { min-height: 170px; padding: 12px 10px; }
+}

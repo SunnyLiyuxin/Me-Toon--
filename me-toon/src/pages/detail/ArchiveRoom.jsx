@@ -77,7 +77,7 @@ export default function ArchiveRoom({ cartoon }) {
             className="portrait-frame"
           />
           <img
-            src={`./assets/images/detail/cartoons/tutu/portrait.png`}
+            src={`./assets/images/detail/cartoons/${cartoon.id}/portrait.png`}
             alt={`${cartoon.director}与${cartoon.name}`}
             className="portrait-img"
           />

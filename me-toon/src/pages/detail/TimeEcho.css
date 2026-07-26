@@ -1,0 +1,488 @@
+/* ============================================================
+   时光回响模块 — 时间漩涡 + 像素手机 + 羊设卡片 + 认证卡
+   ============================================================ */
+.time-echo-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  min-height: 480px;
+}
+
+/* ===== 阶段 1：时间漩涡 ===== */
+.time-vortex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 30px 0;
+}
+
+.vortex-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 3px dashed transparent;
+}
+.vortex-ring-outer {
+  width: 200px;
+  height: 200px;
+  border-top-color: #FFD86B;
+  border-right-color: #FF9DC2;
+  border-bottom-color: #7FB3FF;
+  border-left-color: #C29BFF;
+  animation: vortex-spin-cw 3s linear infinite;
+  box-shadow: 0 0 30px rgba(255, 216, 107, 0.5), inset 0 0 20px rgba(194, 155, 255, 0.3);
+}
+.vortex-ring-inner {
+  width: 140px;
+  height: 140px;
+  border-top-color: #7FB3FF;
+  border-right-color: #C29BFF;
+  border-bottom-color: #FFD86B;
+  border-left-color: #FF9DC2;
+  animation: vortex-spin-ccw 2s linear infinite;
+  box-shadow: 0 0 20px rgba(127, 179, 255, 0.5), inset 0 0 15px rgba(255, 216, 107, 0.3);
+}
+
+.vortex-core {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent 70%);
+  border-radius: 50%;
+  animation: vortex-pulse 1.5s ease-in-out infinite;
+}
+.vortex-year {
+  font-family: var(--font-pixel), 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #FFFFFF;
+  text-shadow: 0 0 8px currentColor;
+}
+.vortex-year-2005 { color: #FFD86B; }
+.vortex-year-2025 { color: #7FB3FF; }
+.vortex-sand {
+  width: 2px;
+  height: 14px;
+  background: linear-gradient(180deg, #FFD86B, #7FB3FF);
+  animation: vortex-sand-flow 1s ease-in-out infinite;
+}
+
+.vortex-hint {
+  font-family: var(--font-cn);
+  font-size: 13px;
+  color: #C29BFF;
+  letter-spacing: 2px;
+  opacity: 0.85;
+  animation: vortex-hint-blink 1.5s ease-in-out infinite;
+}
+
+@keyframes vortex-spin-cw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes vortex-spin-ccw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+@keyframes vortex-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+@keyframes vortex-sand-flow {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(1.4); }
+}
+@keyframes vortex-hint-blink {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* ===== 阶段 2：像素手机对话框 ===== */
+.echo-phone {
+  width: 320px;
+  background: #2a2a3a;
+  border: 3px solid #FFFFFF;
+  border-radius: 18px;
+  padding: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 24px rgba(194, 155, 255, 0.3);
+  animation: phone-rise 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes phone-rise {
+  from { opacity: 0; transform: translateY(20px) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.phone-screen {
+  background: linear-gradient(180deg, #1a1a2e, #2a1a4e);
+  border-radius: 12px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.phone-statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: #000;
+  color: #FFFFFF;
+  font-family: var(--font-pixel), 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: 700;
+}
+.phone-signal, .phone-battery { font-size: 12px; }
+
+.phone-content {
+  padding: 16px 14px;
+  color: #E0D0FF;
+  font-family: var(--font-cn);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.echo-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #FFD86B;
+  margin-bottom: 8px;
+}
+.echo-quote {
+  font-size: 16px;
+  font-weight: 800;
+  color: #FF9DC2;
+  text-align: center;
+  padding: 10px;
+  background: rgba(255, 157, 194, 0.1);
+  border-radius: 6px;
+  margin: 8px 0;
+  letter-spacing: 1px;
+}
+.echo-source {
+  color: #7FB3FF;
+  margin: 8px 0;
+  font-size: 12px;
+}
+.echo-story {
+  color: #C8B8E8;
+  font-size: 12px;
+  line-height: 1.6;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 8px 10px;
+  border-radius: 4px;
+  border-left: 2px solid #C29BFF;
+}
+
+.echo-view-btn {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  padding: 10px;
+  background: linear-gradient(180deg, #C29BFF, #9A6BBF);
+  border: 2px solid #FFFFFF;
+  color: #FFFFFF;
+  font-family: var(--font-cn);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.15s;
+}
+.echo-view-btn:hover {
+  background: linear-gradient(180deg, #D2ABFF, #AA7BCF);
+  transform: translateY(-1px);
+}
+
+/* ===== 阶段 3：羊设认领卡片 ===== */
+.sheep-cards-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.sheep-cards-track {
+  width: 280px;
+  height: 360px;
+  position: relative;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+.sheep-card {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #FFF8E8, #FFE8D8);
+  border: 3px solid #C29BFF;
+  border-radius: 12px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 20px rgba(194, 155, 255, 0.2);
+}
+
+.sheep-card.is-current {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 30px rgba(194, 155, 255, 0.5);
+}
+
+.sheep-card-emoji {
+  font-size: 48px;
+  line-height: 1;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+.sheep-card-motto {
+  font-family: var(--font-cn);
+  font-size: 17px;
+  font-weight: 800;
+  color: #5A2A8A;
+  letter-spacing: 1px;
+}
+.sheep-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11px;
+  color: #888;
+  font-family: var(--font-cn);
+}
+.sheep-card-meaning {
+  font-family: var(--font-cn);
+  font-size: 13px;
+  line-height: 1.6;
+  color: #4A3A5A;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 8px 10px;
+  border-radius: 6px;
+  border-left: 3px solid #C29BFF;
+}
+.sheep-card-usage {
+  font-family: var(--font-cn);
+  font-size: 12px;
+  color: #9A6BBF;
+  font-style: italic;
+}
+.sheep-card-choose {
+  margin-top: auto;
+  padding: 10px 16px;
+  background: linear-gradient(180deg, #FF9DC2, #E06090);
+  border: 2px solid #FFFFFF;
+  color: #FFFFFF;
+  font-family: var(--font-cn);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.15s;
+}
+.sheep-card-choose:hover {
+  background: linear-gradient(180deg, #FFB0D2, #F070A0);
+  transform: scale(1.05);
+}
+
+.sheep-cards-nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-cn);
+  font-size: 12px;
+  color: #C8B8E8;
+}
+.sheep-cards-nav button {
+  padding: 4px 12px;
+  background: rgba(194, 155, 255, 0.2);
+  border: 1px solid #C29BFF;
+  color: #FFFFFF;
+  font-family: var(--font-cn);
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.15s;
+}
+.sheep-cards-nav button:hover:not(:disabled) {
+  background: rgba(194, 155, 255, 0.4);
+}
+.sheep-cards-nav button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.sheep-cards-counter {
+  font-weight: 700;
+  color: #FFD86B;
+}
+
+/* ===== 阶段 4：羊设认证卡 ===== */
+.cert-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  animation: cert-appear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes cert-appear {
+  from { opacity: 0; transform: rotateY(90deg) scale(0.8); }
+  to { opacity: 1; transform: rotateY(0deg) scale(1); }
+}
+
+.cert-card {
+  width: 280px;
+  background: linear-gradient(135deg, #FFF8E8 0%, #FFE8F8 50%, #E8F0FF 100%);
+  border: 3px solid #C29BFF;
+  border-radius: 10px;
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 30px rgba(194, 155, 255, 0.4);
+  position: relative;
+}
+.cert-card.has-callback {
+  border-color: #FFD700;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 40px rgba(255, 215, 0, 0.6);
+}
+
+.cert-card-emoji {
+  font-size: 40px;
+  animation: cert-bounce 1.5s ease-in-out infinite;
+}
+@keyframes cert-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.cert-card-title {
+  font-family: var(--font-cn);
+  font-size: 18px;
+  font-weight: 800;
+  color: #5A2A8A;
+  letter-spacing: 2px;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.cert-card-row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-family: var(--font-cn);
+  font-size: 12px;
+  color: #6A5A7A;
+  padding: 0 8px;
+}
+.cert-card-name {
+  color: #9A6BBF;
+  font-weight: 700;
+}
+.cert-card-motto-row {
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 8px 0;
+}
+.cert-card-motto-text {
+  font-size: 15px;
+  font-weight: 800;
+  color: #5A2A8A;
+  letter-spacing: 1px;
+}
+.cert-card-from {
+  font-family: var(--font-cn);
+  font-size: 13px;
+  color: #4A3A5A;
+  line-height: 1.7;
+  margin: 6px 0;
+}
+.cert-card-source {
+  font-family: var(--font-cn);
+  font-size: 10px;
+  color: #888;
+  font-style: italic;
+  margin-bottom: 6px;
+}
+.cert-card-save {
+  padding: 10px 20px;
+  background: linear-gradient(180deg, #FFD86B, #E0A030);
+  border: 2px solid #FFFFFF;
+  color: #5A2A00;
+  font-family: var(--font-cn);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.15s;
+}
+.cert-card-save:hover:not(:disabled) {
+  background: linear-gradient(180deg, #FFE58B, #F0B040);
+  transform: scale(1.05);
+}
+.cert-card-save:disabled {
+  background: linear-gradient(180deg, #B0C8A0, #90A880);
+  color: #FFFFFF;
+  cursor: default;
+}
+
+/* ===== call back 彩蛋 ===== */
+.callback-egg {
+  width: 280px;
+  background: linear-gradient(135deg, #FFFBE6, #FFE8A0);
+  border: 3px solid #FFD700;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  font-family: var(--font-cn);
+  font-size: 13px;
+  color: #5A3A00;
+  line-height: 1.7;
+  box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+  animation: callback-glow 2s ease-in-out infinite;
+}
+.callback-egg p { margin: 2px 0; }
+.callback-welcome {
+  margin-top: 8px !important;
+  font-weight: 800;
+  font-size: 15px;
+  color: #9A5A00;
+  letter-spacing: 1px;
+}
+@keyframes callback-glow {
+  0%, 100% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); }
+  50% { box-shadow: 0 0 50px rgba(255, 215, 0, 0.8); }
+}
+
+/* ===== 结尾文案 ===== */
+.echo-ending {
+  margin-top: 16px;
+  text-align: center;
+  font-family: var(--font-cn);
+  font-size: 12px;
+  color: #C8B8E8;
+  line-height: 1.8;
+  opacity: 0.9;
+  animation: echo-fade-in 1s ease-out;
+}
+.echo-ending-sign {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #9A6BBF;
+  font-style: italic;
+}
+@keyframes echo-fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 0.9; transform: translateY(0); }
+}

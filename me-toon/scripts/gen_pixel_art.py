@@ -842,6 +842,220 @@ def gen_tutu_memory_planet():
     img.save(path)
 
 # ============================================================
+# 15. 喜羊羊 - 像素肖像
+# ============================================================
+def gen_xiyangyang_portrait():
+    print("\n[15] 喜羊羊 - 像素肖像")
+    path = os.path.join(ASSETS, 'detail', 'cartoons', 'xiyangyang', 'portrait.png')
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    img = new_canvas(40, 40)
+    # 喜羊羊 - 白色羊脸 + 黄色卷毛 + 金色铃铛
+    # 羊脸（白色圆形）
+    for y in range(10, 28):
+        for x in range(10, 30):
+            nx = (x - 20) / 10
+            ny = (y - 19) / 9
+            if nx * nx + ny * ny <= 1:
+                img.putpixel((x, y), PALETTE['white'])
+    # 头顶一撮黄色卷毛（铃铛造型）
+    for y in range(6, 12):
+        for x in range(16, 24):
+            nx = (x - 20) / 4
+            ny = (y - 9) / 3
+            if nx * nx + ny * ny <= 1:
+                img.putpixel((x, y), PALETTE['gold'])
+    # 卷毛小卷装饰
+    pixel(img, 17, 7, 'gold_dark')
+    pixel(img, 20, 6, 'gold')
+    pixel(img, 23, 7, 'gold_dark')
+    # 耳朵（左右小白色椭圆）
+    for y in range(14, 20):
+        for x in range(7, 11):
+            nx = (x - 9) / 2
+            ny = (y - 17) / 3
+            if nx * nx + ny * ny <= 1:
+                img.putpixel((x, y), PALETTE['white'])
+        for x in range(29, 33):
+            nx = (x - 31) / 2
+            ny = (y - 17) / 3
+            if nx * nx + ny * ny <= 1:
+                img.putpixel((x, y), PALETTE['white'])
+    # 眼睛（黑色）
+    rect(img, 15, 17, 17, 19, 'black')
+    rect(img, 23, 17, 25, 19, 'black')
+    pixel(img, 16, 18, 'white')
+    pixel(img, 24, 18, 'white')
+    # 粉色脸颊
+    pixel(img, 13, 22, 'pink')
+    pixel(img, 14, 22, 'pink_light')
+    pixel(img, 26, 22, 'pink')
+    pixel(img, 27, 22, 'pink_light')
+    # 嘴巴
+    pixel(img, 19, 24, 'black')
+    pixel(img, 20, 25, 'black')
+    pixel(img, 21, 24, 'black')
+    # 红色项圈
+    rect(img, 16, 28, 24, 29, 'red')
+    # 脖子挂金色铃铛
+    for y in range(29, 35):
+        for x in range(17, 23):
+            nx = (x - 20) / 3
+            ny = (y - 32) / 3
+            if nx * nx + ny * ny <= 1:
+                img.putpixel((x, y), PALETTE['gold'])
+    # 铃铛细节
+    rect(img, 19, 30, 21, 31, 'gold_dark')
+    pixel(img, 20, 33, 'gold_dark')
+    # 铃铛高光
+    pixel(img, 18, 31, (255, 240, 150))
+    img = scale_up(img, 3)  # 120x120
+    img.save(path)
+    apply_y2k_filter(path, path, 'low', scanlines=False)
+
+# ============================================================
+# 16. 喜羊羊 - 首帧截图
+# ============================================================
+def gen_xiyangyang_first_frame():
+    print("\n[16] 喜羊羊 - 首帧截图")
+    path = os.path.join(ASSETS, 'detail', 'cartoons', 'xiyangyang', 'first-frame.png')
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    img = new_canvas(60, 40)
+    # 蓝天（上部）
+    rect(img, 0, 0, 60, 26, 'sky_blue')
+    # 绿色草地（底部）
+    rect(img, 0, 26, 60, 40, 'grass')
+    # 草地纹理
+    for y in range(26, 40, 2):
+        for x in range(0, 60, 4):
+            pixel(img, x, y, 'grass_dark')
+    # 几朵白云
+    # 云1（左上）
+    for y in range(4, 9):
+        for x in range(6, 16):
+            nx = (x - 11) / 5
+            ny = (y - 6) / 2.5
+            if nx * nx + ny * ny <= 1:
+                img.putpixel((x, y), PALETTE['cloud'])
+    # 云2（右上）
+    for y in range(3, 8):
+        for x in range(40, 50):
+            nx = (x - 45) / 5
+            ny = (y - 5) / 2.5
+            if nx * nx + ny * ny <= 1:
+                img.putpixel((x, y), PALETTE['cloud'])
+    # 云3（中上）
+    for y in range(8, 12):
+        for x in range(25, 32):
+            nx = (x - 28) / 3.5
+            ny = (y - 10) / 2
+            if nx * nx + ny * ny <= 1:
+                img.putpixel((x, y), PALETTE['cloud'])
+    # 羊村拱形大门（木头色）
+    # 左门柱
+    rect(img, 22, 14, 25, 26, 'wood')
+    rect_outline(img, 22, 14, 25, 26, 'wood_dark')
+    # 右门柱
+    rect(img, 35, 14, 38, 26, 'wood')
+    rect_outline(img, 35, 14, 38, 26, 'wood_dark')
+    # 拱形顶部（半圆环连接两柱顶部）
+    for y in range(8, 15):
+        for x in range(22, 39):
+            nx = (x - 30) / 8.5
+            ny = (y - 15) / 7
+            d = nx * nx + ny * ny
+            if 0.55 <= d <= 1:
+                img.putpixel((x, y), PALETTE['wood'])
+    # 门牌（挂中间）
+    rect(img, 28, 16, 32, 20, 'wood_dark')
+    rect_outline(img, 28, 16, 32, 20, 'wood')
+    # 门牌上的金色羊角符号
+    pixel(img, 29, 17, 'gold')
+    pixel(img, 31, 17, 'gold')
+    pixel(img, 30, 18, 'gold')
+    pixel(img, 30, 19, 'gold')
+    # 6只小羊剪影（白色小圆点 + 黑色腿）并肩站立
+    sheep_x = [4, 9, 14, 46, 51, 56]
+    for sx in sheep_x:
+        # 身体（白色小圆点）
+        for y in range(28, 32):
+            for x in range(sx, sx + 4):
+                nx = (x - (sx + 2)) / 2
+                ny = (y - 30) / 1.5
+                if nx * nx + ny * ny <= 1:
+                    img.putpixel((x, y), PALETTE['white'])
+        # 头（白色小圆点）
+        pixel(img, sx + 3, 28, 'white')
+        pixel(img, sx + 3, 29, 'white')
+        # 黑色腿
+        pixel(img, sx, 33, 'black')
+        pixel(img, sx + 3, 33, 'black')
+    img = scale_up(img, 3)  # 180x120 ~ 150x100
+    # 裁剪到 150x100
+    img = img.crop((0, 0, 150, 100))
+    # 重新创建画布到 150x100
+    canvas = Image.new('RGBA', (150, 100), (0, 0, 0, 0))
+    canvas.paste(img, (0, 0))
+    canvas.save(path)
+    apply_y2k_filter(path, path, 'medium')
+
+# ============================================================
+# 17. 喜羊羊 - 记忆星球
+# ============================================================
+def gen_xiyangyang_memory_planet():
+    print("\n[17] 喜羊羊 - 记忆星球")
+    path = os.path.join(ASSETS, 'detail', 'cartoons', 'xiyangyang', 'memory-planet.png')
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    img = new_canvas(16, 16)
+    # 球体（翠绿色渐变）
+    for y in range(16):
+        for x in range(16):
+            nx = (x - 7.5) / 7
+            ny = (y - 7.5) / 7
+            if nx * nx + ny * ny <= 1:
+                d = (nx * nx + ny * ny) ** 0.5
+                r = int(30 + 20 * d)
+                g = int(200 - 50 * d)
+                b = int(90 - 30 * d)
+                img.putpixel((x, y), (max(0, r), max(0, g), max(0, b), 255))
+    # 中央金色铃铛剪影
+    # 铃铛顶部挂环
+    pixel(img, 7, 4, (255, 204, 0, 255))
+    pixel(img, 8, 4, (255, 204, 0, 255))
+    # 铃铛主体（钟形）
+    rect(img, 6, 5, 9, 8, (255, 204, 0, 255))
+    rect(img, 5, 7, 10, 9, (255, 204, 0, 255))
+    # 铃铛底口（深金）
+    rect(img, 5, 9, 10, 10, (204, 153, 0, 255))
+    # 铃铛舌
+    pixel(img, 7, 11, (204, 153, 0, 255))
+    pixel(img, 8, 11, (204, 153, 0, 255))
+    # 高光
+    pixel(img, 6, 6, (255, 240, 150, 255))
+    # 环绕的爪印（狼爪和羊蹄交替）
+    # 上方狼爪（灰色）
+    pixel(img, 7, 1, (180, 180, 180, 255))
+    pixel(img, 6, 1, (180, 180, 180, 255))
+    pixel(img, 8, 1, (180, 180, 180, 255))
+    pixel(img, 7, 2, (180, 180, 180, 255))
+    # 右侧羊蹄（白色）
+    pixel(img, 13, 7, (240, 240, 240, 255))
+    pixel(img, 13, 8, (240, 240, 240, 255))
+    pixel(img, 14, 7, (240, 240, 240, 255))
+    pixel(img, 14, 8, (240, 240, 240, 255))
+    # 下方狼爪（灰色）
+    pixel(img, 7, 14, (180, 180, 180, 255))
+    pixel(img, 6, 14, (180, 180, 180, 255))
+    pixel(img, 8, 14, (180, 180, 180, 255))
+    pixel(img, 7, 13, (180, 180, 180, 255))
+    # 左侧羊蹄（白色）
+    pixel(img, 1, 7, (240, 240, 240, 255))
+    pixel(img, 1, 8, (240, 240, 240, 255))
+    pixel(img, 2, 7, (240, 240, 240, 255))
+    pixel(img, 2, 8, (240, 240, 240, 255))
+    img = scale_up(img, 2)  # 32x32
+    img.save(path)
+
+# ============================================================
 # 主函数
 # ============================================================
 def main():
@@ -862,6 +1076,9 @@ def main():
     gen_tutu_portrait()
     gen_tutu_first_frame()
     gen_tutu_memory_planet()
+    gen_xiyangyang_portrait()
+    gen_xiyangyang_first_frame()
+    gen_xiyangyang_memory_planet()
     print("\n" + "=" * 60)
     print("✓ 全部素材生成完成！")
     print("=" * 60)
