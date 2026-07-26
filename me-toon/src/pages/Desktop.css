@@ -1,302 +1,538 @@
 /* ============================================================
-   千禧幻境 · 朦胧光晕 — 主页面
+   千禧桌面 · 梦核像素 — Win98 风格主页面
    完整移植用户设计稿，适配 1280×960 视口
    ============================================================ */
 
 .page-desktop {
   position: relative;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
-  background: #fce8f0;
+  background: #1a1a2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* ===== 主画框 ===== */
-.dream-frame {
+/* ===== 显示器外框 ===== */
+.win98-monitor {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #2a2a3a;
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.7), inset 0 0 40px rgba(255, 255, 255, 0.05);
+}
+
+/* ===== 屏幕 ===== */
+.win98-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #008080;
+  image-rendering: pixelated;
+}
+
+/* ============================================================
+   桌面背景 — 蓝天 + 绿坡 + 白云 (纯CSS像素风)
+   ============================================================ */
+.desktop-bg {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 70% 30%, #fff0f5 0%, #ffe9f0 25%, #ffd9e5 55%, #fce4ec 85%);
+  z-index: 0;
+  background: linear-gradient(180deg,
+    #00a8e8 0%,
+    #4fc3f7 30%,
+    #81d4fa 55%,
+    #b3e5fc 70%,
+    #e1f5fe 85%,
+    #c8e6c9 92%,
+    #a5d6a7 96%,
+    #81c784 100%);
   overflow: hidden;
 }
 
-/* 光晕 + 漏光层 (screen 混合) */
-.dream-glow-1 {
+/* 太阳 */
+.sun {
+  position: absolute;
+  top: 8%;
+  right: 12%;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, #fff9c4, #fff176);
+  border-radius: 50%;
+  box-shadow: 0 0 80px rgba(255, 235, 59, 0.4), 0 0 160px rgba(255, 235, 59, 0.2);
+}
+
+/* 云朵 — 像素块风格 (用 box-shadow 堆叠) */
+.cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.9);
+  image-rendering: pixelated;
+  border-radius: 0;
+}
+
+.cloud-1 {
+  top: 6%;
+  left: 8%;
+  width: 160px;
+  height: 40px;
+  box-shadow:
+    20px -20px 0 0 rgba(255, 255, 255, 0.9),
+    40px -20px 0 0 rgba(255, 255, 255, 0.9),
+    60px -20px 0 0 rgba(255, 255, 255, 0.9),
+    80px -20px 0 0 rgba(255, 255, 255, 0.85),
+    100px -20px 0 0 rgba(255, 255, 255, 0.8),
+    0 -10px 0 0 rgba(255, 255, 255, 0.9),
+    20px -30px 0 0 rgba(255, 255, 255, 0.95),
+    40px -30px 0 0 rgba(255, 255, 255, 0.95),
+    60px -30px 0 0 rgba(255, 255, 255, 0.9),
+    80px -30px 0 0 rgba(255, 255, 255, 0.85),
+    100px -20px 0 0 rgba(255, 255, 255, 0.7);
+  animation: cloud-float 20s ease-in-out infinite alternate;
+}
+
+.cloud-2 {
+  top: 18%;
+  right: 18%;
+  width: 120px;
+  height: 30px;
+  box-shadow:
+    15px -15px 0 0 rgba(255, 255, 255, 0.85),
+    30px -15px 0 0 rgba(255, 255, 255, 0.85),
+    45px -15px 0 0 rgba(255, 255, 255, 0.8),
+    60px -15px 0 0 rgba(255, 255, 255, 0.75),
+    0 -8px 0 0 rgba(255, 255, 255, 0.85),
+    15px -22px 0 0 rgba(255, 255, 255, 0.9),
+    30px -22px 0 0 rgba(255, 255, 255, 0.9),
+    45px -22px 0 0 rgba(255, 255, 255, 0.85);
+  animation: cloud-float 25s ease-in-out infinite alternate-reverse;
+}
+
+.cloud-3 {
+  top: 10%;
+  left: 45%;
+  width: 100px;
+  height: 25px;
+  box-shadow:
+    12px -12px 0 0 rgba(255, 255, 255, 0.8),
+    24px -12px 0 0 rgba(255, 255, 255, 0.8),
+    36px -12px 0 0 rgba(255, 255, 255, 0.75),
+    0 -6px 0 0 rgba(255, 255, 255, 0.8),
+    12px -18px 0 0 rgba(255, 255, 255, 0.85),
+    24px -18px 0 0 rgba(255, 255, 255, 0.85);
+  animation: cloud-float 18s ease-in-out infinite alternate;
+}
+
+@keyframes cloud-float {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(30px); }
+}
+
+/* 山丘 — 像素块风格 (clip-path) */
+.hill {
+  position: absolute;
+  bottom: 12%;
+  image-rendering: pixelated;
+  border-radius: 0;
+}
+
+.hill-1 {
+  left: -5%;
+  width: 35%;
+  height: 120px;
+  background: #66bb6a;
+  box-shadow:
+    inset 0 -20px 0 #4caf50,
+    inset 0 -40px 0 #43a047;
+  clip-path: polygon(0% 100%, 15% 20%, 30% 0%, 50% 10%, 70% 0%, 85% 25%, 100% 100%);
+}
+
+.hill-2 {
+  right: -5%;
+  width: 40%;
+  height: 140px;
+  background: #4caf50;
+  box-shadow:
+    inset 0 -20px 0 #388e3c,
+    inset 0 -40px 0 #2e7d32;
+  clip-path: polygon(0% 100%, 10% 30%, 25% 10%, 45% 0%, 65% 5%, 80% 0%, 95% 20%, 100% 100%);
+}
+
+.hill-3 {
+  bottom: 8%;
+  left: 30%;
+  width: 30%;
+  height: 80px;
+  background: #81c784;
+  clip-path: polygon(0% 100%, 20% 30%, 40% 10%, 60% 0%, 80% 15%, 100% 100%);
+  opacity: 0.6;
+}
+
+/* 草地纹理 (像素点) */
+.grass {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 14%;
+  background: repeating-linear-gradient(90deg,
+    #66bb6a 0px, #66bb6a 4px,
+    #4caf50 4px, #4caf50 8px,
+    #81c784 8px, #81c784 12px,
+    #43a047 12px, #43a047 16px);
+  image-rendering: pixelated;
+  opacity: 0.5;
+}
+
+/* ============================================================
+   左上角桌面图标
+   ============================================================ */
+.desktop-icons {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 76px;
+  padding: 8px 4px 4px;
+  background: rgba(0, 0, 80, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  color: #ffffff;
+  text-align: center;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: 'Courier New', 'PingFang SC', monospace;
+  letter-spacing: 0.5px;
+  outline: none;
+}
+
+.desktop-icon:hover {
+  background: rgba(0, 0, 80, 0.25);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.desktop-icon:focus-visible {
+  background: rgba(0, 0, 128, 0.5);
+  border: 1px dashed #ffffff;
+}
+
+.desktop-icon-svg {
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+}
+
+.desktop-icon .label {
+  margin-top: 4px;
+  background: rgba(0, 0, 40, 0.5);
+  padding: 1px 6px;
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ============================================================
+   中央主窗口 — 蓝色标题栏 + 2x2 入口
+   ============================================================ */
+.main-window {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -52%);
+  z-index: 10;
+  width: 580px;
+  background: #ffffff;
+  border: 2px solid #000080;
+  border-radius: 0;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2), 8px 8px 0 rgba(0, 0, 0, 0.1);
+  image-rendering: pixelated;
+  overflow: hidden;
+}
+
+/* 窗口标题栏 */
+.window-titlebar {
+  background: linear-gradient(90deg, #000080, #1084d0);
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #000080;
+}
+
+.window-titlebar .title {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: 'Courier New', 'PingFang SC', monospace;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.window-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.win-ctrl {
+  width: 22px;
+  height: 22px;
+  border: 1px solid #ffffff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+  background: #c0c0c0;
+  color: #000;
+  font-size: 13px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  padding: 0;
+  line-height: 1;
+  transition: background 0.15s;
+}
+
+.win-ctrl:hover {
+  background: #d8d8d8;
+}
+
+.win-ctrl.close {
+  background: #c00000;
+  color: #fff;
+  border-color: #ff8080;
+  border-right-color: #800000;
+  border-bottom-color: #800000;
+}
+
+.win-ctrl.close:hover {
+  background: #e00000;
+}
+
+/* 窗口内容 — 2x2 网格 */
+.window-body {
+  padding: 22px 26px 26px;
+  background: #f0f0f0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+/* 每个入口卡片 */
+.entry-card {
+  background: #ffffff;
+  border: 2px solid #808080;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  border-radius: 0;
+  padding: 18px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  box-shadow: inset 0 0 0 1px #dfdfdf;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.entry-card:hover {
+  background: #e8f4ff;
+  border-color: #ffffff;
+  border-right-color: #000080;
+  border-bottom-color: #000080;
+  box-shadow: inset 0 0 0 1px #000080, 0 0 20px rgba(0, 0, 128, 0.15);
+  transform: scale(1.02);
+}
+
+.entry-card:focus-visible {
+  border-color: #000080;
+  box-shadow: inset 0 0 0 2px #000080;
+}
+
+.entry-card-icon {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.entry-card .name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000080;
+  font-family: 'Courier New', 'PingFang SC', monospace;
+  letter-spacing: 0.5px;
+}
+
+.entry-card .desc {
+  font-size: 11px;
+  color: #666;
+  margin-top: 2px;
+  font-family: 'Courier New', 'PingFang SC', monospace;
+}
+
+/* ============================================================
+   底部任务栏 — Win98 灰色凸起风格
+   ============================================================ */
+.taskbar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  z-index: 20;
+  background: linear-gradient(180deg, #c0c0c0, #a0a0a0);
+  border-top: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  box-shadow: inset 0 1px 0 #dfdfdf;
+}
+
+/* 开始按钮 */
+.start-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(180deg, #d8d8d8, #b0b0b0);
+  border: 2px solid #ffffff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+  padding: 4px 14px 4px 10px;
+  height: 30px;
+  cursor: pointer;
+  font-family: 'Courier New', 'PingFang SC', monospace;
+  font-size: 14px;
+  font-weight: bold;
+  color: #000;
+  transition: background 0.15s;
+}
+
+.start-btn:hover {
+  background: linear-gradient(180deg, #e8e8e8, #c0c0c0);
+}
+
+.start-btn.active {
+  background: linear-gradient(180deg, #a0a0a0, #c0c0c0);
+  border-color: #808080;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+
+/* 任务栏中间 — 窗口标签 */
+.task-items {
+  display: flex;
+  gap: 4px;
+  margin-left: 10px;
+  flex: 1;
+  overflow: hidden;
+}
+
+.task-item {
+  background: linear-gradient(180deg, #d8d8d8, #b8b8b8);
+  border: 2px solid #ffffff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+  padding: 0 18px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-family: 'Courier New', 'PingFang SC', monospace;
+  font-weight: 600;
+  color: #000;
+  cursor: pointer;
+  white-space: nowrap;
+  gap: 6px;
+}
+
+.task-item.active {
+  background: linear-gradient(180deg, #b8b8b8, #d8d8d8);
+  border-color: #808080;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 任务栏右侧 — 时间/音量 */
+.task-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
+  padding: 0 14px;
+  background: rgba(0, 0, 0, 0.05);
+  border-left: 2px solid #808080;
+  border-top: 1px solid #dfdfdf;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: #000;
+}
+
+/* ============================================================
+   柔光叠加层 + 噪点 + 扫描线
+   ============================================================ */
+.glow-overlay {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse at 20% 80%, rgba(255, 240, 200, 0.5) 0%, transparent 60%),
-    radial-gradient(ellipse at 90% 20%, rgba(255, 220, 240, 0.6) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.25) 0%, transparent 70%);
+  z-index: 15;
   pointer-events: none;
-  z-index: 2;
+  background:
+    radial-gradient(ellipse at 30% 40%, rgba(255, 200, 220, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 60%, rgba(255, 240, 200, 0.10) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
   mix-blend-mode: screen;
 }
 
-/* 第二层弥散光晕 (soft-light) */
-.dream-glow-2 {
+.noise-overlay {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(circle at 30% 70%, rgba(255, 200, 180, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 40%, rgba(255, 230, 180, 0.3) 0%, transparent 45%);
-  filter: blur(28px);
+  z-index: 16;
   pointer-events: none;
-  z-index: 1;
-  mix-blend-mode: soft-light;
-}
-
-/* ===== 噪点雪花层 ===== */
-.dream-noise {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  pointer-events: none;
-  opacity: 0.08;
+  opacity: 0.06;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  background-size: 180px 180px;
+  background-size: 120px 120px;
   background-repeat: repeat;
   mix-blend-mode: overlay;
 }
 
-/* ===== 扫描线 ===== */
-.dream-scanline {
+.scanline {
   position: absolute;
   inset: 0;
-  z-index: 11;
+  z-index: 17;
   pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
+  background: repeating-linear-gradient(0deg,
     transparent,
     transparent 2px,
-    rgba(255, 255, 255, 0.04) 2px,
-    rgba(255, 255, 255, 0.04) 4px
-  );
-  animation: dream-scan-move 0.12s linear infinite;
+    rgba(255, 255, 255, 0.03) 2px,
+    rgba(255, 255, 255, 0.03) 4px);
+  animation: scan-move 0.12s linear infinite;
   mix-blend-mode: overlay;
 }
 
-@keyframes dream-scan-move {
+@keyframes scan-move {
   0% { transform: translateY(0); }
   100% { transform: translateY(4px); }
 }
 
-/* ===== 闪烁干扰 ===== */
-.dream-flicker {
-  position: absolute;
-  inset: 0;
-  z-index: 12;
-  pointer-events: none;
-  background: rgba(255, 200, 220, 0.02);
-  opacity: 0.3;
-  animation: dream-flicker 3.2s infinite;
-  mix-blend-mode: lighten;
-}
-
-@keyframes dream-flicker {
-  0% { opacity: 0.1; }
-  10% { opacity: 0.3; }
-  11% { opacity: 0.05; }
-  12% { opacity: 0.25; }
-  20% { opacity: 0.1; }
-  50% { opacity: 0.15; }
-  60% { opacity: 0.3; }
-  61% { opacity: 0.08; }
-  70% { opacity: 0.2; }
-  100% { opacity: 0.1; }
-}
-
-/* ===== 顶部品牌标 ===== */
-.dream-brand {
-  position: absolute;
-  top: 28px;
-  left: 40px;
-  z-index: 20;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  pointer-events: none;
-}
-
-.dream-brand-title {
-  font-size: 30px;
-  font-weight: 300;
-  letter-spacing: 0.08em;
-  background: linear-gradient(135deg, #fff8fa 0%, #ffd0e0 80%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 0 30px rgba(255, 200, 220, 0.6);
-}
-
-.dream-brand-sub {
-  font-size: 15px;
-  font-weight: 350;
-  letter-spacing: 0.15em;
-  color: rgba(255, 220, 235, 0.85);
-  text-shadow: 0 0 20px rgba(255, 200, 220, 0.5);
-}
-
 /* ============================================================
-   2x2 卡片网格
-   ============================================================ */
-.dream-grid {
-  position: relative;
-  z-index: 20;
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 24px 32px;
-  padding: 110px 90px 80px;
-  align-items: center;
-  justify-items: center;
-}
-
-/* ============================================================
-   单张毛玻璃卡片
-   ============================================================ */
-.dream-card {
-  width: 100%;
-  height: 100%;
-  max-width: 380px;
-  max-height: 220px;
-  background: rgba(255, 245, 248, 0.25);
-  backdrop-filter: blur(12px) saturate(1.4);
-  -webkit-backdrop-filter: blur(12px) saturate(1.4);
-  border-radius: 48px 16px 48px 16px;
-  border: 1px solid rgba(255, 240, 245, 0.55);
-  box-shadow:
-    0 8px 32px rgba(255, 180, 200, 0.25),
-    inset 0 0 40px rgba(255, 255, 255, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.7);
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 0 28px;
-  cursor: pointer;
-  transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
-  position: relative;
-  overflow: hidden;
-  outline: none;
-}
-
-.dream-card:focus-visible {
-  border-color: rgba(255, 255, 255, 0.9);
-}
-
-/* 卡片图标 */
-.dream-card-icon {
-  flex-shrink: 0;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 20px rgba(255, 200, 220, 0.4);
-}
-
-.dream-card-text {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  min-width: 0;
-}
-
-/* 卡片主标题 — 渐变光晕文字 */
-.dream-card-label {
-  font-size: 26px;
-  font-weight: 350;
-  letter-spacing: 0.04em;
-  background: linear-gradient(135deg, #fff8fa 0%, #ffe2ec 80%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 0 30px rgba(255, 200, 220, 0.5);
-  line-height: 1.2;
-}
-
-.dream-card-sub {
-  font-size: 13px;
-  font-weight: 300;
-  letter-spacing: 0.2em;
-  color: rgba(255, 220, 235, 0.7);
-  text-transform: uppercase;
-}
-
-/* 千禧指示灯小点 */
-.dream-card-dot {
-  position: absolute;
-  top: 16px;
-  right: 20px;
-  width: 10px;
-  height: 10px;
-  background: #ffe8f0;
-  border-radius: 50%;
-  box-shadow: 0 0 20px #ffb6c9, 0 0 60px #ffa5b9;
-  opacity: 0.7;
-  animation: dream-pulse-dot 2.8s ease-in-out infinite;
-}
-
-@keyframes dream-pulse-dot {
-  0% { opacity: 0.3; transform: scale(0.9); }
-  50% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 40px #ffb0c8; }
-  100% { opacity: 0.3; transform: scale(0.9); }
-}
-
-/* 悬停：光晕炸裂 + 浮起 */
-.dream-card:hover {
-  transform: translateY(-10px) scale(1.02);
-  background: rgba(255, 245, 248, 0.45);
-  backdrop-filter: blur(18px) saturate(1.6);
-  -webkit-backdrop-filter: blur(18px) saturate(1.6);
-  box-shadow:
-    0 0 60px rgba(255, 200, 220, 0.6),
-    0 0 120px rgba(255, 180, 200, 0.3),
-    inset 0 0 60px rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.7);
-}
-
-.dream-card:hover .dream-card-label {
-  text-shadow: 0 0 60px rgba(255, 220, 240, 0.9), 0 0 120px rgba(255, 200, 220, 0.6);
-}
-
-/* 每张卡片微调偏移 — 错落有致 */
-.dream-card-1 { transform: rotate(-1.2deg) translateY(-4px); }
-.dream-card-2 { transform: rotate(1.8deg) translateY(6px); }
-.dream-card-3 { transform: rotate(2.5deg) translateY(-6px); }
-.dream-card-4 { transform: rotate(-0.8deg) translateY(8px); }
-
-.dream-card-1:hover { transform: rotate(-0.8deg) translateY(-12px) scale(1.02); }
-.dream-card-2:hover { transform: rotate(1.2deg) translateY(-10px) scale(1.02); }
-.dream-card-3:hover { transform: rotate(1.8deg) translateY(-12px) scale(1.02); }
-.dream-card-4:hover { transform: rotate(-0.3deg) translateY(-10px) scale(1.02); }
-
-/* ============================================================
-   装饰水印
-   ============================================================ */
-.dream-watermark {
-  position: absolute;
-  bottom: 50px;
-  right: 30px;
-  z-index: 15;
-  font-size: 11px;
-  letter-spacing: 3px;
-  color: rgba(255, 220, 235, 0.4);
-  font-weight: 200;
-  text-transform: uppercase;
-  backdrop-filter: blur(2px);
-  padding: 4px 14px;
-  border-radius: 40px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  pointer-events: none;
-}
-
-/* ============================================================
-   选择弹窗（保留 XP 风格，与梦幻背景对比）
+   选择弹窗内容
    ============================================================ */
 .desktop-chooser {
   text-align: center;

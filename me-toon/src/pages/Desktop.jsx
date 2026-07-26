@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Viewport from '../components/Viewport.jsx'
-import Taskbar from '../components/Taskbar.jsx'
 import StartMenu from '../components/StartMenu.jsx'
 import WelcomePopup from '../components/WelcomePopup.jsx'
 import QqMessage from '../components/QqMessage.jsx'
@@ -9,11 +8,26 @@ import XpWindow from '../components/XpWindow.jsx'
 import SvgIcon from '../components/SvgIcon.jsx'
 import './Desktop.css'
 
+/**
+ * 千禧桌面 · 梦核像素 — Win98 风格主页面
+ * - 蓝天 + 绿坡 + 白云（纯 CSS 像素风）
+ * - 左上角桌面图标
+ * - 中央窗口（蓝色标题栏 + 2x2 入口卡片）
+ * - 底部任务栏（开始按钮 + 窗口标签 + 时间/音量）
+ * - 像素噪点 + 扫描线 + 柔光叠加
+ */
 export default function Desktop() {
   const navigate = useNavigate()
   const [startOpen, setStartOpen] = useState(false)
   const [showWelcome, setShowWelcome] = useState(false)
   const [showChooser, setShowChooser] = useState(false)
+  const [time, setTime] = useState(getTime())
+
+  // 实时时间
+  useEffect(() => {
+    const timer = setInterval(() => setTime(getTime()), 1000)
+    return () => clearInterval(timer)
+  }, [])
 
   // 首次访问检测
   useEffect(() => {
@@ -32,25 +46,35 @@ export default function Desktop() {
     }
   }
 
-  const handleCardClick = (type) => {
+  const handleEntryClick = (type) => {
     switch (type) {
-      case 'tv':
+      case 'theater':
         setShowChooser(true)
         break
-      case 'diary':
-        navigate('/collection')
-        break
-      case 'mp3':
+      case 'jukebox':
         navigate('/radio')
         break
-      case 'globe':
+      case 'drawer':
+        navigate('/collection')
+        break
+      case 'stream':
         navigate('/lobby')
         break
     }
   }
 
-  const handleCardDoubleClick = (type) => {
-    if (type === 'tv') navigate('/gacha')
+  const handleDesktopIconClick = (type) => {
+    switch (type) {
+      case 'computer':
+        setShowChooser(true)
+        break
+      case 'trash':
+        navigate('/collection')
+        break
+      case 'network':
+        navigate('/lobby')
+        break
+    }
   }
 
   const handleChooserClose = (choice) => {
@@ -58,87 +82,138 @@ export default function Desktop() {
     if (choice === 'gacha') navigate('/gacha')
   }
 
-  // 4 张卡片配置（对应原 4 个桌面图标入口）
-  const cards = [
-    { type: 'tv',    icon: 'tv',    label: '动画放映厅',   sub: 'Animation Theater' },
-    { type: 'mp3',   icon: 'music', label: '时光点歌台',   sub: 'Time Jukebox' },
-    { type: 'diary', icon: 'diary', label: '我的记忆抽屉', sub: 'Memory Drawer' },
-    { type: 'globe', icon: 'globe', label: '数据流漫游',   sub: 'Data Stream' },
+  // 左上角桌面图标
+  const desktopIcons = [
+    { type: 'computer', icon: 'tv',       label: '我的电脑' },
+    { type: 'trash',    icon: 'box',      label: '回收站' },
+    { type: 'network',  icon: 'network',  label: '网络邻居' },
+  ]
+
+  // 中央窗口 4 个入口
+  const entries = [
+    { type: 'theater', icon: 'clapperboard', name: '动画放映厅',   desc: '点击打开' },
+    { type: 'jukebox', icon: 'music',        name: '时光点歌台',   desc: '点击打开' },
+    { type: 'drawer',  icon: 'diary',        name: '我的记忆抽屉', desc: '点击打开' },
+    { type: 'stream',  icon: 'globe',        name: '数据流漫游',   desc: '点击打开' },
   ]
 
   return (
     <Viewport className="page-desktop">
-      {/* ===== 千禧幻境背景层 ===== */}
-      <div className="dream-frame">
-        {/* 粉色径向渐变基底 */}
-        <div className="dream-base" />
-        {/* 光晕 + 漏光层 */}
-        <div className="dream-glow-1" />
-        <div className="dream-glow-2" />
-        {/* 噪点雪花 */}
-        <div className="dream-noise" />
-        {/* 扫描线 */}
-        <div className="dream-scanline" />
-        {/* 闪烁干扰 */}
-        <div className="dream-flicker" />
+      {/* ===== 显示器外框 ===== */}
+      <div className="win98-monitor">
+        <div className="win98-screen">
 
-        {/* 顶部品牌标 */}
-        <div className="dream-brand">
-          <span className="dream-brand-title">✦ Me-Toon</span>
-          <span className="dream-brand-sub">这集，我也看过</span>
-        </div>
+          {/* ===== 桌面背景：蓝天 + 绿坡 + 白云 ===== */}
+          <div className="desktop-bg">
+            <div className="sun" />
+            <div className="cloud cloud-1" />
+            <div className="cloud cloud-2" />
+            <div className="cloud cloud-3" />
+            <div className="hill hill-1" />
+            <div className="hill hill-2" />
+            <div className="hill hill-3" />
+            <div className="grass" />
+          </div>
 
-        {/* ===== 2x2 卡片网格 ===== */}
-        <div className="dream-grid">
-          {cards.map((c, idx) => (
-            <div
-              key={c.type}
-              className={`dream-card dream-card-${idx + 1}`}
-              onClick={() => handleCardClick(c.type)}
-              onDoubleClick={() => handleCardDoubleClick(c.type)}
-              tabIndex={0}
-            >
-              <div className="dream-card-icon">
-                <SvgIcon name={c.icon} size={36} color="#FFFFFF" strokeWidth={1.6} />
+          {/* ===== 左上角桌面图标 ===== */}
+          <div className="desktop-icons">
+            {desktopIcons.map(d => (
+              <div
+                key={d.type}
+                className="desktop-icon"
+                onClick={() => handleDesktopIconClick(d.type)}
+                onDoubleClick={() => handleDesktopIconClick(d.type)}
+                tabIndex={0}
+              >
+                <SvgIcon name={d.icon} size={36} color="#FFFFFF" strokeWidth={1.6} className="desktop-icon-svg" />
+                <span className="label">{d.label}</span>
               </div>
-              <div className="dream-card-text">
-                <span className="dream-card-label">✦ {c.label}</span>
-                <span className="dream-card-sub">{c.sub}</span>
+            ))}
+          </div>
+
+          {/* ===== 中央主窗口 ===== */}
+          <div className="main-window">
+            <div className="window-titlebar">
+              <span className="title">
+                <SvgIcon name="folder" size={16} color="#FFFFFF" />
+                <span>我的乐园</span>
+              </span>
+              <div className="window-controls">
+                <button className="win-ctrl" title="最小化">—</button>
+                <button className="win-ctrl" title="最大化">□</button>
+                <button className="win-ctrl close" title="关闭">✕</button>
               </div>
-              <span className="dream-card-dot" />
             </div>
-          ))}
-        </div>
+            <div className="window-body">
+              {entries.map(e => (
+                <div
+                  key={e.type}
+                  className="entry-card"
+                  onClick={() => handleEntryClick(e.type)}
+                  onDoubleClick={() => handleEntryClick(e.type)}
+                  tabIndex={0}
+                >
+                  <SvgIcon name={e.icon} size={32} color="#000080" strokeWidth={1.8} className="entry-card-icon" />
+                  <span className="name">{e.name}</span>
+                  <span className="desc">{e.desc}</span>
+                </div>
+              ))}
+            </div>
+          </div>
 
-        {/* 极淡装饰水印 */}
-        <div className="dream-watermark">✦ 千禧幻境 · 低像素光晕 ✦</div>
+          {/* ===== 底部任务栏 ===== */}
+          <div className="taskbar">
+            <button
+              className={`start-btn ${startOpen ? 'active' : ''}`}
+              onClick={() => setStartOpen(!startOpen)}
+            >
+              <SvgIcon name="flag" size={16} color="#000080" />
+              <span>开始</span>
+            </button>
+            <div className="task-items">
+              <div className="task-item active">
+                <SvgIcon name="folder" size={14} color="#000080" />
+                <span>我的乐园</span>
+              </div>
+            </div>
+            <div className="task-right">
+              <SvgIcon name="volume" size={14} color="#000" />
+              <span>{time}</span>
+            </div>
+          </div>
+
+          {/* ===== 叠加层 ===== */}
+          <div className="glow-overlay" />
+          <div className="noise-overlay" />
+          <div className="scanline" />
+
+        </div>
       </div>
 
       {/* 欢迎弹窗 */}
       {showWelcome && <WelcomePopup onClose={handleWelcomeClose} />}
 
       {/* 选择寻找方式弹窗 */}
-      {showChooser && (
-        <ChooserPopup onClose={handleChooserClose} />
-      )}
+      {showChooser && <ChooserPopup onClose={handleChooserClose} />}
 
       {/* QQ 消息彩蛋 */}
       <QqMessage />
 
       {/* 开始菜单 */}
       <StartMenu open={startOpen} onClose={() => setStartOpen(false)} />
-
-      {/* 任务栏（融入底部） */}
-      <Taskbar
-        onStartClick={() => setStartOpen(!startOpen)}
-        isStartOpen={startOpen}
-      />
     </Viewport>
   )
 }
 
+function getTime() {
+  const d = new Date()
+  const h = String(d.getHours()).padStart(2, '0')
+  const m = String(d.getMinutes()).padStart(2, '0')
+  return `${h}:${m}`
+}
+
 /**
- * 选择寻找方式弹窗（点击电视卡片后弹出）
+ * 选择寻找方式弹窗
  */
 function ChooserPopup({ onClose }) {
   const navigate = useNavigate()
