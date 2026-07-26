@@ -5,6 +5,28 @@ import { resolveAsset } from '../../assets/manifest.js'
 import './ArchiveRoom.css'
 
 /**
+ * 导演肖像映射表
+ * 用户上传的图片遵循 [动画简称]_director_[导演名].{png|jpg} 命名规范
+ * 缺失时回退到原占位像素肖像
+ */
+const DIRECTOR_MAP = {
+  '黄伟明': './assets/images/director/xyy_director_huangweiming.png',
+  '速达':   './assets/images/director/tutu_director_suda.png',
+}
+
+/**
+ * 根据导演姓名获取导演照片
+ * @param {string} directorName - 导演姓名
+ * @param {string} fallback - 占位图路径（原像素肖像）
+ * @returns {string} 解析后的资源 URL
+ */
+function getDirectorImage(directorName, fallback) {
+  const uploaded = DIRECTOR_MAP[directorName]
+  if (uploaded) return resolveAsset(uploaded)
+  return resolveAsset(fallback)
+}
+
+/**
  * 档案室子页面
  * - 泛黄信纸背景
  * - 左上：导演像素肖像（木质相框 + 眨眼动画）
@@ -78,9 +100,13 @@ export default function ArchiveRoom({ cartoon }) {
             className="portrait-frame"
           />
           <img
-            src={resolveAsset(`./assets/images/detail/cartoons/${cartoon.id}/portrait.png`)}
+            src={getDirectorImage(
+              cartoon.director,
+              `./assets/images/detail/cartoons/${cartoon.id}/portrait.png`
+            )}
             alt={`${cartoon.director}与${cartoon.name}`}
             className="portrait-img"
+            style={{ imageRendering: 'pixelated' }}
           />
           {/* 眨眼遮罩（在肖像眼睛位置覆盖一条线） */}
           {blinking && <div className="portrait-blink-overlay" />}

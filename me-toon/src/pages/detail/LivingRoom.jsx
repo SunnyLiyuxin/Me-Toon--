@@ -5,6 +5,38 @@ import { resolveAsset } from '../../assets/manifest.js'
 import './LivingRoom.css'
 
 /**
+ * 角色头像映射表
+ * 用户上传的图片遵循 [动画简称]_avatar_[角色名].{png|jpg} 命名规范
+ * 缺失图片（如慢羊羊、tutu 全部）会回退到原占位像素图
+ */
+const AVATAR_MAP = {
+  // 喜羊羊与灰太狼
+  'xiyangyang/characters/xiyangyang':  './assets/images/avatar/xyy_avatar_xiyangyang.jpg',
+  'xiyangyang/characters/meiyangyang': './assets/images/avatar/xyy_avatar_meiyangyang.jpg',
+  'xiyangyang/characters/lanyangyang': './assets/images/avatar/xyy_avatar_lanyangyang.jpg',
+  'xiyangyang/characters/feiyangyang': './assets/images/avatar/xyy_avatar_feiyangyang.jpg',
+  'xiyangyang/characters/nuanyangyang':'./assets/images/avatar/xyy_avatar_nuanyangyang.jpg',
+  'xiyangyang/characters/huitailang':  './assets/images/avatar/xyy_avatar_huitailang.jpg',
+  'xiyangyang/characters/hongtailang': './assets/images/avatar/xyy_avatar_hongtailang.jpg',
+  'xiyangyang/characters/xiaohuihui':  './assets/images/avatar/xyy_avatar_xiaohuihui.jpg',
+  // 慢羊羊、tutu 角色头像未上传，回退到原占位图
+}
+
+/**
+ * 根据动画id与角色id获取头像图片路径
+ * @param {string} cartoonId - 动画id（如 'xiyangyang'）
+ * @param {string} charId - 角色 id（如 'xiyangyang'）
+ * @returns {string} 解析后的资源 URL（用户上传图或原占位图）
+ */
+function getAvatarImage(cartoonId, charId) {
+  const key = `${cartoonId}/characters/${charId}`
+  const uploaded = AVATAR_MAP[key]
+  if (uploaded) return resolveAsset(uploaded)
+  // 回退：原占位像素图
+  return resolveAsset(`./assets/images/detail/cartoons/${cartoonId}/characters/${charId}.png`)
+}
+
+/**
  * 人物客厅子页面
  * - 顶部：地点描述
  * - 主体：角色列表，每个角色有 立绘 + 档案框
@@ -57,7 +89,7 @@ export default function LivingRoom({ cartoon }) {
                 title={c.name}
               >
                 <img
-                  src={resolveAsset(`./assets/images/detail/cartoons/${cartoon.id}/characters/${c.id}.png`)}
+                  src={getAvatarImage(cartoon.id, c.id)}
                   alt={c.name}
                   className="char-thumb-img"
                 />
@@ -73,7 +105,7 @@ export default function LivingRoom({ cartoon }) {
               {/* 人物立绘 */}
               <div className="char-portrait">
                 <img
-                  src={resolveAsset(`./assets/images/detail/cartoons/${cartoon.id}/characters/${active.id}.png`)}
+                  src={getAvatarImage(cartoon.id, active.id)}
                   alt={active.name}
                   className="char-portrait-img"
                 />

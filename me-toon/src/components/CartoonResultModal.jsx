@@ -5,6 +5,28 @@ import { resolveAsset } from '../assets/manifest.js'
 import './CartoonResultModal.css'
 
 /**
+ * 弹窗展示图映射表
+ * 用户上传的图片遵循 [动画简称]_popup.{png|jpg} 命名规范
+ * 缺失时回退到动画首帧占位图
+ */
+const POPUP_MAP = {
+  '喜羊羊与灰太狼': './assets/images/popup/xyy_popup.jpg',
+  '大耳朵图图':     './assets/images/popup/tutu_popup.jpg',
+}
+
+/**
+ * 根据动画名称获取弹窗展示图
+ * @param {string} cartoonName - 动画名称
+ * @param {string} fallback - 占位图路径（首帧图）
+ * @returns {string} 解析后的资源 URL
+ */
+function getPopupImage(cartoonName, fallback) {
+  const uploaded = POPUP_MAP[cartoonName]
+  if (uploaded) return resolveAsset(uploaded)
+  return resolveAsset(fallback)
+}
+
+/**
  * 动画发现结果弹窗 — Gacha 与 Tv 共用
  * @param {object} cartoon - 动画数据对象
  * @param {boolean} isEasterEgg - 是否为隐藏彩蛋动画
@@ -98,7 +120,15 @@ export default function CartoonResultModal({
               <>
                 <div className="result-cartoon-name">{cartoon.name}</div>
                 <div className="result-image-frame">
-                  <img src={resolveAsset(cartoon.images.firstFrame)} alt={cartoon.name} />
+                  <img
+                    src={getPopupImage(cartoon.name, cartoon.images.firstFrame)}
+                    alt={cartoon.name}
+                    style={{
+                      imageRendering: 'pixelated',
+                      border: '2px solid #FFFFFF',
+                      boxSizing: 'border-box',
+                    }}
+                  />
                 </div>
                 <div className="result-info-list">
                   <div className="result-info-row">

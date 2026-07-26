@@ -8,6 +8,28 @@ import cartoonsData from '../data/cartoons.json'
 import './Tv.css'
 
 /**
+ * 频道预览图映射表（复用扭蛋弹窗展示图）
+ * 用户上传的图片遵循 [动画简称]_popup.{png|jpg} 命名规范
+ * 缺失时回退到动画首帧占位图
+ */
+const CHANNEL_PREVIEW_MAP = {
+  '喜羊羊与灰太狼': './assets/images/popup/xyy_popup.jpg',
+  '大耳朵图图':     './assets/images/popup/tutu_popup.jpg',
+}
+
+/**
+ * 根据动画名称获取频道预览图
+ * @param {string} cartoonName - 动画名称
+ * @param {string} fallback - 占位图路径（首帧图）
+ * @returns {string} 解析后的资源 URL
+ */
+function getChannelPreview(cartoonName, fallback) {
+  const uploaded = CHANNEL_PREVIEW_MAP[cartoonName]
+  if (uploaded) return resolveAsset(uploaded)
+  return resolveAsset(fallback)
+}
+
+/**
  * 电视台调频页面 — 第二种动画发现方式
  * - 顶部：电视机状态栏（搜索频道 / 信号强度）
  * - 中部：频道网格（每个卡片是一台小 CRT 电视，播放像素预告）
@@ -113,11 +135,12 @@ export default function Tv() {
                 >
                   {/* 像素小 CRT 电视窗口 */}
                   <div className="channel-screen">
-                    {/* 预告画面（首帧图） */}
+                    {/* 预告画面（用户上传的弹窗展示图，回退到首帧图） */}
                     <img
-                      src={resolveAsset(c.images.firstFrame)}
+                      src={getChannelPreview(c.name, c.images.firstFrame)}
                       alt={c.name}
                       className="channel-preview"
+                      style={{ imageRendering: 'pixelated', objectFit: 'cover' }}
                     />
                     {/* 雪花屏覆盖层（鼠标悬停/点击时显示） */}
                     <div className="channel-static" />
